@@ -30,7 +30,7 @@
         crate::sort::heap_min_sort(&mut q);
         println!("q is {:?}", q);
 
-        let mut  a  = structure::MaxPriorityQueue::new();
+        let mut  a  = algori::structure::MaxPriorityQueue::new();
         a.push(1);
         a.push(8);
         a.push(2);
@@ -55,12 +55,12 @@
         crate::sort::pdqsort(&mut a);
         println!("a is {:?}",a);
 
-        let mut b = structure::Stack::new();
+        let mut b = algori::structure::Stack::new();
         b.push(1);
         b.push(2);
         println!("the element is {:?}", b.pop());
 
-        let mut b = structure::LinkedList::new();
+        let mut b = algori::structure::LinkedList::new();
         b.push(1);
         b.push(9);
         b.push(8);
