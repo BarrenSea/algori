@@ -30,7 +30,7 @@
         crate::sort::heap_min_sort(&mut q);
         println!("q is {:?}", q);
 
-        let mut  a  = algorithm_rust::structure::MaxPriorityQueue::new();
+        let mut  a  = structure::MaxPriorityQueue::new();
         a.push(1);
         a.push(8);
         a.push(2);
@@ -55,12 +55,12 @@
         crate::sort::pdqsort(&mut a);
         println!("a is {:?}",a);
 
-        let mut b = algorithm_rust::structure::Stack::new();
+        let mut b = structure::Stack::new();
         b.push(1);
         b.push(2);
         println!("the element is {:?}", b.pop());
 
-        let mut b = algorithm_rust::structure::LinkedList::new();
+        let mut b = structure::LinkedList::new();
         b.push(1);
         b.push(9);
         b.push(8);
@@ -70,8 +70,8 @@
             None => println!("q is None"),
         };
 	let  a = [1,2,3,0,5,7,9,8,32,299,100];
-	let c =algorithm_rust::search::max_search(&a);
+	let c =search::max_search(&a);
 	println!("the max is {:?}",c);
-	let c =algorithm_rust::search::min_search(&a);
+	let c =search::min_search(&a);
 	println!("the min is {:?}",c);
         }
