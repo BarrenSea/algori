@@ -5,7 +5,7 @@
 
 [![Chinese](./README.zh.md)](./README.zh.md)
 [![English](./README.md)](./README.md)
-[![Algori](./algori.png)](./algori.png)
+<img src=./algori.png width="30%" >
 Algorithms_Rust is an Rust algorithms lib, Contains many algorithms.
 
 The project is continuously developing.
