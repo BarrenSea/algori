@@ -5,7 +5,7 @@
 
 [![Chinese](./README.zh.md)](./README.zh.md)
 [![English](./README.md)](./README.md)
-
+[![Algori](./algori.png)](./algori.png)
 Algorithms_Rust is an Rust algorithms lib, Contains many algorithms.
 
 The project is continuously developing.
@@ -34,9 +34,14 @@ The project is continuously developing.
 1. Maxpriorityqueue
 2. Stack
 3. Linkedlist
+4. Complex
+
+
 ### subarray
 1. merge_max_subarray
 2. rude_max_subarray
 
+### Math
+1. DFT
 ## Welcome PR
 
