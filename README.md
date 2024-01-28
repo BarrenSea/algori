@@ -3,9 +3,13 @@
 [![Coverage Status](https://coveralls.io/repos/github/donjuanplatinum/Algori/badge.svg?branch=main)](https://coveralls.io/github/donjuanplatinum/algori?branch=main)
 [![Version](https://img.shields.io/crates/v/algori)](https://crates.io/crates/algori)
 
+<img src=./algori.png width="30%" >
+
+
+
 [![Chinese](./README.zh.md)](./README.zh.md)
 [![English](./README.md)](./README.md)
-<img src=./algori.png width="30%" >
+
 
 
 
