@@ -1,13 +1,13 @@
 /// 链表节点
 #[derive(Debug)]
 pub struct Node<T> {
-    value: T,
-    next: Option<Box<Node<T>>>,
+    pub value: T,
+    pub next: Option<Box<Node<T>>>,
 }
 
 /// 链表
 pub struct LinkedList<T> {
-    head: Option<Box<Node<T>>>,
+    pub head: Option<Box<Node<T>>>,
 }
 
 impl<T: std::cmp::PartialEq> LinkedList<T> {

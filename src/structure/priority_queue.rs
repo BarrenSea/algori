@@ -1,6 +1,6 @@
 ///最大优先序列
 pub struct Max_Priority_Queue<T> {
-    heap:Vec<T>,
+    pub heap:Vec<T>,
 }
 
 impl<T: Ord> Max_Priority_Queue<T> {
