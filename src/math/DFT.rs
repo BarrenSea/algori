@@ -1,6 +1,20 @@
 use std::ops::{Add, Sub, Mul};
 use crate::structure::Complex;
-pub fn dft<T: Copy + Default + std::convert::From<f64>>(signal: &[T]) -> Vec<Complex<T>> 
+
+///离散傅立叶变换
+/// # Examples
+/// ```
+///  let signal = vec![0.0, 1.0, 0.0, 1.0]; // Input signal
+///	let spectrum = algori::math::dft(&signal);
+///
+///	for (k, value) in spectrum.iter().enumerate() {
+///            println!("Frequency {}: {:?}", k, value);
+///	}	
+///
+/// ```
+
+
+pub fn DFT<T: Copy + Default + std::convert::From<f64>>(signal: &[T]) -> Vec<Complex<T>> 
 where
     T: Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Copy + Into<f64>
 {

@@ -14,6 +14,7 @@ pub struct Complex<T> {
     pub imag: T,
 }
 
+///是否相等 == !=实现
 impl<T> PartialEq for Complex<T>
 where
     T: PartialEq
@@ -25,6 +26,7 @@ where
 
 impl<T> Eq for Complex<T> where T: Eq {}
 
+///复数比大小实现
 impl<T> PartialOrd for Complex<T>
 where
     T: PartialOrd
@@ -109,10 +111,12 @@ where
         Complex { real, imag }
     }
 }
+
 impl<T> Complex<T> 
 where
     T: Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Copy
 {
+    ///创建一个复数
     pub fn new(real: T, imag: T) -> Complex<T> {
         Complex { real, imag }
     }

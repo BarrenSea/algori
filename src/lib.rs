@@ -91,9 +91,9 @@ mod tests {
 	let b = Complex{real: 2 ,imag: 3};
 	let c = a + b;
 	assert_eq!(c,Complex{real:3, imag: 5});
-	
+	use crate::math::dft;
 	let signal = vec![0.0, 1.0, 0.0, 1.0]; // Input signal
-	let spectrum = crate::math::dft(&signal);
+	let spectrum = dft(&signal);
 
 	for (k, value) in spectrum.iter().enumerate() {
             println!("Frequency {}: {:?}", k, value);
