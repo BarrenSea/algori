@@ -8,7 +8,7 @@ description = "some common rust_algorithms, Everyone can participate, and the pr
 repository = "https://github.com/donjuanplatinum/Algori"
 readme = "README.md"
 documentation = "https://docs.rs/algori"
-keywords = ["matrix","math","algorithm","sort","DFT","search","structure"]
+keywords = ["matrix","math","algorithm","sort","search"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
