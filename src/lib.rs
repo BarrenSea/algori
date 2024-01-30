@@ -98,6 +98,15 @@ mod tests {
 	for (k, value) in spectrum.iter().enumerate() {
             println!("Frequency {}: {:?}", k, value);
 	}	
+
+	let matrix1 = crate::matrix::Matrix::new(2, 2, vec![vec![1.0, 2.0], vec![3.0, 4.0]]);
+	let matrix2 = crate::matrix::Matrix::new(2, 2, vec![vec![5.0, 6.0], vec![7.0, 8.0]]);
+
+	let sum_matrix = matrix1.clone() + matrix2.clone();
+	println!("{:?}", sum_matrix);
+
+	let diff_matrix = matrix1.clone() - matrix2.clone();
+	println!("{:?}", diff_matrix);	
 	
         }
     

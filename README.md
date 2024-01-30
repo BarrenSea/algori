@@ -32,7 +32,7 @@ The project is continuously developing.
 ### Matrix
 1. square_matrix_add
 2. square_matrix_multiply
-
+3. matrix
 ### Search
 1. binary_search
 2. linearity_search
