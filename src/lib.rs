@@ -107,6 +107,18 @@ mod tests {
 
 	let diff_matrix = matrix1.clone() - matrix2.clone();
 	println!("{:?}", diff_matrix);	
+
+	fn test_add_method_1() {
+	    let mut planets = vec!["Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus"];
+	    use crate::structure::BinaryTree;
+	    let mut tree = BinaryTree::Empty;
+	    for planet in planets {
+		tree.add(planet);
+ }
+	    
+	    assert_eq!(tree.walk(),
+               vec!["Jupiter", "Mars", "Mercury", "Saturn", "Uranus", "Venus"]);
+	}
 	
         }
     
