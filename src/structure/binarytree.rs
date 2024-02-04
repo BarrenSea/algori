@@ -20,7 +20,7 @@ pub enum BinaryTree<T> {
     NonEmpty(Box<TreeNode<T>>)
 }
 
-struct TreeNode<T> {
+pub struct TreeNode<T> {
     element: T,
     left: BinaryTree<T>,
     right: BinaryTree<T>

@@ -1,3 +1,4 @@
+
 fn main() {
     use algori::matrix::Matrix;
     let matrix1 = Matrix::new(5, 10, vec![
