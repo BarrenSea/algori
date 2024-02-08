@@ -8,7 +8,15 @@ use std::ops::Div;
 
 #[derive(Debug, Copy, Clone)]
 ///复数
-
+///# Examples
+///```
+///
+///use algori::structure::Complex;
+///let a = Complex::new(1,2); ///创建一个实部为1 虚部为2的复数
+///let b = Complex{real: 3, imag: 4};
+///let c = a * b; //复数a * 复数b
+///assert_eq!(c,Complex{real: -5, imag: 10});
+///```
 pub struct Complex<T> {
     pub real: T,
     pub imag: T,
@@ -120,5 +128,6 @@ where
     pub fn new(real: T, imag: T) -> Complex<T> {
         Complex { real, imag }
     }
+
 
 }

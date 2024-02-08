@@ -1,4 +1,14 @@
 ///栈
+/// #Examples
+///```
+///use algori::structure::Stack;
+///let mut  a: Stack<i32> = Stack::new(); //建栈
+///for i in 0..=10 {
+///a.push(i); //压入元素
+///}
+///for i in 0..=10 {a.pop();} //弹出元素
+///assert_eq!(a.is_empty(),true)
+///```
 pub struct Stack<T> {
     data: Vec<T>,
 }

@@ -1,28 +1,15 @@
 
 fn main() {
-    use algori::matrix::Matrix;
-    let matrix1 = Matrix::new(5, 10, vec![
-        vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0],
-        vec![11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0],
-        vec![21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 30.0],
-        vec![31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0, 40.0],
-        vec![41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0],
-    ]);
-
-    let matrix2 = Matrix::new(10, 3, vec![
-        vec![1.0, 2.0, 3.0],
-        vec![4.0, 5.0, 6.0],
-        vec![7.0, 8.0, 9.0],
-        vec![10.0, 11.0, 12.0],
-        vec![13.0, 14.0, 15.0],
-        vec![16.0, 17.0, 18.0],
-        vec![19.0, 20.0, 21.0],
-        vec![22.0, 23.0, 24.0],
-        vec![25.0, 26.0, 27.0],
-        vec![28.0, 29.0, 30.0],
-    ]);
-
-    let product_matrix = matrix1 * matrix2;
-    println!("Product: {:?}", product_matrix);
+ use algori::sort::quicksort;
+ let mut a = [7, 3, 5, 1, 9, 65, 65, 4, 6];
+ quicksort(&mut a);
+    assert_eq!(a, [1, 3, 4, 5, 6, 7, 9, 65, 65]);
+    use algori::structure::LinkedList;
+let mut a:LinkedList<i32> = LinkedList::new(); ///创建一个i32的链表
+for i in 0..101 { ///插入100个节点
+ a.push(i);
+}
+let b = a.search(&9);
+println!("{:?}",b);
 }	
 

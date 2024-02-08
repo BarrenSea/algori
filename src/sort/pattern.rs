@@ -14,6 +14,15 @@ fn partition<T: Ord>(arr: &mut [T]) -> usize {
     i
 }
 ///pdqsort
+///# Examples
+///```
+///
+///let mut  a  = [7,3,5,1,9,65,65,4,6,6];
+///
+///use algori::sort::pdqsort;
+///let c = pdqsort(&mut a);
+///assert_eq!(a,[1,3,4,5,6,6,7,9,65,65]);
+///```
 pub fn pattern_defeating_quicksort<T: Ord>(arr: &mut [T]) {
     if arr.len() <= 16 {
         crate::sort::insertion_sort(arr);

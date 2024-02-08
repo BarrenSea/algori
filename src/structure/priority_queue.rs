@@ -1,4 +1,15 @@
 ///最大优先序列
+///# Examples
+///```
+///use algori::structure::MaxPriorityQueue;
+///let mut a: MaxPriorityQueue<i32> = MaxPriorityQueue::new();
+///let b = [3,2,6,1,0,99,2,3,7,1,3,7,9];
+///for i in b.into_iter() {
+/// a.push(i); //压入元素
+///}
+///let c = a.pop(); //弹出最大元素
+///assert_eq!(c,Some(99));
+///```
 pub struct Max_Priority_Queue<T> {
     pub heap:Vec<T>,
 }
@@ -17,7 +28,7 @@ impl<T: Ord> Max_Priority_Queue<T> {
             i = (i - 1) / 2;
         }
     }
-    ///弹出元素
+    ///弹出最大元素
     pub fn pop(&mut self) -> Option<T>{
 	if self.heap.is_empty() {
             return None;

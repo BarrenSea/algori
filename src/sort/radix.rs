@@ -1,3 +1,4 @@
+
 fn counting_sort(arr: &mut [usize], exp: usize) {
     let n = arr.len();
     let mut output = vec![0; n];
@@ -26,6 +27,15 @@ fn counting_sort(arr: &mut [usize], exp: usize) {
 
 ///基数排序
 ///Θ(d(n+k))
+/// # Examples
+///
+/// ```
+/// use algori::sort::radix_sort;
+///
+/// let mut a = [7, 3, 5, 1, 9, 65, 65, 4, 6];
+/// radix_sort(&mut a);
+/// assert_eq!(a, [1, 3, 4, 5, 6, 7, 9, 65, 65]);
+/// ```
 pub fn radix_sort(arr: &mut [usize]) {
     let max = *arr.iter().max().unwrap_or(&0);
     let mut exp = 1;

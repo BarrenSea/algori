@@ -6,6 +6,16 @@ pub struct Node<T> {
 }
 
 /// 链表
+/// # Examples
+/// ```
+/// use algori::structure::LinkedList;
+///let mut a:LinkedList<i32> = LinkedList::new(); ///创建一个i32的链表
+///for i in 0..101 { ///插入100个节点
+/// a.push(i);
+///}
+///let b = a.search(&9);
+///println!("{:?}",b);
+///```
 pub struct LinkedList<T> {
     pub head: Option<Box<Node<T>>>,
 }

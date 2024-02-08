@@ -32,6 +32,15 @@ fn merge<T>(left: &[T], right: &[T]) -> Vec<T> where
 
 ///分治排序
 ///Θ(nlog_{2}n)
+///# Examples
+///```
+///
+///let mut  a  = vec!(7,3,5,1,9,65,65,4,6,6);
+///
+///use algori::sort::merge_sort;
+///let c = merge_sort(&mut a);
+///assert_eq!(c,[1,3,4,5,6,6,7,9,65,65]);
+///```
 pub fn sort<T>(arr: &mut Vec<T>) -> Vec<T> where
     T: std::cmp::PartialOrd + Copy,
 {
