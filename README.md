@@ -2,7 +2,7 @@
 [![crates.io](https://img.shields.io/crates/dr/algori)](https://crates.io/crates/algori)
 [![Coverage Status](https://coveralls.io/repos/github/donjuanplatinum/Algori/badge.svg?branch=main)](https://coveralls.io/github/donjuanplatinum/algori?branch=main)
 [![Version](https://img.shields.io/crates/v/algori)](https://crates.io/crates/algori)
-
+[![Matrix](https://matrix.to/#/#algori:mozilla.org)](https://img.shields.io/matrix/algori%3Amozilla.org?style=flat)
 <img src=./algori.png width="30%" >
 
 
