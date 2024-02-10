@@ -115,11 +115,24 @@ mod tests {
 	    for planet in planets {
 		tree.add(planet);
  }
-	    
 	    assert_eq!(tree.walk(),
                vec!["Jupiter", "Mars", "Mercury", "Saturn", "Uranus", "Venus"]);
 	}
-	
-        }
-    
+
+
+
+	let mut q = [1231,123,1234,125,3,3,56,745,856,0,4,867,1237,4564124,123];
+	use crate::structure::Pointer;
+	let array = vec![3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5];
+	let mut pointer = Pointer::new(&array);
+	assert_eq!(*pointer.value(), 3);
+	pointer.move_by(4);
+	assert_eq!(*pointer.value(), 5);
+	use crate::math::gcd;
+	let b = gcd(18,9);
+	assert_eq!(b,9);
+
+    }
+
+
 }
