@@ -10,7 +10,7 @@
 /// assert_eq!(a, [1, 3, 4, 5, 6, 7, 9, 65, 65]);
 /// ```
  
-pub fn quicksort<T: Ord +Clone>(arr: &mut [T]) {
+pub fn quicksort<T: PartialOrd +Clone>(arr: &mut [T]) {
     if arr.len() <= 1 {
         return;
     }
@@ -22,7 +22,7 @@ pub fn quicksort<T: Ord +Clone>(arr: &mut [T]) {
     quicksort(&mut right[1..]);
 }
 
-fn partition<T: Ord + Clone>(arr: &mut [T]) -> usize {
+fn partition<T: PartialOrd + Clone>(arr: &mut [T]) -> usize {
     let pivot = &arr[arr.len() - 1].clone();
     let mut i = 0;
 
