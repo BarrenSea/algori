@@ -1,6 +1,6 @@
 
 
-fn partition<T: Ord>(arr: &mut [T]) -> usize {
+fn partition<T: PartialOrd>(arr: &mut [T]) -> usize {
     let pivot_index = arr.len() / 2;
     arr.swap(pivot_index, arr.len() - 1);
     let mut i = 0;
@@ -23,7 +23,7 @@ fn partition<T: Ord>(arr: &mut [T]) -> usize {
 ///let c = pdqsort(&mut a);
 ///assert_eq!(a,[1,3,4,5,6,6,7,9,65,65]);
 ///```
-pub fn pattern_defeating_quicksort<T: Ord>(arr: &mut [T]) {
+pub fn pattern_defeating_quicksort<T: PartialOrd>(arr: &mut [T]) {
     if arr.len() <= 16 {
         crate::sort::insertion_sort(arr);
     } else {
