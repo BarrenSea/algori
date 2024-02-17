@@ -275,7 +275,7 @@ impl LogicGate for Xnor{
 
 use std::time::Duration;
 ///延迟线
-///Examples
+///# Examples
 ///```
 /// use algori::structure::DelayLine;
 /// let a = DelayLine{delay: 20,input: Some(true)};
@@ -298,7 +298,7 @@ impl DelayLine {
 
 ///半加器
 ///输出一个包含低位结果与进位的元组
-/// Examples
+/// # Examples
 ///```
 ///use algori::structure::HalfAdder;
 ///let a:HalfAdder = HalfAdder{input1:Some(true),input2:Some(false)};
@@ -323,7 +323,7 @@ impl HalfAdder{
 }
 
 ///全加器
-/// Examples
+/// # Examples
 ///```
 ///use algori::structure::FullAdder;
 ///let a:FullAdder = FullAdder{input1:Some(true),input2:Some(false),input3:Some(false)};
@@ -351,7 +351,7 @@ impl FullAdder {
     }
 }
 ///一位开关
-/// Examples
+/// # Examples
 ///```
 ///use algori::structure::Switch;
 ///use crate::algori::structure::LogicGate;
@@ -371,3 +371,75 @@ impl LogicGate for Switch {
 	None
     }
 }
+
+///8位
+pub struct EightBit{
+    pub bit_1: Option<bool>,
+    pub bit_2: Option<bool>,
+    pub bit_3: Option<bool>,
+    pub bit_4: Option<bool>,
+    pub bit_5: Option<bool>,
+    pub bit_6: Option<bool>,
+    pub bit_7: Option<bool>,
+    pub bit_8: Option<bool>,
+}
+///8位分线器
+/// # Examples
+///```
+///use algori::structure::EightBitSplitter;
+///let a:EightBitSplitter = EightBitSplitter{input: 201};
+///let a = a.get_result();
+///assert_eq!(a,(true,false,false,true,false,false,true,true));
+
+pub struct EightBitSplitter{
+    pub input: i32,
+}
+
+impl EightBitSplitter {
+    pub fn get_result(&self) ->(bool,bool,bool,bool,bool,bool,bool,bool) {
+	let bit1 = (self.input & 1) != 0;
+        let bit2 = (self.input & 2) != 0;
+        let bit3 = (self.input & 4) != 0;
+        let bit4 = (self.input & 8) != 0;
+        let bit5 = (self.input & 16) != 0;
+        let bit6 = (self.input & 32) != 0;
+        let bit7 = (self.input & 64) != 0;
+        let bit8 = (self.input & 128) != 0;
+
+        (bit1, bit2, bit3, bit4, bit5, bit6, bit7,bit8)
+    }
+}
+
+
+///8位集线器
+/// # Examples
+/// ```
+/// use algori::structure::EightBitMux;
+/// let a = EightBitMux{input1:true,input2:false,input3:false,input4:true,input5:false,input6:false,input7:true,input8:true};
+/// assert_eq!(a.get_result(),201);
+/// ```
+pub struct EightBitMux {
+    pub input1: bool,
+    pub input2: bool,
+    pub input3: bool,
+    pub input4: bool,
+    pub input5: bool,
+    pub input6: bool,
+    pub input7: bool,
+    pub input8: bool,
+}
+
+impl EightBitMux {
+    pub fn get_result(&self) -> i32 {
+        let result = (self.input8 as i32) << 7 |
+                     (self.input7 as i32) << 6 |
+                     (self.input6 as i32) << 5 |
+                     (self.input5 as i32) << 4 |
+                     (self.input4 as i32) << 3 |
+                     (self.input3 as i32) << 2 |
+                     (self.input2 as i32) << 1 |
+                     (self.input1 as i32);
+        result
+    }
+}
+

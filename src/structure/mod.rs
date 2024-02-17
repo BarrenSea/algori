@@ -36,3 +36,6 @@ pub use self::logicgate::DelayLine as DelayLine;
 pub use self::logicgate::HalfAdder as HalfAdder;
 pub use self::logicgate::FullAdder as FullAdder;
 pub use self::logicgate::Switch as Switch;
+pub use self::logicgate::EightBitSplitter as EightBitSplitter;
+pub use self::logicgate::EightBitMux as EightBitMux;
+
