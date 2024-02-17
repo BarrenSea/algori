@@ -23,3 +23,8 @@ pub use self::pointer::Pointer as Pointer;
 pub use self::logicgate::Nand as Nand;
 pub use self::logicgate::LogicGate as LogicGate;
 pub use self::logicgate::Not as Not;
+pub use self::logicgate::Or as Or;
+pub use self::logicgate::Nor as Nor;
+pub use self::logicgate::And as And;
+pub use self::logicgate::HighLevel as HighLevel;
+pub use self::logicgate::LowLevel as LowLevel;
