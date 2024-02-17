@@ -34,3 +34,5 @@ pub use self::logicgate::ThreeAnd as ThreeAnd;
 pub use self::logicgate::Xnor as Xnor;
 pub use self::logicgate::DelayLine as DelayLine;
 pub use self::logicgate::HalfAdder as HalfAdder;
+pub use self::logicgate::FullAdder as FullAdder;
+pub use self::logicgate::Switch as Switch;
