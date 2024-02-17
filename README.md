@@ -30,19 +30,21 @@ The project is continuously developing.
 9. selection_sort
 10. pdqsort
 ### Matrix
-1. square_matrix_add
-2. square_matrix_multiply
-3. matrix
+1. matrix
 ### Search
 1. binary_search
 2. linearity_search
-
+3. max_search
+4. min_search
+5. mind_and_max
 ### Structure
 1. Maxpriorityqueue
 2. Stack
 3. Linkedlist
 4. Complex
-
+5. Pointer
+6. Logicgate
+7. Binarytree
 
 ### subarray
 1. merge_max_subarray
@@ -50,5 +52,6 @@ The project is continuously developing.
 
 ### Math
 1. DFT
+2. gcd
 ## Welcome PR
 

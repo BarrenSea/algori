@@ -9,7 +9,7 @@ use crate::structure::Complex;
 ///
 ///	for (k, value) in spectrum.iter().enumerate() {
 ///            println!("Frequency {}: {:?}", k, value);
-///	}	
+///	}
 ///
 /// ```
 
