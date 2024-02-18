@@ -1,5 +1,5 @@
 ///栈
-/// #Examples
+/// # Examples
 ///```
 ///use algori::structure::Stack;
 ///let mut  a: Stack<i32> = Stack::new(); //建栈
