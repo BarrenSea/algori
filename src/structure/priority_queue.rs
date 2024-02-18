@@ -10,14 +10,15 @@
 ///let c = a.pop(); //弹出最大元素
 ///assert_eq!(c,Some(99));
 ///```
-pub struct Max_Priority_Queue<T> {
+
+pub struct MaxPriorityQueue<T> {
     pub heap:Vec<T>,
 }
 
-impl<T: Ord> Max_Priority_Queue<T> {
+impl<T: Ord> MaxPriorityQueue<T> {
     ///创建新序列
-    pub fn new() -> Max_Priority_Queue<T> {
-	Max_Priority_Queue {heap: vec![]}
+    pub fn new() -> MaxPriorityQueue<T> {
+	MaxPriorityQueue {heap: vec![]}
     }
     ///压入新元素
     pub fn push(&mut self, value: T) {

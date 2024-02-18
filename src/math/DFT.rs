@@ -14,7 +14,7 @@ use crate::structure::Complex;
 /// ```
 
 
-pub fn DFT<T: Copy + Default + std::convert::From<f64>>(signal: &[T]) -> Vec<Complex<T>> 
+pub fn dft<T: Copy + Default + std::convert::From<f64>>(signal: &[T]) -> Vec<Complex<T>> 
 where
     T: Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Copy + Into<f64>
 {

@@ -13,7 +13,7 @@ mod pointer;
 ///逻辑门
 mod logicgate;
 
-pub use self::priority_queue::Max_Priority_Queue as MaxPriorityQueue;
+pub use self::priority_queue::MaxPriorityQueue as MaxPriorityQueue;
 pub use self::stack::Stack as Stack;
 pub use self::linkedlist::LinkedList as LinkedList;
 pub use self::linkedlist::Node as LinkedListNode;

@@ -20,7 +20,7 @@ pub fn sort<T>(array: &mut[T]) ->() where
 	    }
 	}
     }
-    ///当最后一个元素与前面相同时会出现问题,所以执行一次插入排序 损耗为n
+    //当最后一个元素与前面相同时会出现问题,所以执行一次插入排序 损耗为n
     if (*array)[(*array).len() - 1] < (*array)[(*array).len() - 2] {
 	let mut i = (*array).len() - 1;
 	while i > 0 && (*array)[i - 1] >=(*array)[i] {

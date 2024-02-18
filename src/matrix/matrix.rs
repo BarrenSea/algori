@@ -1,4 +1,6 @@
+#[allow(unused_imports)]
 use std::ops::{Add, Sub, Mul, Div};
+#[allow(unused_imports)]
 use std::cmp::{PartialEq, Eq};
 
 #[derive(Debug, PartialEq,Clone)]

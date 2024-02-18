@@ -33,26 +33,3 @@ where
     (left_index, right_index, left_max + right_max)
 }
 
-
-pub fn merge_subarray<T>(array: &[T]) -> (usize, usize, T)
-where
-    T: PartialOrd + std::ops::Add<Output = T> + std::ops::Sub<Output = T> + std::ops::AddAssign + Copy + Default
-{
-    if array.len() == 1 {
-        return (0, 0, array[0]);
-    } else {
-        let mid = (array.len() - 1) / 2;
-        let (left_index, right_index, left_max) = merge_subarray(&array[0..=mid]);
-        let (right_start, right_end, right_max) = merge_subarray(&array[mid + 1..]);
-        let (cross_start, cross_end, cross_max) = max(array);
-        
-        if left_max >= right_max && left_max >= cross_max {
-            return (left_index, right_index, left_max);
-        } else if right_max >= left_max && right_max >= cross_max {
-            return (right_start + mid + 1, right_end + mid + 1, right_max);
-        } else {
-            return (cross_start, cross_end, cross_max);
-        }
-    }
-}
-
