@@ -38,4 +38,5 @@ pub use self::logicgate::FullAdder as FullAdder;
 pub use self::logicgate::Switch as Switch;
 pub use self::logicgate::EightBitSplitter as EightBitSplitter;
 pub use self::logicgate::EightBitMux as EightBitMux;
+pub use self::logicgate::EightBitAdder as EightBitAdder;
 

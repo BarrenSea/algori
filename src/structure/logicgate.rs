@@ -332,6 +332,8 @@ impl HalfAdder{
 ///assert_eq!(a.get_result(),(Some(false),Some(true)));
 ///let a:FullAdder = FullAdder{input1:Some(true),input2:Some(true),input3:Some(true)};
 ///assert_eq!(a.get_result(),(Some(true),Some(true)));
+///let a:FullAdder = FullAdder{input1:Some(false),input2:Some(false),input3:Some(false)};
+///assert_eq!(a.get_result(),(Some(false),Some(false)));
 ///```
 pub struct FullAdder {
     pub input1: Option<bool>,
@@ -345,7 +347,7 @@ impl FullAdder {
 	let a: Xor = Xor{input1: self.input1, input2: self.input2};
 	let b: And = And{input1: self.input1, input2: self.input2};
 	let c: Xor = Xor{input1: a.get_result(), input2: self.input3};
-	let d: And = And{input1: c.get_result(), input2: self.input3};
+	let d: And = And{input1: a.get_result(), input2: self.input3};
 	let e: Or = Or{input1: b.get_result(),input2: d.get_result()};
 	(c.get_result(),e.get_result())
     }
@@ -372,31 +374,23 @@ impl LogicGate for Switch {
     }
 }
 
-///8位
-pub struct EightBit{
-    pub bit_1: Option<bool>,
-    pub bit_2: Option<bool>,
-    pub bit_3: Option<bool>,
-    pub bit_4: Option<bool>,
-    pub bit_5: Option<bool>,
-    pub bit_6: Option<bool>,
-    pub bit_7: Option<bool>,
-    pub bit_8: Option<bool>,
-}
 ///8位分线器
 /// # Examples
 ///```
 ///use algori::structure::EightBitSplitter;
 ///let a:EightBitSplitter = EightBitSplitter{input: 201};
 ///let a = a.get_result();
-///assert_eq!(a,(true,false,false,true,false,false,true,true));
-
+///assert_eq!(a,(Some(true),Some(false),Some(false),Some(true),Some(false),Some(false),Some(true),Some(true)));
+/// let a:EightBitSplitter = EightBitSplitter{input:108};
+/// let a = a.get_result();
+/// assert_eq!(a,(Some(false),Some(false),Some(true),Some(true),Some(false),Some(true),Some(true),Some(false)));
+///```
 pub struct EightBitSplitter{
     pub input: i32,
 }
 
 impl EightBitSplitter {
-    pub fn get_result(&self) ->(bool,bool,bool,bool,bool,bool,bool,bool) {
+    pub fn get_result(&self) ->(Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>) {
 	let bit1 = (self.input & 1) != 0;
         let bit2 = (self.input & 2) != 0;
         let bit3 = (self.input & 4) != 0;
@@ -406,7 +400,7 @@ impl EightBitSplitter {
         let bit7 = (self.input & 64) != 0;
         let bit8 = (self.input & 128) != 0;
 
-        (bit1, bit2, bit3, bit4, bit5, bit6, bit7,bit8)
+        (Some(bit1), Some(bit2), Some(bit3), Some(bit4), Some(bit5), Some(bit6), Some(bit7),Some(bit8))
     }
 }
 
@@ -415,31 +409,85 @@ impl EightBitSplitter {
 /// # Examples
 /// ```
 /// use algori::structure::EightBitMux;
-/// let a = EightBitMux{input1:true,input2:false,input3:false,input4:true,input5:false,input6:false,input7:true,input8:true};
+/// let a = EightBitMux{input1:Some(true),input2:Some(false),input3:Some(false),input4:Some(true),input5:Some(false),input6:Some(false),input7:Some(true),input8:Some(true)};
 /// assert_eq!(a.get_result(),201);
+/// let a = EightBitMux{input1:Some(false),input2: Some(false),input3: Some(true),input4: Some(true),input5: Some(false),input6: Some(true),input7: Some(true),input8: Some(false)};
+/// assert_eq!(a.get_result(),108);
 /// ```
 pub struct EightBitMux {
-    pub input1: bool,
-    pub input2: bool,
-    pub input3: bool,
-    pub input4: bool,
-    pub input5: bool,
-    pub input6: bool,
-    pub input7: bool,
-    pub input8: bool,
+    pub input1: Option<bool>,
+    pub input2: Option<bool>,
+    pub input3: Option<bool>,
+    pub input4: Option<bool>,
+    pub input5: Option<bool>,
+    pub input6: Option<bool>,
+    pub input7: Option<bool>,
+    pub input8: Option<bool>,
 }
 
 impl EightBitMux {
     pub fn get_result(&self) -> i32 {
-        let result = (self.input8 as i32) << 7 |
-                     (self.input7 as i32) << 6 |
-                     (self.input6 as i32) << 5 |
-                     (self.input5 as i32) << 4 |
-                     (self.input4 as i32) << 3 |
-                     (self.input3 as i32) << 2 |
-                     (self.input2 as i32) << 1 |
-                     (self.input1 as i32);
+        let result = (self.input8.unwrap_or(false) as i32) << 7 |
+                     (self.input7.unwrap_or(false) as i32) << 6 |
+                     (self.input6.unwrap_or(false) as i32) << 5 |
+                     (self.input5.unwrap_or(false) as i32) << 4 |
+                     (self.input4.unwrap_or(false) as i32) << 3 |
+                     (self.input3.unwrap_or(false) as i32) << 2 |
+                     (self.input2.unwrap_or(false) as i32) << 1 |
+                     (self.input1.unwrap_or(false) as i32);
         result
     }
 }
+
+///八位加法器
+/// # get 1 bool input and 2 i32 inputs
+/// ## return 1 EightBit Output and Carry bool
+/// # Examples
+/// ```
+///    use algori::structure::EightBitAdder;
+///         let adder = EightBitAdder {
+///             input1: Some(false),
+///             input2: 1_i32,
+///             input3: 1_i32,
+///         };
+///         let result = adder.get_result();
+///
+///         // 预期的加法结果
+///         let expected_output = 2;
+///
+///         // 预期的进位
+///         let expected_carry = Some(false);
+///
+///         // 检查加法器的输出
+///         assert_eq!(result, (expected_output, expected_carry));
+/// ```
+pub struct EightBitAdder{
+    pub input1: Option<bool>,
+    pub input2: i32,
+    pub input3: i32,
+}
+
+impl EightBitAdder {
+    /// 返回 (低八位结果, 进位)
+
+    pub fn get_result(&self) -> (i32, Option<bool>) {
+        // 分割输入
+        let splitter_one = EightBitSplitter { input: self.input2 }.get_result();
+        let splitter_two = EightBitSplitter { input: self.input3 }.get_result();
+        // 逐个全加器进行相加
+        let adder_one = FullAdder { input1: self.input1, input2: splitter_one.0, input3: splitter_two.0 }.get_result();
+        let adder_two = FullAdder { input1: adder_one.1, input2: splitter_one.1, input3: splitter_two.1 }.get_result();
+        let adder_three = FullAdder { input1: adder_two.1, input2: splitter_one.2, input3: splitter_two.2 }.get_result();
+        let adder_four = FullAdder { input1: adder_three.1, input2: splitter_one.3, input3: splitter_two.3 }.get_result();
+        let adder_five = FullAdder { input1: adder_four.1, input2: splitter_one.4, input3: splitter_two.4 }.get_result();
+        let adder_six = FullAdder { input1: adder_five.1, input2: splitter_one.5, input3: splitter_two.5 }.get_result();
+        let adder_seven = FullAdder { input1: adder_six.1, input2: splitter_one.6, input3: splitter_two.6 }.get_result();
+        let adder_eight = FullAdder { input1: adder_seven.1, input2: splitter_one.7, input3: splitter_two.7 }.get_result();
+        // 合并全加器的结果
+        let selection = EightBitMux{input1:adder_one.0, input2:adder_two.0, input3:adder_three.0, input4:adder_four.0, input5:adder_five.0, input6:adder_six.0, input7:adder_seven.0, input8:adder_eight.0 }.get_result();
+
+        // 返回最终结果及进位
+        (selection, adder_eight.1)
+    }
+    }
 
