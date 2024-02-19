@@ -39,4 +39,7 @@ pub use self::logicgate::Switch as Switch;
 pub use self::logicgate::EightBitSplitter as EightBitSplitter;
 pub use self::logicgate::EightBitMux as EightBitMux;
 pub use self::logicgate::EightBitAdder as EightBitAdder;
-
+pub use self::logicgate::EightBitNot as EightBitNot;
+pub use self::logicgate::EightBitOr as EightBitOr;
+pub use self::logicgate::EightSwitch as EightSwitch;
+pub use self::logicgate::DataSelector as DataSelector;

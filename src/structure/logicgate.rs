@@ -374,6 +374,28 @@ impl LogicGate for Switch {
     }
 }
 
+///八位开关
+/// # Examples
+///```
+///use algori::structure::Switch;
+///use crate::algori::structure::LogicGate;
+/// let a:Switch = Switch{switch: Some(true),input:Some(false)};
+///assert_eq!(a.get_result(),Some(false));
+///```
+pub struct EightSwitch {
+    pub switch: Option<bool>,
+    pub input: i32,
+}
+
+impl  EightSwitch {
+    fn get_result(&self) -> Option<i32> {
+	if self.switch == Some(true) {
+	    return Some(self.input);
+	}
+	None
+    }
+}
+
 ///8位分线器
 /// # Examples
 ///```
@@ -489,5 +511,84 @@ impl EightBitAdder {
         // 返回最终结果及进位
         (selection, adder_eight.1)
     }
-    }
+}
 
+///八位非
+/// # Examples
+/// ```
+///    use algori::structure::EightBitNot;
+///    let a = EightBitNot{input: 80}.get_result();
+///    assert_eq!(a,175);
+/// ```
+pub struct EightBitNot{
+    pub input: i32,
+}
+
+impl EightBitNot {
+    pub fn get_result(&self) -> i32 {
+	let a = EightBitSplitter{input: self.input}.get_result();
+	let b = Not{input:a.0}.get_result();
+	let c = Not{input:a.1}.get_result();
+	let d = Not{input:a.2}.get_result();
+	let e = Not{input:a.3}.get_result();
+	let f = Not{input:a.4}.get_result();
+	let g = Not{input:a.5}.get_result();
+	let h = Not{input:a.6}.get_result();
+	let i = Not{input:a.7}.get_result();
+	EightBitMux{input1:b,input2:c,input3:d,input4:e,input5:f,input6:g,input7:h,input8:i}.get_result()
+    }
+}
+
+///八位或
+/// # Examples
+/// ```
+///    use algori::structure::EightBitOr;
+///    let a = EightBitOr{input1: 80,input2:21}.get_result();
+///    assert_eq!(a,85);
+/// ```
+pub struct EightBitOr{
+    pub input1: i32,
+    pub input2: i32,
+}
+
+impl EightBitOr {
+    pub fn get_result(&self) -> i32 {
+	let a = EightBitSplitter{input: self.input1}.get_result();
+	let b = EightBitSplitter{input: self.input2}.get_result();
+	let c = Or{input1:a.0,input2:b.0}.get_result();
+	let d = Or{input1:a.1,input2:b.1}.get_result();
+	let e = Or{input1:a.2,input2:b.2}.get_result();
+	let f = Or{input1:a.3,input2:b.3}.get_result();
+	let g = Or{input1:a.4,input2:b.4}.get_result();
+	let h = Or{input1:a.5,input2:b.5}.get_result();
+	let i = Or{input1:a.6,input2:b.6}.get_result();
+	let j = Or{input1:a.7,input2:b.7}.get_result();
+	EightBitMux{input1:c,input2:d,input3:e,input4:f,input5:g,input6:h,input7:i,input8:j}.get_result()
+    }
+}
+
+
+///八位数据选择器
+/// # 当input1为false时输出input2, input1为true输出input3
+/// # Examples
+/// ```
+/// use algori::structure::DataSelector;
+/// let a = DataSelector{input1:Some(false),input2:20,input3:10}.get_result();
+/// assert_eq!(a,20);
+/// let a = DataSelector{input1:Some(true),input2:20,input3:10}.get_result();
+/// assert_eq!(a,10);
+///```
+pub struct DataSelector{
+    pub input1: Option<bool>,
+    pub input2: i32,
+    pub input3: i32,
+}
+
+impl DataSelector{
+    pub fn get_result(&self) -> i32 {
+	if self.input1 ==Some(true) {
+	    return self.input3;
+	}
+	self.input2
+    }
+}

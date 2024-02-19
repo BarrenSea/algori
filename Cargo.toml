@@ -1,6 +1,6 @@
 [package]
 name = "algori"
-version = "0.10.0"
+version = "0.10.1"
 edition = "2021"
 authors = ["Donjuan Platinum <donjuan@lecturify.net>"]
 license = "MIT"
@@ -13,7 +13,3 @@ categories = ["algorithms"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-
-
-
-
