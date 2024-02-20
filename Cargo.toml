@@ -1,6 +1,6 @@
 [package]
 name = "algori"
-version = "0.10.1"
+version = "0.10.2"
 edition = "2021"
 authors = ["Donjuan Platinum <donjuan@lecturify.net>"]
 license = "MIT"

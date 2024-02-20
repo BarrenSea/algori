@@ -53,5 +53,6 @@ The project is continuously developing.
 ### Math
 1. DFT
 2. gcd
+3. laplace_transform
 ## Welcome PR
 
