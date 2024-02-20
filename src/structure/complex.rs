@@ -131,3 +131,27 @@ where
 
 
 }
+
+impl Complex<f64> {
+    pub fn modulus(&self) -> f64 {
+        (self.real.powi(2) + self.imag.powi(2)).sqrt()
+    }
+
+    // 求共轭复数
+    pub fn conjugate(&self) -> Complex<f64> {
+        Complex {
+            real: self.real,
+            imag: -self.imag,
+        }
+    }
+    // 求指数
+    pub fn exp(&self) -> Complex<f64> {
+	use std::f64::consts::E;
+        let re = E.powf(self.real);
+        let im = self.imag;
+        Complex {
+            real: re * im.cos(),
+            imag: re * im.sin(),
+        }
+    }
+}
