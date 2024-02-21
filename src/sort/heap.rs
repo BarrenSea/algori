@@ -40,7 +40,9 @@ fn max<T: Ord>(arr: &mut [T], n: usize, mut i: usize) {
 
 //建堆
 fn build_max<T: Ord>(arr: &mut [T]) {
+
     let n = arr.len();
+    // n/2为拥有子结点的下标最大的
     for i in (0..n / 2).rev() {
         max(arr, n, i);
     }

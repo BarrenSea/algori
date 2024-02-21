@@ -590,3 +590,63 @@ impl<'a> DataSelector<'a>{
 	self.input2
     }
 }
+
+///三位解码器
+/// # 当switch为true时,
+/// # 真值表
+/// input1| input2| input3| output
+/// ---|---|---|----
+/// false|false|false|1
+/// true|false|false|2
+/// false|true|false|3
+/// true|true|false|4
+/// false|false|true|5
+/// true|false|true|6
+/// false|true|true|7
+/// true|true|true|8
+/// # Examples
+/// ```
+/// use algori::structure::ThreeDecoder;
+/// let a = ThreeDecoder{input1: &Some(false),input2:&Some(false),input3:&Some(false),switch:&Some(false)}.get_result();
+/// assert_eq!(a,(Some(true),Some(false),Some(false),Some(false),Some(false),Some(false),Some(false),Some(false)));
+/// ```
+pub struct ThreeDecoder<'a> {
+    pub input1: &'a Option<bool>,
+    pub input2: &'a Option<bool>,
+    pub input3: &'a Option<bool>,
+    pub switch: &'a Option<bool>,
+}
+
+impl<'a> ThreeDecoder<'a> {
+    pub fn get_result(&self) -> (Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>) {
+	match self.switch {
+	    Some(true) => return (None,None,None,None,None,None,None,None),
+	    _ => {
+		let a = Nor{input1: self.input1,input2: self.input2}.get_result(); //input1,input2全为false
+		let b = Nor{input1: self.input2,input2: self.input3}.get_result(); //input2,input3全为false
+		let f = And{input1: &a, input2: &b}.get_result(); //1
+		//input1,2,3->false时激活1
+		let c = And{input1: self.input1, input2: &b}.get_result(); //2
+		//input2,3->false激活2
+		let d = Nor{input1: self.input1,input2:self.input3}.get_result(); //input1,input3全为false
+		let e = And{input1: &d,input2: self.input2}.get_result(); //3
+		//input2->true,input1,3->false激活3
+		let g = Nand{input1: self.input1,input2: self.input2}.get_result();
+		let h = Nor{input1: &g,input2: self.input3}.get_result(); //4
+		//input1,2->false激活5
+		let i = And{input1: &a,input2: self.input3}.get_result(); //5
+		//input1,3->true激活6
+		let j = Not{input: self.input2 }.get_result();
+		let k = ThreeAnd{input1: self.input1, input2: &j, input3: self.input3}.get_result(); //6
+		//input2,3->true激活7
+		let l = Not{input:self.input1}.get_result();
+		let m = ThreeAnd{input1: &l,input2: self.input2, input3: self.input3}.get_result();
+		//input1,2,3->true激活8
+		let n = ThreeAnd{input1: self.input1,input2: self.input2,input3: self.input3}.get_result();
+		(f,c,e,h,i,k,m,n)
+
+	    }
+	}
+    }
+}
+

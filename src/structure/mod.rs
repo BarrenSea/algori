@@ -43,3 +43,4 @@ pub use self::logicgate::EightBitNot as EightBitNot;
 pub use self::logicgate::EightBitOr as EightBitOr;
 pub use self::logicgate::EightSwitch as EightSwitch;
 pub use self::logicgate::DataSelector as DataSelector;
+pub use self::logicgate::ThreeDecoder as ThreeDecoder;
