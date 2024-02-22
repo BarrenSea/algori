@@ -16,3 +16,6 @@ pub mod structure;
 
 ///数学算法与变换
 pub mod math;
+
+///逻辑门
+pub mod logicgate;

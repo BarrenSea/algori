@@ -10,8 +10,6 @@ mod complex;
 mod binarytree;
 ///指针
 mod pointer;
-///逻辑门
-mod logicgate;
 
 pub use self::priority_queue::MaxPriorityQueue as MaxPriorityQueue;
 pub use self::stack::Stack as Stack;
@@ -20,27 +18,3 @@ pub use self::linkedlist::Node as LinkedListNode;
 pub use self::complex::Complex as Complex;
 pub use self::binarytree::BinaryTree as BinaryTree;
 pub use self::pointer::Pointer as Pointer;
-pub use self::logicgate::Nand as Nand;
-pub use self::logicgate::LogicGate as LogicGate;
-pub use self::logicgate::Not as Not;
-pub use self::logicgate::Or as Or;
-pub use self::logicgate::Nor as Nor;
-pub use self::logicgate::And as And;
-pub use self::logicgate::HighLevel as HighLevel;
-pub use self::logicgate::LowLevel as LowLevel;
-pub use self::logicgate::Xor as Xor;
-pub use self::logicgate::ThreeOr as ThreeOr;
-pub use self::logicgate::ThreeAnd as ThreeAnd;
-pub use self::logicgate::Xnor as Xnor;
-pub use self::logicgate::DelayLine as DelayLine;
-pub use self::logicgate::HalfAdder as HalfAdder;
-pub use self::logicgate::FullAdder as FullAdder;
-pub use self::logicgate::Switch as Switch;
-pub use self::logicgate::EightBitSplitter as EightBitSplitter;
-pub use self::logicgate::EightBitMux as EightBitMux;
-pub use self::logicgate::EightBitAdder as EightBitAdder;
-pub use self::logicgate::EightBitNot as EightBitNot;
-pub use self::logicgate::EightBitOr as EightBitOr;
-pub use self::logicgate::EightSwitch as EightSwitch;
-pub use self::logicgate::DataSelector as DataSelector;
-pub use self::logicgate::ThreeDecoder as ThreeDecoder;

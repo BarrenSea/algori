@@ -8,8 +8,8 @@ pub trait LogicGate {
 ///与非门 全为true则为false
 /// # Examples
 /// ```
-/// use algori::structure::NAND;
-/// use algori::structure::LogicGate;
+/// use algori::logicgate::NAND;
+/// use algori::logicgate::LogicGate;
 /// let a = NAND{input1: &Some(true), input2: &Some(false)};
 /// assert_eq!(a.get_result(),Some(true))
 /// ```
@@ -36,8 +36,8 @@ impl<'a> LogicGate for NAND<'a> {
 ///非门由一个输入一致的与非门组成
 /// # Examples
 /// ```
-/// use algori::structure::NOT;
-/// use algori::structure::LogicGate;
+/// use algori::logicgate::NOT;
+/// use algori::logicgate::LogicGate;
 /// let a = NOT{input: &Some(true)};
 /// let b = NOT{input: &Some(false)};
 /// assert_eq!(a.get_result(),Some(false));
@@ -58,8 +58,8 @@ impl<'a> LogicGate for NOT<'a> {
 ///或门由三个与非门组成
 /// # Examples
 /// ```
-/// use algori::structure::OR;
-/// use algori::structure::LogicGate;
+/// use algori::logicgate::OR;
+/// use algori::logicgate::LogicGate;
 /// let a = OR{input1: &Some(true),input2: &Some(false)};
 /// let b = OR{input1: &Some(false),input2: &Some(false)};
 /// assert_eq!(a.get_result(),Some(true));
@@ -83,8 +83,8 @@ impl<'a> LogicGate for OR<'a> {
 ///或非门由四个与非门组成
 /// # Examples
 /// ```
-/// use algori::structure::NOR;
-/// use algori::structure::LogicGate;
+/// use algori::logicgate::NOR;
+/// use algori::logicgate::LogicGate;
 /// let a = NOR{input1: &Some(true),input2: &Some(false)};
 /// let b = NOR{input1: &Some(false),input2: &Some(false)};
 /// assert_eq!(a.get_result(),Some(false));
@@ -108,8 +108,8 @@ impl<'a> LogicGate for NOR<'a> {
 ///与门由两个与非门组成
 /// # Examples
 /// ```
-/// use algori::structure::AND;
-/// use algori::structure::LogicGate;
+/// use algori::logicgate::AND;
+/// use algori::logicgate::LogicGate;
 /// let a = AND{input1: &Some(true),input2: &Some(false)};
 /// let b = AND{input1: &Some(true),input2: &Some(true)};
 /// assert_eq!(a.get_result(),Some(false));
@@ -130,8 +130,8 @@ impl<'a> LogicGate for AND<'a> {
 ///高电平 输出true
 /// # Examples
 /// ```
-/// use algori::structure::HighLevel;
-/// use algori::structure::LogicGate;
+/// use algori::logicgate::HighLevel;
+/// use algori::logicgate::LogicGate;
 /// let a = HighLevel{};
 /// assert_eq!(a.get_result(),Some(true));
 /// ```
@@ -146,8 +146,8 @@ impl LogicGate for HighLevel {
 ///低电平 输出Some(false)
 /// # Examples
 /// ```
-/// use algori::structure::LowLevel;
-/// use algori::structure::LogicGate;
+/// use algori::logicgate::LowLevel;
+/// use algori::logicgate::LogicGate;
 /// let a = LowLevel{};
 /// assert_eq!(a.get_result(),Some(false));
 /// ```
@@ -162,8 +162,8 @@ impl LogicGate for LowLevel {
 ///异或门 输入不一样true
 /// # Examples
 /// ```
-/// use algori::structure::XOR;
-/// use algori::structure::LogicGate;
+/// use algori::logicgate::XOR;
+/// use algori::logicgate::LogicGate;
 /// let a = XOR{input1:& Some(true),input2:& Some(false)};
 /// let b = XOR{input1:& Some(true),input2:& Some(true)};
 /// let c = XOR{input1:& Some(false),input2:& Some(false)};
@@ -188,8 +188,8 @@ impl<'a> LogicGate for XOR<'a>{
 ///三路或门
 /// # Examples
 /// ```
-/// use algori::structure::ThreeOR;
-/// use algori::structure::LogicGate;
+/// use algori::logicgate::ThreeOR;
+/// use algori::logicgate::LogicGate;
 /// let a = ThreeOR{input1:& Some(true),input2:& Some(false),input3:& Some(false)};
 /// let b = ThreeOR{input1:& Some(false),input2:& Some(true),input3:& Some(false)};
 /// let c = ThreeOR{input1:& Some(false),input2:& Some(false),input3:& Some(true)};
@@ -218,8 +218,8 @@ impl<'a> LogicGate for ThreeOR<'a>{
 ///三路与门
 /// # Examples
 /// ```
-/// use algori::structure::ThreeAND;
-/// use algori::structure::LogicGate;
+/// use algori::logicgate::ThreeAND;
+/// use algori::logicgate::LogicGate;
 /// let a = ThreeAND{input1:& Some(true),input2:& Some(false),input3:& Some(false)};
 /// let b = ThreeAND{input1:& Some(false),input2:& Some(true),input3:& Some(false)};
 /// let c = ThreeAND{input1:& Some(false),input2:& Some(false),input3:& Some(true)};
@@ -249,21 +249,21 @@ impl<'a> LogicGate for ThreeAND<'a>{
 ///相同则为Some(true)
 /// # Examples
 /// ```
-/// use algori::structure::Xnor;
-/// use algori::structure::LogicGate;
-/// let a = Xnor{input1:&Some(true),input2:&Some(false)};
-/// let b = Xnor{input1:&Some(true),input2:&Some(true)};
-/// let c = Xnor{input1:&Some(false),input2:&Some(false)};
+/// use algori::logicgate::XNOR;
+/// use algori::logicgate::LogicGate;
+/// let a = XNOR{input1:&Some(true),input2:&Some(false)};
+/// let b = XNOR{input1:&Some(true),input2:&Some(true)};
+/// let c = XNOR{input1:&Some(false),input2:&Some(false)};
 /// assert_eq!(a.get_result(),Some(false));
 /// assert_eq!(b.get_result(),Some(true));
 /// assert_eq!(c.get_result(),Some(true));
 /// ```
-pub struct Xnor<'a>{
+pub struct XNOR<'a>{
     pub input1: &'a Option<bool>,
     pub input2: &'a Option<bool>,
 }
 
-impl<'a> LogicGate for Xnor<'a>{
+impl<'a> LogicGate for XNOR<'a>{
     fn get_result(&self) ->Option<bool> {
 	let a:XOR = XOR{input1:self.input1,input2:self.input2};
 	let b:NOT = NOT{input: &a.get_result()};
@@ -275,7 +275,7 @@ use std::time::Duration;
 ///延迟线
 ///# Examples
 ///```
-/// use algori::structure::DelayLine;
+/// use algori::logicgate::DelayLine;
 /// let a = DelayLine{delay: 20,input: &Some(true)};
 /// 
 /// a.get_result();
@@ -298,7 +298,7 @@ impl<'a> DelayLine<'a> {
 ///输出一个包含低位结果与进位的元组
 /// # Examples
 ///```
-///use algori::structure::HalfAdder;
+///use algori::logicgate::HalfAdder;
 ///let a:HalfAdder = HalfAdder{input1:&Some(true),input2:&Some(false)};
 ///assert_eq!(a.get_result(),(Some(true),Some(false)));
 ///let a:HalfAdder = HalfAdder{input1:&Some(true),input2:&Some(true)};
@@ -323,7 +323,7 @@ impl<'a> HalfAdder<'a>{
 ///全加器
 /// # Examples
 ///```
-///use algori::structure::FullAdder;
+///use algori::logicgate::FullAdder;
 ///let a:FullAdder = FullAdder{input1:&Some(true),input2:&Some(false),input3:&Some(false)};
 ///assert_eq!(a.get_result(),(Some(true),Some(false)));
 ///let a:FullAdder = FullAdder{input1:&Some(true),input2:&Some(true),input3:&Some(false)};
@@ -353,8 +353,8 @@ impl<'a> FullAdder<'a> {
 ///一位开关
 /// # Examples
 ///```
-///use algori::structure::Switch;
-///use crate::algori::structure::LogicGate;
+///use algori::logicgate::Switch;
+///use crate::algori::logicgate::LogicGate;
 /// let a:Switch = Switch{switch: &Some(true),input:&Some(false)};
 ///assert_eq!(a.get_result(),Some(false));
 ///```
@@ -375,8 +375,8 @@ impl<'a> LogicGate for Switch<'a> {
 ///八位开关
 /// # Examples
 ///```
-///use algori::structure::Switch;
-///use crate::algori::structure::LogicGate;
+///use algori::logicgate::Switch;
+///use crate::algori::logicgate::LogicGate;
 /// let a:Switch = Switch{switch: &Some(true),input:&Some(false)};
 ///assert_eq!(a.get_result(),Some(false));
 ///```
@@ -397,7 +397,7 @@ impl<'a>  EightSwitch<'a> {
 ///八位分线器
 /// # Examples
 ///```
-///use algori::structure::EightBitSplitter;
+///use algori::logicgate::EightBitSplitter;
 ///let a:EightBitSplitter = EightBitSplitter{input: 201};
 ///let a = a.get_result();
 ///assert_eq!(a,(Some(true),Some(false),Some(false),Some(true),Some(false),Some(false),Some(true),Some(true)));
@@ -428,7 +428,7 @@ impl EightBitSplitter {
 ///八位集线器
 /// # Examples
 /// ```
-/// use algori::structure::EightBitMux;
+/// use algori::logicgate::EightBitMux;
 /// let a = EightBitMux{input1:& Some(true),input2:& Some(false),input3:& Some(false),input4:& Some(true),input5:& Some(false),input6:& Some(false),input7:& Some(true),input8:& Some(true)};
 /// assert_eq!(a.get_result(),201);
 /// let a = EightBitMux{input1:& Some(false),input2: & Some(false),input3: & Some(true),input4: & Some(true),input5: & Some(false),input6: & Some(true),input7: & Some(true),input8: & Some(false)};
@@ -464,7 +464,7 @@ impl<'a> EightBitMux<'a> {
 /// ## return 1 EightBit Output and Carry bool
 /// # Examples
 /// ```
-///    use algori::structure::EightBitAdder;
+///    use algori::logicgate::EightBitAdder;
 ///         let adder = EightBitAdder {
 ///             input1: &Some(false),
 ///             input2: 1_i32,
@@ -514,7 +514,7 @@ impl<'a> EightBitAdder<'a> {
 ///八位非
 /// # Examples
 /// ```
-///    use algori::structure::EightBitNOT;
+///    use algori::logicgate::EightBitNOT;
 ///    let a = EightBitNOT{input: 80}.get_result();
 ///    assert_eq!(a,175);
 /// ```
@@ -540,7 +540,7 @@ impl EightBitNOT {
 ///八位或
 /// # Examples
 /// ```
-///    use algori::structure::EightBitOR;
+///    use algori::logicgate::EightBitOR;
 ///    let a = EightBitOR{input1: 80,input2:21}.get_result();
 ///    assert_eq!(a,85);
 /// ```
@@ -570,7 +570,7 @@ impl EightBitOR {
 /// # 当input1为false时输出input2, input1为true输出input3
 /// # Examples
 /// ```
-/// use algori::structure::DataSelector;
+/// use algori::logicgate::DataSelector;
 /// let a = DataSelector{input1:&Some(false),input2:20,input3:10}.get_result();
 /// assert_eq!(a,20);
 /// let a = DataSelector{input1:&Some(true),input2:20,input3:10}.get_result();
@@ -606,7 +606,7 @@ impl<'a> DataSelector<'a>{
 /// true|true|true|8
 /// # Examples
 /// ```
-/// use algori::structure::ThreeDecoder;
+/// use algori::logicgate::ThreeDecoder;
 /// let a = ThreeDecoder{input1: &Some(false),input2:&Some(false),input3:&Some(false),switch:&Some(false)}.get_result();
 /// assert_eq!(a,(Some(true),Some(false),Some(false),Some(false),Some(false),Some(false),Some(false),Some(false)));
 /// let a = ThreeDecoder{input1: &Some(false),input2:&Some(false),input3:&Some(true),switch:&Some(false)}.get_result();
@@ -654,4 +654,4 @@ impl<'a> ThreeDecoder<'a> {
     }
 }
 
-pub struct ALUa
+
