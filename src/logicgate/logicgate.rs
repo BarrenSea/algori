@@ -398,12 +398,12 @@ impl<'a>  EightSwitch<'a> {
 /// # Examples
 ///```
 ///use algori::logicgate::EightBitSplitter;
-///let a:EightBitSplitter = EightBitSplitter{input: 201};
+///let a:EightBitSplitter = EightBitSplitter{input: -55};
 ///let a = a.get_result();
 ///assert_eq!(a,(Some(true),Some(false),Some(false),Some(true),Some(false),Some(false),Some(true),Some(true)));
-/// let a:EightBitSplitter = EightBitSplitter{input:-55.};
+/// let a:EightBitSplitter = EightBitSplitter{input: 33};
 /// let a = a.get_result();
-/// assert_eq!(a,(Some(false),Some(false),Some(true),Some(true),Some(false),Some(true),Some(true),Some(false)));
+/// assert_eq!(a,(Some(true),Some(false),Some(false),Some(false),Some(false),Some(true),Some(false),Some(false)));
 ///```
 pub struct EightBitSplitter{
     pub input: i8,
@@ -511,6 +511,72 @@ impl<'a> EightBitAdder<'a> {
     }
 }
 
+
+/// 八位高电平 输出1
+/// # Examples
+/// ```
+/// use algori::logicgate::EightHighLevel;
+/// let a = EightHighLevel{};
+/// assert_eq!(a.get_result(),1);
+/// ```
+pub struct EightHighLevel{
+}
+impl  EightHighLevel {
+    pub fn get_result(&self) -> i8 {
+	1
+    }
+}
+
+/// 八位低电平 输出0
+/// # Examples
+/// ```
+/// use algori::logicgate::EightLowLevel;
+/// let a = EightLowLevel{};
+/// assert_eq!(a.get_result(),0);
+/// ```
+pub struct EightLowLevel{
+}
+
+impl  EightLowLevel {
+    pub fn get_result(&self) -> i8 {
+	0
+    }
+}
+
+
+///八位取反器
+/// # 输出相反数
+/// # Examples
+/// ```
+/// use algori::logicgate::EightBitNEG;
+/// let b = EightBitNEG{input: 10}.get_result();
+/// assert_eq!(b, -10);
+///
+/// ```
+pub struct EightBitNEG{
+    pub input: i8,
+}
+impl EightBitNEG{
+    pub fn get_result(&self) ->i8 {
+	let a = EightBitNOT{input:self.input}.get_result();
+	let b = EightHighLevel{}.get_result();
+	EightBitAdder{input1:&None,input2: b, input3: a}.get_result().0
+    }
+}
+
+///八位减法器
+pub struct EightBitSubber{
+    pub input1: i8,
+    pub input2: i8,
+}
+impl EightBitSubber{
+    pub fn get_result(&self) -> i8 {
+	let b = EightBitNEG{input: self.input1 }.get_result();
+	EightBitAdder{input1: &None,input2: b,input3: self.input2}.get_result().0
+
+    }
+}
+
 ///八位非
 /// # Examples
 /// ```
@@ -534,6 +600,92 @@ impl EightBitNOT {
 	let h = NOT{input:& a.6}.get_result();
 	let i = NOT{input:& a.7}.get_result();
 	EightBitMux{input1:& b,input2:& c,input3:& d,input4:& e,input5:& f,input6:& g,input7:& h,input8:& i}.get_result()
+    }
+}
+
+///八位与非
+/// # Examples
+/// ```
+///    use algori::logicgate::EightBitNAND;
+///    let a = EightBitNAND{input1: 80,input2:21}.get_result();
+///    assert_eq!(a,-17);
+/// ```
+pub struct EightBitNAND{
+    pub input1: i8,
+    pub input2: i8,
+}
+
+impl EightBitNAND {
+    pub fn get_result(&self) -> i8 {
+	let a = EightBitSplitter{input: self.input1}.get_result();
+	let b = EightBitSplitter{input: self.input2}.get_result();
+	let c = NAND{input1:& a.0,input2:& b.0}.get_result();
+	let d = NAND{input1:& a.1,input2:& b.1}.get_result();
+	let e = NAND{input1:& a.2,input2:& b.2}.get_result();
+	let f = NAND{input1:& a.3,input2:& b.3}.get_result();
+	let g = NAND{input1:& a.4,input2:& b.4}.get_result();
+	let h = NAND{input1:& a.5,input2:& b.5}.get_result();
+	let i = NAND{input1:& a.6,input2:& b.6}.get_result();
+	let j = NAND{input1:& a.7,input2:& b.7}.get_result();
+	EightBitMux{input1:& c,input2: & d,input3:& e,input4:& f,input5:& g,input6:& h,input7:& i,input8:& j}.get_result()
+    }
+}
+///八位与
+/// # Examples
+/// ```
+///    use algori::logicgate::EightBitAND;
+///    let a = EightBitAND{input1: 80,input2:21}.get_result();
+///    assert_eq!(a,16);
+/// ```
+pub struct EightBitAND{
+    pub input1: i8,
+    pub input2: i8,
+}
+
+impl EightBitAND {
+    pub fn get_result(&self) -> i8 {
+	let a = EightBitSplitter{input: self.input1}.get_result();
+	let b = EightBitSplitter{input: self.input2}.get_result();
+	let c = AND{input1:& a.0,input2:& b.0}.get_result();
+	let d = AND{input1:& a.1,input2:& b.1}.get_result();
+	let e = AND{input1:& a.2,input2:& b.2}.get_result();
+	let f = AND{input1:& a.3,input2:& b.3}.get_result();
+	let g = AND{input1:& a.4,input2:& b.4}.get_result();
+	let h = AND{input1:& a.5,input2:& b.5}.get_result();
+	let i = AND{input1:& a.6,input2:& b.6}.get_result();
+	let j = AND{input1:& a.7,input2:& b.7}.get_result();
+	EightBitMux{input1:& c,input2: & d,input3:& e,input4:& f,input5:& g,input6:& h,input7:& i,input8:& j}.get_result()
+    }
+}
+
+
+
+
+///八位或非
+/// # Examples
+/// ```
+///    use algori::logicgate::EightBitNOR;
+///    let a = EightBitNOR{input1: 80,input2:21}.get_result();
+///    assert_eq!(a,-17);
+/// ```
+pub struct EightBitNOR{
+    pub input1: i8,
+    pub input2: i8,
+}
+
+impl EightBitNOR {
+    pub fn get_result(&self) -> i8 {
+	let a = EightBitSplitter{input: self.input1}.get_result();
+	let b = EightBitSplitter{input: self.input2}.get_result();
+	let c = NAND{input1:& a.0,input2:& b.0}.get_result();
+	let d = NAND{input1:& a.1,input2:& b.1}.get_result();
+	let e = NAND{input1:& a.2,input2:& b.2}.get_result();
+	let f = NAND{input1:& a.3,input2:& b.3}.get_result();
+	let g = NAND{input1:& a.4,input2:& b.4}.get_result();
+	let h = NAND{input1:& a.5,input2:& b.5}.get_result();
+	let i = NAND{input1:& a.6,input2:& b.6}.get_result();
+	let j = NAND{input1:& a.7,input2:& b.7}.get_result();
+	EightBitMux{input1:& c,input2: & d,input3:& e,input4:& f,input5:& g,input6:& h,input7:& i,input8:& j}.get_result()
     }
 }
 
@@ -663,9 +815,22 @@ impl<'a> ThreeDecoder<'a> {
 /// 5. operation = 4 -> ADD
 /// 6. operation = 5 -> SUB
 
-pub struct EightALU {
+pub struct EightBitALU {
     ///操作码
     operation: i8,
     input1: i8,
     input2: i8,
 }
+
+// impl EightBitALU {
+//     pub fn get_result(&self) -> i8 {
+// 	let splitter = EightBitSplitter{input: self.operation}.get_result();
+// 	let decoder = ThreeDecoder{switch:&None,input1: &splitter.0,input2:&splitter.1,input3:&splitter.2}.get_result();
+// 	match decoder {
+// 	    (Some(true), ..) => return EightBitOR{input1: self.input1,input2:self.input2}.get_result(),
+// 	    (Some(false),Some(true),..) => return EightBitNAND{input1: self.input1,input2:self.input2}.get_result(),
+// 	    (Some(false),Some(false),Some(true),..) => return EightBitNOR{input1: self.input1,input2: self.input2}.get_result(),
+// 	    (Some(false),Some(false),Some(false),Some(false)) => return EightBitAND
+// 	}
+//     }
+// }
