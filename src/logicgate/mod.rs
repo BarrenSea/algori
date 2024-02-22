@@ -34,3 +34,4 @@ pub use self::logicgate::EightBitSubber as EightBitSubber;
 pub use self::logicgate::EightBitNEG as EightBitNEG;
 pub use self::logicgate::EightLowLevel as EightLowLevel;
 pub use self::logicgate::EightHighLevel as EightHighLevel;
+pub use self::logicgate::EightBitALU as EightBitALU;

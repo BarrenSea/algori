@@ -565,6 +565,16 @@ impl EightBitNEG{
 }
 
 ///八位减法器
+/// # Examples
+/// ```
+/// use algori::logicgate::EightBitSubber;
+/// let a = EightBitSubber{input1:19,input2:20}.get_result();
+/// assert_eq!(a,-1);
+/// let a = EightBitSubber{input1:39,input2:20}.get_result();
+/// assert_eq!(a,19);
+/// let q = EightBitSubber{input1: -20,input2: -100}.get_result();
+/// assert_eq!(q,80);
+/// ```
 pub struct EightBitSubber{
     pub input1: i8,
     pub input2: i8,
@@ -572,8 +582,7 @@ pub struct EightBitSubber{
 impl EightBitSubber{
     pub fn get_result(&self) -> i8 {
 	let b = EightBitNEG{input: self.input1 }.get_result();
-	EightBitAdder{input1: &None,input2: b,input3: self.input2}.get_result().0
-
+	EightBitNEG{input: EightBitAdder{input1: &None,input2: b,input3: self.input2}.get_result().0}.get_result()
     }
 }
 
@@ -814,23 +823,31 @@ impl<'a> ThreeDecoder<'a> {
 /// 4. operation = 3 -> AND
 /// 5. operation = 4 -> ADD
 /// 6. operation = 5 -> SUB
-
+///
+/// # Examples
+/// ```
+/// use algori::logicgate::EightBitALU; 
+/// let a = EightBitALU {operation: 0 , input1: -76, input2: 92}.get_result();
+/// assert_eq!(a,-4);
+/// ```
 pub struct EightBitALU {
     ///操作码
-    operation: i8,
-    input1: i8,
-    input2: i8,
+    pub operation: i8,
+    pub input1: i8,
+    pub input2: i8,
 }
 
-// impl EightBitALU {
-//     pub fn get_result(&self) -> i8 {
-// 	let splitter = EightBitSplitter{input: self.operation}.get_result();
-// 	let decoder = ThreeDecoder{switch:&None,input1: &splitter.0,input2:&splitter.1,input3:&splitter.2}.get_result();
-// 	match decoder {
-// 	    (Some(true), ..) => return EightBitOR{input1: self.input1,input2:self.input2}.get_result(),
-// 	    (Some(false),Some(true),..) => return EightBitNAND{input1: self.input1,input2:self.input2}.get_result(),
-// 	    (Some(false),Some(false),Some(true),..) => return EightBitNOR{input1: self.input1,input2: self.input2}.get_result(),
-// 	    (Some(false),Some(false),Some(false),Some(false)) => return EightBitAND
-// 	}
-//     }
-// }
+ impl EightBitALU {
+     pub fn get_result(&self) -> i8 {
+ 	let splitter = EightBitSplitter{input: self.operation}.get_result();
+	let decoder = ThreeDecoder{switch:&None,input1: &splitter.0,input2:&splitter.1,input3:&splitter.2}.get_result();
+	match decoder {
+	    (Some(true),Some(false),Some(false), ..) => return EightBitOR{input1: self.input1,input2:self.input2}.get_result(),
+	    (Some(false),Some(true),Some(false),..) => return EightBitNAND{input1: self.input1,input2:self.input2}.get_result(),
+	    (Some(false),Some(false),Some(true),..) => return EightBitNOR{input1: self.input1,input2: self.input2}.get_result(),
+	    (Some(true),Some(true),Some(false),..) => return EightBitAND{input1: self.input1,input2: self.input2}.get_result(),
+	    (Some(false),Some(false),Some(true),..) => return EightBitAdder{input1: &None,input2 :self.input1,input3:self.input2}.get_result().0,
+	    _ => return EightBitSubber{input1 :self.input1,input2:self.input2}.get_result(),
+	}
+    }
+}
