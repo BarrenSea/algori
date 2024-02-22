@@ -382,11 +382,11 @@ impl<'a> LogicGate for Switch<'a> {
 ///```
 pub struct EightSwitch<'a> {
     pub switch: &'a Option<bool>,
-    pub input: i32,
+    pub input: i8,
 }
 
 impl<'a>  EightSwitch<'a> {
-    fn get_result(&self) -> Option<i32> {
+    fn get_result(&self) -> Option<i8> {
 	if *self.switch == Some(true) {
 	    return Some(self.input);
 	}
@@ -401,12 +401,12 @@ impl<'a>  EightSwitch<'a> {
 ///let a:EightBitSplitter = EightBitSplitter{input: 201};
 ///let a = a.get_result();
 ///assert_eq!(a,(Some(true),Some(false),Some(false),Some(true),Some(false),Some(false),Some(true),Some(true)));
-/// let a:EightBitSplitter = EightBitSplitter{input:108};
+/// let a:EightBitSplitter = EightBitSplitter{input:-55.};
 /// let a = a.get_result();
 /// assert_eq!(a,(Some(false),Some(false),Some(true),Some(true),Some(false),Some(true),Some(true),Some(false)));
 ///```
 pub struct EightBitSplitter{
-    pub input: i32,
+    pub input: i8,
 }
 
 impl EightBitSplitter {
@@ -418,7 +418,7 @@ impl EightBitSplitter {
         let bit5 = (self.input & 16) != 0;
         let bit6 = (self.input & 32) != 0;
         let bit7 = (self.input & 64) != 0;
-        let bit8 = (self.input & 128) != 0;
+        let bit8 = (self.input & -128) != 0;
 
         (Some(bit1), Some(bit2), Some(bit3), Some(bit4), Some(bit5), Some(bit6), Some(bit7),Some(bit8))
     }
@@ -430,7 +430,7 @@ impl EightBitSplitter {
 /// ```
 /// use algori::logicgate::EightBitMux;
 /// let a = EightBitMux{input1:& Some(true),input2:& Some(false),input3:& Some(false),input4:& Some(true),input5:& Some(false),input6:& Some(false),input7:& Some(true),input8:& Some(true)};
-/// assert_eq!(a.get_result(),201);
+/// assert_eq!(a.get_result(),-55);
 /// let a = EightBitMux{input1:& Some(false),input2: & Some(false),input3: & Some(true),input4: & Some(true),input5: & Some(false),input6: & Some(true),input7: & Some(true),input8: & Some(false)};
 /// assert_eq!(a.get_result(),108);
 /// ```
@@ -446,29 +446,29 @@ pub struct EightBitMux<'a> {
 }
 
 impl<'a> EightBitMux<'a> {
-    pub fn get_result(&self) -> i32 {
-        let result = (self.input8.unwrap_or(false) as i32) << 7 |
-                     (self.input7.unwrap_or(false) as i32) << 6 |
-                     (self.input6.unwrap_or(false) as i32) << 5 |
-                     (self.input5.unwrap_or(false) as i32) << 4 |
-                     (self.input4.unwrap_or(false) as i32) << 3 |
-                     (self.input3.unwrap_or(false) as i32) << 2 |
-                     (self.input2.unwrap_or(false) as i32) << 1 |
-                     (self.input1.unwrap_or(false) as i32);
+    pub fn get_result(&self) -> i8 {
+        let result = (self.input8.unwrap_or(false) as i8) << 7 |
+                     (self.input7.unwrap_or(false) as i8) << 6 |
+                     (self.input6.unwrap_or(false) as i8) << 5 |
+                     (self.input5.unwrap_or(false) as i8) << 4 |
+                     (self.input4.unwrap_or(false) as i8) << 3 |
+                     (self.input3.unwrap_or(false) as i8) << 2 |
+                     (self.input2.unwrap_or(false) as i8) << 1 |
+                     (self.input1.unwrap_or(false) as i8);
         result
     }
 }
 
 ///八位加法器
-/// # get 1 bool input and 2 i32 inputs
+/// # get 1 bool input and 2 i8 inputs
 /// ## return 1 EightBit Output and Carry bool
 /// # Examples
 /// ```
 ///    use algori::logicgate::EightBitAdder;
 ///         let adder = EightBitAdder {
 ///             input1: &Some(false),
-///             input2: 1_i32,
-///             input3: 1_i32,
+///             input2: 1_i8,
+///             input3: 1_i8,
 ///         };
 ///         let result = adder.get_result();
 ///
@@ -483,14 +483,14 @@ impl<'a> EightBitMux<'a> {
 /// ```
 pub struct EightBitAdder<'a>{
     pub input1: &'a Option<bool>,
-    pub input2: i32,
-    pub input3: i32,
+    pub input2: i8,
+    pub input3: i8,
 }
 
 impl<'a> EightBitAdder<'a> {
     /// 返回 (低八位结果, 进位)
 
-    pub fn get_result(&self) -> (i32, Option<bool>) {
+    pub fn get_result(&self) -> (i8, Option<bool>) {
         // 分割输入
         let splitter_one = EightBitSplitter { input: self.input2 }.get_result();
         let splitter_two = EightBitSplitter { input: self.input3 }.get_result();
@@ -516,14 +516,14 @@ impl<'a> EightBitAdder<'a> {
 /// ```
 ///    use algori::logicgate::EightBitNOT;
 ///    let a = EightBitNOT{input: 80}.get_result();
-///    assert_eq!(a,175);
+///    assert_eq!(a, -81);
 /// ```
 pub struct EightBitNOT{
-    pub input: i32,
+    pub input: i8,
 }
 
 impl EightBitNOT {
-    pub fn get_result(&self) -> i32 {
+    pub fn get_result(&self) -> i8 {
 	let a = EightBitSplitter{input: self.input}.get_result();
 	let b = NOT{input:& a.0}.get_result();
 	let c = NOT{input:& a.1}.get_result();
@@ -545,12 +545,12 @@ impl EightBitNOT {
 ///    assert_eq!(a,85);
 /// ```
 pub struct EightBitOR{
-    pub input1: i32,
-    pub input2: i32,
+    pub input1: i8,
+    pub input2: i8,
 }
 
 impl EightBitOR {
-    pub fn get_result(&self) -> i32 {
+    pub fn get_result(&self) -> i8 {
 	let a = EightBitSplitter{input: self.input1}.get_result();
 	let b = EightBitSplitter{input: self.input2}.get_result();
 	let c = OR{input1:& a.0,input2:& b.0}.get_result();
@@ -578,12 +578,12 @@ impl EightBitOR {
 ///```
 pub struct DataSelector<'a>{
     pub input1: &'a Option<bool>,
-    pub input2: i32,
-    pub input3: i32,
+    pub input2: i8,
+    pub input3: i8,
 }
 
 impl<'a> DataSelector<'a>{
-    pub fn get_result(&self) -> i32 {
+    pub fn get_result(&self) -> i8 {
 	if *self.input1 ==Some(true) {
 	    return self.input3;
 	}
@@ -654,4 +654,18 @@ impl<'a> ThreeDecoder<'a> {
     }
 }
 
+///八位算术引擎
+/// # Operation
+/// 1. operation = 0 -> OR
+/// 2. operation = 1 -> NAND
+/// 3. operation = 2 -> NOR
+/// 4. operation = 3 -> AND
+/// 5. operation = 4 -> ADD
+/// 6. operation = 5 -> SUB
 
+pub struct EightALU {
+    ///操作码
+    operation: i8,
+    input1: i8,
+    input2: i8,
+}
