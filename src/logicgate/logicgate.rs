@@ -272,27 +272,26 @@ impl<'a> LogicGate for XNOR<'a>{
 }
 
 use std::time::Duration;
-///延迟线
-///# Examples
-///```
-/// use algori::logicgate::DelayLine;
-/// let a = DelayLine{delay: 20,input: &Some(true)};
-/// 
-/// a.get_result();
-///```
+/////延迟线
+/////# Examples
+/////```
+///// use algori::logicgate::DelayLine;
+///// let a = DelayLine{delay: 20,input: &Some(true)};
+///// 
+///// a.get_result();
+/////```
 
-pub struct DelayLine<'a> {
-    /// 延迟时间，单位为毫秒
-    pub delay: u64,
-    pub input: &'a Option<bool>,
-}
+// pub struct DelayLine<'a> {
+//     /// 延迟时间，单位为毫秒
+//     pub input: &'a[Option<bool>;2],
+// }
 
-impl<'a> DelayLine<'a> {
-    pub fn get_result(&self) -> Option<bool> {
-        std::thread::sleep(Duration::from_millis(self.delay));
-        *self.input
-    }
-}
+// impl<'a> DelayLine<'a> {
+//     pub fn get_result(&self) -> Option<bool> {
+//         std::thread::sleep(Duration::from_millis(self.delay));
+//         *self.input
+//     }
+// }
 
 ///半加器
 ///输出一个包含低位结果与进位的元组

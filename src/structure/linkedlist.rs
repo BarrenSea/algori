@@ -1,67 +1,47 @@
-/// 链表节点
-#[derive(Debug)]
-pub struct Node<T> {
-    pub value: T,
-    pub next: Option<Box<Node<T>>>,
-}
-
-/// 链表
+/// # 单向链表
 /// # Examples
 /// ```
-/// use algori::structure::LinkedList;
-///let mut a:LinkedList<i32> = LinkedList::new(); ///创建一个i32的链表
-///for i in 0..101 { ///插入100个节点
-/// a.push(i);
-///}
-///let b = a.search(&9);
-///println!("{:?}",b);
-///```
-pub struct LinkedList<T> {
-    pub head: Option<Box<Node<T>>>,
+/// use algori::structure::List;
+/// //create a list
+/// let mut a  = List::new();
+/// a = a.prepend("hi");
+/// a = a.prepend("hellow");
+/// assert_eq!(a.len(),2);
+/// ```
+pub enum List<T> {
+    Node(T, Box<List<T>>),
+    ///最后一个结点
+    Nil,
 }
 
-impl<T: std::cmp::PartialEq> LinkedList<T> {
-    /// 创建一个新的空链表
-    pub fn new() -> Self {
-        LinkedList { head: None }
+impl<T: std::fmt::Display> List<T> {
+    /// 创建空链表
+    pub fn new() -> List<T> {
+        List::Nil
+    }
+    ///在前面创建一个联表
+    pub fn prepend(self, element: T) -> List<T> {
+        List::Node(element, Box::new(self))
     }
 
-    /// 在链表头部插入一个新节点
-    pub fn push(&mut self, value: T) {
-        let new_node = Node {
-            value: value,
-            next: self.head.take(),
-        };
-        self.head = Some(Box::new(new_node));
-    }
-
-    /// 移除并返回链表头部的节点
-    pub fn pop(&mut self) -> Option<T> {
-        self.head.take().map(|node| {
-            self.head = node.next;
-            node.value
-        })
-    }
-
-    /// 返回链表头部节点的引用
-    pub fn peek(&self) -> Option<&T> {
-        self.head.as_ref().map(|node| &node.value)
-    }
-
-    /// 检查链表是否为空
-    pub fn is_empty(&self) -> bool {
-        self.head.is_none()
-    }
-    ///链表搜索,返回指针
-    pub fn search(&self, value: &T) -> Option<&Node<T>> {
-        let mut current = &self.head;
-        while let Some(node) = current {
-            if &node.value == value {
-                return Some(node);
-            }
-            current = &node.next;
+    /// 返回链表的长度
+    pub fn len(&self) -> u32 {
+        match self {
+            List::Node(_,  tail) => 1 + tail.len(),
+            List::Nil => 0
         }
-        None
+    }
+
+    /// 输出
+    pub fn print(&self) -> String {
+        match self {
+            List::Node(head, tail) => {
+                format!("{}, {}", head, tail.print())
+            },
+            List::Nil => {
+                format!("Nil")
+            },
+        }
     }
 }
 

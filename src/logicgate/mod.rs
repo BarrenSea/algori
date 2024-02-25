@@ -15,7 +15,7 @@ pub use self::logicgate::XOR as XOR;
 pub use self::logicgate::ThreeOR as ThreeOR;
 pub use self::logicgate::ThreeAND as ThreeAND;
 pub use self::logicgate::XNOR as XNOR;
-pub use self::logicgate::DelayLine as DelayLine;
+//pub use self::logicgate::DelayLine as DelayLine;
 pub use self::logicgate::HalfAdder as HalfAdder;
 pub use self::logicgate::FullAdder as FullAdder;
 pub use self::logicgate::Switch as Switch;
