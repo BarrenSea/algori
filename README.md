@@ -4,7 +4,7 @@
 [![Matrix](https://img.shields.io/matrix/algori%3Amozilla.org?style=flat)](https://matrix.to/#/#algori:mozilla.org?style=flat-square&logo=matrix)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/donjuanplatinum/algori?style=plastic&logoColor=yellow&color=blue)
 ![GitHub language count](https://img.shields.io/github/languages/count/donjuanplatinum/algori?style=flat-square&logo=rust&logoColor=black&color=black)
-
+![GitHub Contributors](https://img.shields.io/github/contributors/donjuanplatinum/algori?style=flat&color=green)
 
 <img src=./algori.png width="30%" >
 
