@@ -9,7 +9,7 @@
 ///let c = heap_max_sort(&mut a);
 ///assert_eq!(a,[1,3,4,5,6,6,7,9,65,65]);
 ///```
-fn max<T: Ord>(arr: &mut [T], i: usize) {
+fn max<T: PartialOrd>(arr: &mut [T], i: usize) {
     let mut n: usize = i ;
     //循还下滤
     loop {
@@ -39,7 +39,7 @@ fn max<T: Ord>(arr: &mut [T], i: usize) {
 }
 
 //建堆
-fn build_max<T: Ord>(arr: &mut [T]) {
+fn build_max<T: PartialOrd>(arr: &mut [T]) {
 
     let n = arr.len();
     // n/2为拥有子结点的下标最大的
@@ -50,7 +50,7 @@ fn build_max<T: Ord>(arr: &mut [T]) {
 ///大根堆排序
 ///
 ///获取一个可变引用并排序
-pub fn heap_sort<T: Ord>(arr: &mut [T]) {
+pub fn heap_sort<T: PartialOrd>(arr: &mut [T]) {
     let n = arr.len();
     build_max(arr);
     for i in (0..n).rev() {
