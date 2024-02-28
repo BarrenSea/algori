@@ -19,12 +19,14 @@ mod radix;
 ///pdq排序
 mod pattern;
 
+
 pub use self::insertion::sort as insertion_sort;
 pub use self::binary::sort as binary_sort;
 pub use self::bubble::sort as bubble_sort;
 pub use self::selection::sort as selection_sort;
 pub use self::merge::sort as merge_sort;
 pub use self::heap::heap_sort as heap_sort;
+pub use self::heap::build_max as build_max;
 pub use self::quicksort::quicksort as quicksort;
 pub use self::count::count_sort as count_sort;
 pub use self::radix::radix_sort as radix_sort;
