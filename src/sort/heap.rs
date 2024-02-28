@@ -39,7 +39,7 @@ fn max<T: PartialOrd>(arr: &mut [T], i: usize) {
 }
 
 //建堆
-fn build_max<T: PartialOrd>(arr: &mut [T]) {
+pub fn build_max<T: PartialOrd>(arr: &mut [T]) {
 
     let n = arr.len();
     // n/2为拥有子结点的下标最大的
