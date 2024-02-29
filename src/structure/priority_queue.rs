@@ -1,60 +1,47 @@
-///最大优先序列
-///# Examples
-///```
-///use algori::structure::MaxPriorityQueue;
-///let mut a: MaxPriorityQueue<i32> = MaxPriorityQueue::new();
-///let b = [3,2,6,1,0,99,2,3,7,1,3,7,9];
-///for i in b.into_iter() {
-/// a.push(i); //压入元素
-///}
-///let c = a.pop(); //弹出最大元素
-///assert_eq!(c,Some(99));
-///```
-
-pub struct MaxPriorityQueue<T> {
-    pub heap:Vec<T>,
+///最大优先队列
+pub struct MaxPriQueue<T: PartialOrd>{
+    heap: Vec<T>,
 }
 
-impl<T: Ord> MaxPriorityQueue<T> {
-    ///创建新序列
-    pub fn new() -> MaxPriorityQueue<T> {
-	MaxPriorityQueue {heap: vec![]}
+impl<T: PartialOrd> MaxPriQueue<T> {
+    ///返回一个最大优先队列
+    pub fn new() -> Self {
+	MaxPriQueue{heap: Vec::new()}
     }
-    ///压入新元素
-    pub fn push(&mut self, value: T) {
-	self.heap.push(value);
-        let mut i = self.heap.len() - 1;
-        while i > 0 && self.heap[(i - 1) / 2] < self.heap[i] {
-            self.heap.swap(i, (i - 1) / 2);
-            i = (i - 1) / 2;
-        }
+    ///返回最大堆的最大值,不获得所有权
+    pub fn max(&self) ->Result<&T,&str> {
+	if self.heap.len() < 1 {
+	    return Result::Err("heap underflow");
+	}
+	Ok(&self.heap[0])
     }
-    ///弹出最大元素
-    pub fn pop(&mut self) -> Option<T>{
+    ///弹出第一个元素,获得所有权
+    pub fn extract(&mut self) ->Result<T,&str> {
 	if self.heap.is_empty() {
-            return None;
-        }
-        let result = Some(self.heap.swap_remove(0));
-        let mut i = 0;
-        while 2 * i + 1 < self.heap.len() {
-            let left = 2 * i + 1;
-            let right = 2 * i + 2;
-            let mut largest = i;
-            if self.heap[left] > self.heap[largest] {
-                largest = left;
-            }
-            if right < self.heap.len() && self.heap[right] > self.heap[largest] {
-                largest = right;
-            }
-            if largest == i {
-                break;
-            }
-            self.heap.swap(i, largest);
-            i = largest;
-        }
-        result
+	    return Result::Err("heap underflow");
+	}
+	//弹出第一个元素
+	let max = Ok(self.heap.swap_remove(0));
+	if !self.heap.is_empty() {
+	    crate::sort::build_max(&mut self.heap);
+	}
+	max
+    }
+    ///更改下标为index的结点的key
+    pub fn increase_key(&mut self,key:T,index: usize) -> Result<(),&str>{
+	if key < self.heap[index]{
+	    return Err("The key is smaller than old");
+	}
+	self.heap[index] = key;
+	let mut index = index;
+	while index > 0 && self.heap[(index - 1) / 2] < self.heap[index] {
+	    self.heap.swap(index,(index - 1) / 2);
+	    index = (index + 1) / 2 - 1;
+	}
+	Ok(())
+    }
+    pub fn insert(&mut self, key: T) ->() {
+	self.heap.push(key);
+	crate::sort::build_max(&mut self.heap);
     }
 }
-
-
-
