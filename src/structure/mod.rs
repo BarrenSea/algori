@@ -11,7 +11,8 @@ mod binarytree;
 ///指针
 mod pointer;
 
-pub use self::priority_queue::MaxPriorityQueue as MaxPriorityQueue;
+pub use self::priority_queue::MaxPriQueue as MaxPriQueue;
+pub use self::priority_queue::MinPriQueue as MinPriQueue;
 pub use self::stack::Stack as Stack;
 pub use self::complex::Complex as Complex;
 pub use self::binarytree::BinaryTree as BinaryTree;
