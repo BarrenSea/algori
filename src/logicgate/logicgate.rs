@@ -1,34 +1,65 @@
 ///逻辑门
 pub trait LogicGate {
-    fn get_result(&self) -> Option<bool>;
+    fn get_result(&self) -> Option<Signal>;
+}
+
+///信号
+pub enum Signal {
+    One,
+    Zero,
+    Eight(u8),
+}
+impl PartialEq for Signal {
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            (Signal::One, Signal::One) => true,
+            (Signal::Zero, Signal::Zero) => true,
+            (Signal::Eight(a), Signal::Eight(b)) => a == b,
+            _ => false,
+        }
+    }
+}
+
+use std::ops::BitAnd;
+
+
+impl BitAnd for Signal {
+    type Output = Option<Signal>;
+
+    fn bitand(self, other: Signal) -> Option<Signal> {
+        match (self, other) {
+            (Signal::One, Signal::One) => Some(Signal::One),
+            (Signal::Eight(a), Signal::Eight(b)) => Some(Signal::Eight(a & b)),
+            _ => None,
+        }
+    }
 }
 
 
-
-///与非门 全为true则为false
+///与非门 全为Signal::One则为false
 /// # Examples
 /// ```
 /// use algori::logicgate::NAND;
 /// use algori::logicgate::LogicGate;
-/// let a = NAND{input1: &Some(true), input2: &Some(false)};
-/// assert_eq!(a.get_result(),Some(true))
+/// let a = NAND{input1: &Some(Signal::One), input2: &Some(Signal::Zero)};
+/// assert_eq!(a.get_result(),Some(Signal::One))
 /// ```
 #[derive(PartialEq)]
 pub struct NAND<'a> {
-    pub input1: &'a Option<bool>,
-    pub input2: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
+    pub input2: &'a Option<Signal>,
 }
 
 
 impl<'a> LogicGate for NAND<'a> {
 
-    fn get_result(&self) -> Option<bool> {
-	if *self.input1 == Some(true){
-	    if *self.input2 == Some(true) {
-		return Some(false);
+    fn get_result(&self) -> Option<Signal> {
+	if *self.input1 == Some(Signal::One){
+	    if *self.input2 == Some(Signal::One) {
+		return Some(Signal::Zero);
 	    }
 	}
-	Some(true)
+	Some(Signal::One)
     }
 }
 
@@ -38,40 +69,40 @@ impl<'a> LogicGate for NAND<'a> {
 /// ```
 /// use algori::logicgate::NOT;
 /// use algori::logicgate::LogicGate;
-/// let a = NOT{input: &Some(true)};
-/// let b = NOT{input: &Some(false)};
-/// assert_eq!(a.get_result(),Some(false));
-/// assert_eq!(b.get_result(),Some(true));
+/// let a = NOT{input: &Some(Signal::One)};
+/// let b = NOT{input: &Some(Signal::Zero)};
+/// assert_eq!(a.get_result(),Some(Signal::Zero));
+/// assert_eq!(b.get_result(),Some(Signal::One));
 /// ```
 pub struct NOT<'a> {
-    pub input: &'a Option<bool>,
+    pub input: &'a Option<Signal>,
 }
 
 
 impl<'a> LogicGate for NOT<'a> {
-    fn get_result(&self) -> Option<bool> {
+    fn get_result(&self) -> Option<Signal> {
 	let a = NAND{input1: &self.input, input2: &self.input};
 	a.get_result()
     }
 }
-///或门 有true则为true
+///或门 有Signal::One则为Signal::One
 ///或门由三个与非门组成
 /// # Examples
 /// ```
 /// use algori::logicgate::OR;
 /// use algori::logicgate::LogicGate;
-/// let a = OR{input1: &Some(true),input2: &Some(false)};
-/// let b = OR{input1: &Some(false),input2: &Some(false)};
-/// assert_eq!(a.get_result(),Some(true));
-/// assert_eq!(b.get_result(),Some(false));
+/// let a = OR{input1: &Some(Signal::One),input2: &Some(Signal::Zero)};
+/// let b = OR{input1: &Some(Signal::Zero),input2: &Some(Signal::Zero)};
+/// assert_eq!(a.get_result(),Some(Signal::One));
+/// assert_eq!(b.get_result(),Some(Signal::Zero));
 /// ```
 pub struct OR<'a> {
-    pub input1: &'a Option<bool>,
-    pub input2: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
+    pub input2: &'a Option<Signal>,
 }
 
 impl<'a> LogicGate for OR<'a> {
-    fn get_result(&self) -> Option<bool> {
+    fn get_result(&self) -> Option<Signal> {
 	let a = NAND{input1: self.input1, input2: self.input1};
 	let b = NAND{input1: self.input2, input2: self.input2};
 	let c = NAND{input1: &a.get_result(),input2: &b.get_result()};
@@ -79,24 +110,24 @@ impl<'a> LogicGate for OR<'a> {
     }
 }
 
-///或非门 有true则为Some(false)
+///或非门 有Signal::One则为Some(Signal::Zero)
 ///或非门由四个与非门组成
 /// # Examples
 /// ```
 /// use algori::logicgate::NOR;
 /// use algori::logicgate::LogicGate;
-/// let a = NOR{input1: &Some(true),input2: &Some(false)};
-/// let b = NOR{input1: &Some(false),input2: &Some(false)};
-/// assert_eq!(a.get_result(),Some(false));
-/// assert_eq!(b.get_result(),Some(true));
+/// let a = NOR{input1: &Some(Signal::One),input2: &Some(Signal::Zero)};
+/// let b = NOR{input1: &Some(Signal::Zero),input2: &Some(Signal::Zero)};
+/// assert_eq!(a.get_result(),Some(Signal::Zero));
+/// assert_eq!(b.get_result(),Some(Signal::One));
 /// ```
 pub struct NOR<'a>{
-    pub input1: &'a Option<bool>,
-    pub input2: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
+    pub input2: &'a Option<Signal>,
 }
 
 impl<'a> LogicGate for NOR<'a> {
-    fn get_result(&self) -> Option<bool> {
+    fn get_result(&self) -> Option<Signal> {
 	let a = NAND{input1: self.input1, input2: self.input1};
 	let b = NAND{input1: self.input2, input2: self.input2};
 	let c = NAND{input1: &a.get_result(),input2: &b.get_result()};
@@ -104,79 +135,79 @@ impl<'a> LogicGate for NOR<'a> {
 	d.get_result()
     }
 }
-///与门 全为true则为true
+///与门 全为Signal::One则为Signal::One
 ///与门由两个与非门组成
 /// # Examples
 /// ```
 /// use algori::logicgate::AND;
 /// use algori::logicgate::LogicGate;
-/// let a = AND{input1: &Some(true),input2: &Some(false)};
-/// let b = AND{input1: &Some(true),input2: &Some(true)};
-/// assert_eq!(a.get_result(),Some(false));
-/// assert_eq!(b.get_result(),Some(true));
+/// let a = AND{input1: &Some(Signal::One),input2: &Some(Signal::Zero)};
+/// let b = AND{input1: &Some(Signal::One),input2: &Some(Signal::One)};
+/// assert_eq!(a.get_result(),Some(Signal::Zero));
+/// assert_eq!(b.get_result(),Some(Signal::One));
 /// ```
 pub struct AND<'a> {
-    pub input1: &'a Option<bool>,
-    pub input2: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
+    pub input2: &'a Option<Signal>,
 }
 
 impl<'a> LogicGate for AND<'a> {
-    fn get_result(&self) -> Option<bool> {
+    fn get_result(&self) -> Option<Signal> {
 	let a = NAND{input1: self.input1, input2: self.input2};
 	let b = NAND{input1: &a.get_result(), input2: &a.get_result()};
 	b.get_result()
     }
 }
-///高电平 输出true
+///高电平 输出Signal::One
 /// # Examples
 /// ```
 /// use algori::logicgate::HighLevel;
 /// use algori::logicgate::LogicGate;
 /// let a = HighLevel{};
-/// assert_eq!(a.get_result(),Some(true));
+/// assert_eq!(a.get_result(),Some(Signal::One));
 /// ```
 pub struct HighLevel{
 }
 impl LogicGate for HighLevel {
-    fn get_result(&self) -> Option<bool> {
-	Some(true)
+    fn get_result(&self) -> Option<Signal> {
+	Some(Signal::One)
     }
 }
 
-///低电平 输出Some(false)
+///低电平 输出Some(Signal::Zero)
 /// # Examples
 /// ```
 /// use algori::logicgate::LowLevel;
 /// use algori::logicgate::LogicGate;
 /// let a = LowLevel{};
-/// assert_eq!(a.get_result(),Some(false));
+/// assert_eq!(a.get_result(),Some(Signal::Zero));
 /// ```
 pub struct LowLevel{
 }
 impl LogicGate for LowLevel {
-    fn get_result(&self) -> Option<bool> {
-	Some(false)
+    fn get_result(&self) -> Option<Signal> {
+	Some(Signal::Zero)
     }
 }
 
-///异或门 输入不一样true
+///异或门 输入不一样Signal::One
 /// # Examples
 /// ```
 /// use algori::logicgate::XOR;
 /// use algori::logicgate::LogicGate;
-/// let a = XOR{input1:& Some(true),input2:& Some(false)};
-/// let b = XOR{input1:& Some(true),input2:& Some(true)};
-/// let c = XOR{input1:& Some(false),input2:& Some(false)};
-/// assert_eq!(a.get_result(),Some(true));
-/// assert_eq!(b.get_result(),Some(false));
-/// assert_eq!(c.get_result(),Some(false));
+/// let a = XOR{input1:& Some(Signal::One),input2:& Some(Signal::Zero)};
+/// let b = XOR{input1:& Some(Signal::One),input2:& Some(Signal::One)};
+/// let c = XOR{input1:& Some(Signal::Zero),input2:& Some(Signal::Zero)};
+/// assert_eq!(a.get_result(),Some(Signal::One));
+/// assert_eq!(b.get_result(),Some(Signal::Zero));
+/// assert_eq!(c.get_result(),Some(Signal::Zero));
 /// ```
 pub struct XOR<'a>{
-    pub input1: &'a Option<bool>,
-    pub input2: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
+    pub input2: &'a Option<Signal>,
 }
 impl<'a> LogicGate for XOR<'a>{
-    fn get_result(&self) ->Option<bool> {
+    fn get_result(&self) ->Option<Signal> {
 	let a:AND = AND{input1:self.input1,input2:self.input2};
 	let b:NOR = NOR{input1:self.input1,input2:self.input2};
 	let c:NOR = NOR{input1:&a.get_result(),input2:&b.get_result()};
@@ -190,23 +221,23 @@ impl<'a> LogicGate for XOR<'a>{
 /// ```
 /// use algori::logicgate::ThreeOR;
 /// use algori::logicgate::LogicGate;
-/// let a = ThreeOR{input1:& Some(true),input2:& Some(false),input3:& Some(false)};
-/// let b = ThreeOR{input1:& Some(false),input2:& Some(true),input3:& Some(false)};
-/// let c = ThreeOR{input1:& Some(false),input2:& Some(false),input3:& Some(true)};
-/// let d = ThreeOR{input1:& Some(false),input2:& Some(false),input3:& Some(false)};
-/// assert_eq!(a.get_result(),Some(true));
-/// assert_eq!(b.get_result(),Some(true));
-/// assert_eq!(c.get_result(),Some(true));
-/// assert_eq!(d.get_result(),Some(false));
+/// let a = ThreeOR{input1:& Some(Signal::One),input2:& Some(Signal::Zero),input3:& Some(Signal::Zero)};
+/// let b = ThreeOR{input1:& Some(Signal::Zero),input2:& Some(Signal::One),input3:& Some(Signal::Zero)};
+/// let c = ThreeOR{input1:& Some(Signal::Zero),input2:& Some(Signal::Zero),input3:& Some(Signal::One)};
+/// let d = ThreeOR{input1:& Some(Signal::Zero),input2:& Some(Signal::Zero),input3:& Some(Signal::Zero)};
+/// assert_eq!(a.get_result(),Some(Signal::One));
+/// assert_eq!(b.get_result(),Some(Signal::One));
+/// assert_eq!(c.get_result(),Some(Signal::One));
+/// assert_eq!(d.get_result(),Some(Signal::Zero));
 /// ```
 pub struct ThreeOR<'a>{
-    pub input1: &'a Option<bool>,
-    pub input2: &'a Option<bool>,
-    pub input3: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
+    pub input2: &'a Option<Signal>,
+    pub input3: &'a Option<Signal>,
 }
 
 impl<'a> LogicGate for ThreeOR<'a>{
-    fn get_result(&self) ->Option<bool> {
+    fn get_result(&self) ->Option<Signal> {
 	let a:OR = OR{input1:self.input1,input2:self.input2};
 	let b:OR = OR{input1:self.input2,input2:self.input3};
 	let c:OR = OR{input1:&a.get_result(),input2:&b.get_result()};
@@ -220,25 +251,25 @@ impl<'a> LogicGate for ThreeOR<'a>{
 /// ```
 /// use algori::logicgate::ThreeAND;
 /// use algori::logicgate::LogicGate;
-/// let a = ThreeAND{input1:& Some(true),input2:& Some(false),input3:& Some(false)};
-/// let b = ThreeAND{input1:& Some(false),input2:& Some(true),input3:& Some(false)};
-/// let c = ThreeAND{input1:& Some(false),input2:& Some(false),input3:& Some(true)};
-/// let d = ThreeAND{input1:& Some(false),input2:& Some(false),input3:& Some(false)};
-/// let e = ThreeAND{input1:& Some(true),input2:& Some(true),input3:& Some(true)};
-/// assert_eq!(a.get_result(),Some(false));
-/// assert_eq!(b.get_result(),Some(false));
-/// assert_eq!(c.get_result(),Some(false));
-/// assert_eq!(d.get_result(),Some(false));
-/// assert_eq!(e.get_result(),Some(true));
+/// let a = ThreeAND{input1:& Some(Signal::One),input2:& Some(Signal::Zero),input3:& Some(Signal::Zero)};
+/// let b = ThreeAND{input1:& Some(Signal::Zero),input2:& Some(Signal::One),input3:& Some(Signal::Zero)};
+/// let c = ThreeAND{input1:& Some(Signal::Zero),input2:& Some(Signal::Zero),input3:& Some(Signal::One)};
+/// let d = ThreeAND{input1:& Some(Signal::Zero),input2:& Some(Signal::Zero),input3:& Some(Signal::Zero)};
+/// let e = ThreeAND{input1:& Some(Signal::One),input2:& Some(Signal::One),input3:& Some(Signal::One)};
+/// assert_eq!(a.get_result(),Some(Signal::Zero));
+/// assert_eq!(b.get_result(),Some(Signal::Zero));
+/// assert_eq!(c.get_result(),Some(Signal::Zero));
+/// assert_eq!(d.get_result(),Some(Signal::Zero));
+/// assert_eq!(e.get_result(),Some(Signal::One));
 /// ```
 pub struct ThreeAND<'a>{
-    pub input1: &'a Option<bool>,
-    pub input2: &'a Option<bool>,
-    pub input3: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
+    pub input2: &'a Option<Signal>,
+    pub input3: &'a Option<Signal>,
 }
 
 impl<'a> LogicGate for ThreeAND<'a>{
-    fn get_result(&self) ->Option<bool> {
+    fn get_result(&self) ->Option<Signal> {
 	let a:AND = AND{input1:self.input1,input2:self.input2};
 	let b:AND = AND{input1:self.input2,input2:self.input3};
 	let c:AND = AND{input1:&a.get_result(),input2:&b.get_result()};
@@ -246,25 +277,25 @@ impl<'a> LogicGate for ThreeAND<'a>{
     }
 }
 ///同或门
-///相同则为Some(true)
+///相同则为Some(Signal::One)
 /// # Examples
 /// ```
 /// use algori::logicgate::XNOR;
 /// use algori::logicgate::LogicGate;
-/// let a = XNOR{input1:&Some(true),input2:&Some(false)};
-/// let b = XNOR{input1:&Some(true),input2:&Some(true)};
-/// let c = XNOR{input1:&Some(false),input2:&Some(false)};
-/// assert_eq!(a.get_result(),Some(false));
-/// assert_eq!(b.get_result(),Some(true));
-/// assert_eq!(c.get_result(),Some(true));
+/// let a = XNOR{input1:&Some(Signal::One),input2:&Some(Signal::Zero)};
+/// let b = XNOR{input1:&Some(Signal::One),input2:&Some(Signal::One)};
+/// let c = XNOR{input1:&Some(Signal::Zero),input2:&Some(Signal::Zero)};
+/// assert_eq!(a.get_result(),Some(Signal::Zero));
+/// assert_eq!(b.get_result(),Some(Signal::One));
+/// assert_eq!(c.get_result(),Some(Signal::One));
 /// ```
 pub struct XNOR<'a>{
-    pub input1: &'a Option<bool>,
-    pub input2: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
+    pub input2: &'a Option<Signal>,
 }
 
 impl<'a> LogicGate for XNOR<'a>{
-    fn get_result(&self) ->Option<bool> {
+    fn get_result(&self) ->Option<Signal> {
 	let a:XOR = XOR{input1:self.input1,input2:self.input2};
 	let b:NOT = NOT{input: &a.get_result()};
 	b.get_result()
@@ -276,18 +307,18 @@ use std::time::Duration;
 /////# Examples
 /////```
 ///// use algori::logicgate::DelayLine;
-///// let a = DelayLine{delay: 20,input: &Some(true)};
+///// let a = DelayLine{delay: 20,input: &Some(Signal::One)};
 ///// 
 ///// a.get_result();
 /////```
 
 // pub struct DelayLine<'a> {
 //     /// 延迟时间，单位为毫秒
-//     pub input: &'a[Option<bool>;2],
+//     pub input: &'a[Option<Signal>;2],
 // }
 
 // impl<'a> DelayLine<'a> {
-//     pub fn get_result(&self) -> Option<bool> {
+//     pub fn get_result(&self) -> Option<Signal> {
 //         std::thread::sleep(Duration::from_millis(self.delay));
 //         *self.input
 //     }
@@ -298,21 +329,21 @@ use std::time::Duration;
 /// # Examples
 ///```
 ///use algori::logicgate::HalfAdder;
-///let a:HalfAdder = HalfAdder{input1:&Some(true),input2:&Some(false)};
-///assert_eq!(a.get_result(),(Some(true),Some(false)));
-///let a:HalfAdder = HalfAdder{input1:&Some(true),input2:&Some(true)};
-///assert_eq!(a.get_result(),(Some(false),Some(true)));
+///let a:HalfAdder = HalfAdder{input1:&Some(Signal::One),input2:&Some(Signal::Zero)};
+///assert_eq!(a.get_result(),(Some(Signal::One),Some(Signal::Zero)));
+///let a:HalfAdder = HalfAdder{input1:&Some(Signal::One),input2:&Some(Signal::One)};
+///assert_eq!(a.get_result(),(Some(Signal::Zero),Some(Signal::One)));
 ///```
 pub struct HalfAdder<'a> {
-    pub input1: &'a Option<bool>,
-    pub input2: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
+    pub input2: &'a Option<Signal>,
 }
 
 
 
 impl<'a> HalfAdder<'a>{
     ///返回(sum,carry)
-    pub fn get_result(&self) -> (Option<bool>,Option<bool>) {
+    pub fn get_result(&self) -> (Option<Signal>,Option<Signal>) {
 	let a:XOR = XOR{input1: self.input1,input2:self.input2};
 	let b:AND = AND{input1: self.input1,input2:self.input2};
 	(a.get_result(),b.get_result())
@@ -323,24 +354,24 @@ impl<'a> HalfAdder<'a>{
 /// # Examples
 ///```
 ///use algori::logicgate::FullAdder;
-///let a:FullAdder = FullAdder{input1:&Some(true),input2:&Some(false),input3:&Some(false)};
-///assert_eq!(a.get_result(),(Some(true),Some(false)));
-///let a:FullAdder = FullAdder{input1:&Some(true),input2:&Some(true),input3:&Some(false)};
-///assert_eq!(a.get_result(),(Some(false),Some(true)));
-///let a:FullAdder = FullAdder{input1:&Some(true),input2:&Some(true),input3:&Some(true)};
-///assert_eq!(a.get_result(),(Some(true),Some(true)));
-///let a:FullAdder = FullAdder{input1:&Some(false),input2:&Some(false),input3:&Some(false)};
-///assert_eq!(a.get_result(),(Some(false),Some(false)));
+///let a:FullAdder = FullAdder{input1:&Some(Signal::One),input2:&Some(Signal::Zero),input3:&Some(Signal::Zero)};
+///assert_eq!(a.get_result(),(Some(Signal::One),Some(Signal::Zero)));
+///let a:FullAdder = FullAdder{input1:&Some(Signal::One),input2:&Some(Signal::One),input3:&Some(Signal::Zero)};
+///assert_eq!(a.get_result(),(Some(Signal::Zero),Some(Signal::One)));
+///let a:FullAdder = FullAdder{input1:&Some(Signal::One),input2:&Some(Signal::One),input3:&Some(Signal::One)};
+///assert_eq!(a.get_result(),(Some(Signal::One),Some(Signal::One)));
+///let a:FullAdder = FullAdder{input1:&Some(Signal::Zero),input2:&Some(Signal::Zero),input3:&Some(Signal::Zero)};
+///assert_eq!(a.get_result(),(Some(Signal::Zero),Some(Signal::Zero)));
 ///```
 pub struct FullAdder<'a> {
-    pub input1: &'a Option<bool>,
-    pub input2: &'a Option<bool>,
-    pub input3: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
+    pub input2: &'a Option<Signal>,
+    pub input3: &'a Option<Signal>,
 }
 
 impl<'a> FullAdder<'a> {
     ///返回(sum,carry)
-    pub fn get_result(&self) ->(Option<bool>,Option<bool>) {
+    pub fn get_result(&self) ->(Option<Signal>,Option<Signal>) {
 	let a: XOR = XOR{input1: self.input1, input2: self.input2};
 	let b: AND = AND{input1: self.input1, input2: self.input2};
 	let c: XOR = XOR{input1: &a.get_result(), input2: self.input3};
@@ -354,17 +385,17 @@ impl<'a> FullAdder<'a> {
 ///```
 ///use algori::logicgate::Switch;
 ///use crate::algori::logicgate::LogicGate;
-/// let a:Switch = Switch{switch: &Some(true),input:&Some(false)};
-///assert_eq!(a.get_result(),Some(false));
+/// let a:Switch = Switch{switch: &Some(Signal::One),input:&Some(Signal::Zero)};
+///assert_eq!(a.get_result(),Some(Signal::Zero));
 ///```
 pub struct Switch<'a> {
-    pub switch: &'a Option<bool>,
-    pub input: &'a Option<bool>,
+    pub switch: &'a Option<Signal>,
+    pub input: &'a Option<Signal>,
 }
 
 impl<'a> LogicGate for Switch<'a> {
-    fn get_result(&self) -> Option<bool> {
-	if *self.switch == Some(true) {
+    fn get_result(&self) -> Option<Signal> {
+	if *self.switch == Some(Signal::One) {
 	    return *self.input;
 	}
 	None
@@ -376,17 +407,17 @@ impl<'a> LogicGate for Switch<'a> {
 ///```
 ///use algori::logicgate::Switch;
 ///use crate::algori::logicgate::LogicGate;
-/// let a:Switch = Switch{switch: &Some(true),input:&Some(false)};
-///assert_eq!(a.get_result(),Some(false));
+/// let a:Switch = Switch{switch: &Some(Signal::One),input:&Some(Signal::Zero)};
+///assert_eq!(a.get_result(),Some(Signal::Zero));
 ///```
 pub struct EightSwitch<'a> {
-    pub switch: &'a Option<bool>,
-    pub input: i8,
+    pub switch: &'a Option<Signal>,
+    pub input: Signal,
 }
 
 impl<'a>  EightSwitch<'a> {
-    fn get_result(&self) -> Option<i8> {
-	if *self.switch == Some(true) {
+    fn get_result(&self) -> Option<Signal> {
+	if *self.switch == Some(Signal::One) {
 	    return Some(self.input);
 	}
 	None
@@ -399,17 +430,17 @@ impl<'a>  EightSwitch<'a> {
 ///use algori::logicgate::EightBitSplitter;
 ///let a:EightBitSplitter = EightBitSplitter{input: -55};
 ///let a = a.get_result();
-///assert_eq!(a,(Some(true),Some(false),Some(false),Some(true),Some(false),Some(false),Some(true),Some(true)));
+///assert_eq!(a,(Some(Signal::One),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::One),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::One),Some(Signal::One)));
 /// let a:EightBitSplitter = EightBitSplitter{input: 33};
 /// let a = a.get_result();
-/// assert_eq!(a,(Some(true),Some(false),Some(false),Some(false),Some(false),Some(true),Some(false),Some(false)));
+/// assert_eq!(a,(Some(Signal::One),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::One),Some(Signal::Zero),Some(Signal::Zero)));
 ///```
 pub struct EightBitSplitter{
-    pub input: i8,
+    pub input: Signal,
 }
 
 impl EightBitSplitter {
-    pub fn get_result(&self) ->(Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>) {
+    pub fn get_result(&self) ->(Option<Signal>,Option<Signal>,Option<Signal>,Option<Signal>,Option<Signal>,Option<Signal>,Option<Signal>,Option<Signal>) {
 	let bit1 = (self.input & 1) != 0;
         let bit2 = (self.input & 2) != 0;
         let bit3 = (self.input & 4) != 0;
@@ -428,44 +459,44 @@ impl EightBitSplitter {
 /// # Examples
 /// ```
 /// use algori::logicgate::EightBitMux;
-/// let a = EightBitMux{input1:& Some(true),input2:& Some(false),input3:& Some(false),input4:& Some(true),input5:& Some(false),input6:& Some(false),input7:& Some(true),input8:& Some(true)};
+/// let a = EightBitMux{input1:& Some(Signal::One),input2:& Some(Signal::Zero),input3:& Some(Signal::Zero),input4:& Some(Signal::One),input5:& Some(Signal::Zero),input6:& Some(Signal::Zero),input7:& Some(Signal::One),input8:& Some(Signal::One)};
 /// assert_eq!(a.get_result(),-55);
-/// let a = EightBitMux{input1:& Some(false),input2: & Some(false),input3: & Some(true),input4: & Some(true),input5: & Some(false),input6: & Some(true),input7: & Some(true),input8: & Some(false)};
+/// let a = EightBitMux{input1:& Some(Signal::Zero),input2: & Some(Signal::Zero),input3: & Some(Signal::One),input4: & Some(Signal::One),input5: & Some(Signal::Zero),input6: & Some(Signal::One),input7: & Some(Signal::One),input8: & Some(Signal::Zero)};
 /// assert_eq!(a.get_result(),108);
 /// ```
 pub struct EightBitMux<'a> {
-    pub input1: &'a Option<bool>,
-    pub input2: &'a Option<bool>,
-    pub input3: &'a Option<bool>,
-    pub input4: &'a Option<bool>,
-    pub input5: &'a Option<bool>,
-    pub input6: &'a Option<bool>,
-    pub input7: &'a Option<bool>,
-    pub input8: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
+    pub input2: &'a Option<Signal>,
+    pub input3: &'a Option<Signal>,
+    pub input4: &'a Option<Signal>,
+    pub input5: &'a Option<Signal>,
+    pub input6: &'a Option<Signal>,
+    pub input7: &'a Option<Signal>,
+    pub input8: &'a Option<Signal>,
 }
 
 impl<'a> EightBitMux<'a> {
     pub fn get_result(&self) -> i8 {
-        let result = (self.input8.unwrap_or(false) as i8) << 7 |
-                     (self.input7.unwrap_or(false) as i8) << 6 |
-                     (self.input6.unwrap_or(false) as i8) << 5 |
-                     (self.input5.unwrap_or(false) as i8) << 4 |
-                     (self.input4.unwrap_or(false) as i8) << 3 |
-                     (self.input3.unwrap_or(false) as i8) << 2 |
-                     (self.input2.unwrap_or(false) as i8) << 1 |
-                     (self.input1.unwrap_or(false) as i8);
+        let result = (self.input8.unwrap_or(Signal::Zero) as i8) << 7 |
+                     (self.input7.unwrap_or(Signal::Zero) as i8) << 6 |
+                     (self.input6.unwrap_or(Signal::Zero) as i8) << 5 |
+                     (self.input5.unwrap_or(Signal::Zero) as i8) << 4 |
+                     (self.input4.unwrap_or(Signal::Zero) as i8) << 3 |
+                     (self.input3.unwrap_or(Signal::Zero) as i8) << 2 |
+                     (self.input2.unwrap_or(Signal::Zero) as i8) << 1 |
+                     (self.input1.unwrap_or(Signal::Zero) as i8);
         result
     }
 }
 
 ///八位加法器
-/// # get 1 bool input and 2 i8 inputs
-/// ## return 1 EightBit Output and Carry bool
+/// # get 1 Signal input and 2 i8 inputs
+/// ## return 1 EightBit Output and Carry Signal
 /// # Examples
 /// ```
 ///    use algori::logicgate::EightBitAdder;
 ///         let adder = EightBitAdder {
-///             input1: &Some(false),
+///             input1: &Some(Signal::Zero),
 ///             input2: 1_i8,
 ///             input3: 1_i8,
 ///         };
@@ -475,13 +506,13 @@ impl<'a> EightBitMux<'a> {
 ///         let expected_output = 2;
 ///
 ///         // 预期的进位
-///         let expected_carry = Some(false);
+///         let expected_carry = Some(Signal::Zero);
 ///
 ///         // 检查加法器的输出
 ///         assert_eq!(result, (expected_output, expected_carry));
 /// ```
 pub struct EightBitAdder<'a>{
-    pub input1: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
     pub input2: i8,
     pub input3: i8,
 }
@@ -489,7 +520,7 @@ pub struct EightBitAdder<'a>{
 impl<'a> EightBitAdder<'a> {
     /// 返回 (低八位结果, 进位)
 
-    pub fn get_result(&self) -> (i8, Option<bool>) {
+    pub fn get_result(&self) -> (i8, Option<Signal>) {
         // 分割输入
         let splitter_one = EightBitSplitter { input: self.input2 }.get_result();
         let splitter_two = EightBitSplitter { input: self.input3 }.get_result();
@@ -727,24 +758,24 @@ impl EightBitOR {
 
 
 ///八位数据选择器
-/// # 当input1为false时输出input2, input1为true输出input3
+/// # 当input1为Signal::Zero时输出input2, input1为Signal::One输出input3
 /// # Examples
 /// ```
 /// use algori::logicgate::DataSelector;
-/// let a = DataSelector{input1:&Some(false),input2:20,input3:10}.get_result();
+/// let a = DataSelector{input1:&Some(Signal::Zero),input2:20,input3:10}.get_result();
 /// assert_eq!(a,20);
-/// let a = DataSelector{input1:&Some(true),input2:20,input3:10}.get_result();
+/// let a = DataSelector{input1:&Some(Signal::One),input2:20,input3:10}.get_result();
 /// assert_eq!(a,10);
 ///```
 pub struct DataSelector<'a>{
-    pub input1: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
     pub input2: i8,
     pub input3: i8,
 }
 
 impl<'a> DataSelector<'a>{
     pub fn get_result(&self) -> i8 {
-	if *self.input1 ==Some(true) {
+	if *self.input1 ==Some(Signal::One) {
 	    return self.input3;
 	}
 	self.input2
@@ -752,60 +783,60 @@ impl<'a> DataSelector<'a>{
 }
 
 ///三位解码器
-/// # 当switch为true时,
+/// # 当switch为Signal::One时,
 /// # 真值表
 /// input1| input2| input3| output
 /// ---|---|---|----
-/// false|false|false|1
-/// true|false|false|2
-/// false|true|false|3
-/// true|true|false|4
-/// false|false|true|5
-/// true|false|true|6
-/// false|true|true|7
-/// true|true|true|8
+/// Signal::Zero|Signal::Zero|Signal::Zero|1
+/// Signal::One|Signal::Zero|Signal::Zero|2
+/// Signal::Zero|Signal::One|Signal::Zero|3
+/// Signal::One|Signal::One|Signal::Zero|4
+/// Signal::Zero|Signal::Zero|Signal::One|5
+/// Signal::One|Signal::Zero|Signal::One|6
+/// Signal::Zero|Signal::One|Signal::One|7
+/// Signal::One|Signal::One|Signal::One|8
 /// # Examples
 /// ```
 /// use algori::logicgate::ThreeDecoder;
-/// let a = ThreeDecoder{input1: &Some(false),input2:&Some(false),input3:&Some(false),switch:&Some(false)}.get_result();
-/// assert_eq!(a,(Some(true),Some(false),Some(false),Some(false),Some(false),Some(false),Some(false),Some(false)));
-/// let a = ThreeDecoder{input1: &Some(false),input2:&Some(false),input3:&Some(true),switch:&Some(false)}.get_result();
-/// assert_eq!(a,(Some(false),Some(false),Some(false),Some(false),Some(true),Some(false),Some(false),Some(false)));
-/// let a = ThreeDecoder{input1: &Some(false),input2:&Some(true),input3:&Some(true),switch:&Some(false)}.get_result();
-/// assert_eq!(a,(Some(false),Some(false),Some(false),Some(false),Some(false),Some(false),Some(true),Some(false)));
+/// let a = ThreeDecoder{input1: &Some(Signal::Zero),input2:&Some(Signal::Zero),input3:&Some(Signal::Zero),switch:&Some(Signal::Zero)}.get_result();
+/// assert_eq!(a,(Some(Signal::One),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero)));
+/// let a = ThreeDecoder{input1: &Some(Signal::Zero),input2:&Some(Signal::Zero),input3:&Some(Signal::One),switch:&Some(Signal::Zero)}.get_result();
+/// assert_eq!(a,(Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::One),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero)));
+/// let a = ThreeDecoder{input1: &Some(Signal::Zero),input2:&Some(Signal::One),input3:&Some(Signal::One),switch:&Some(Signal::Zero)}.get_result();
+/// assert_eq!(a,(Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::Zero),Some(Signal::One),Some(Signal::Zero)));
 /// ```
 pub struct ThreeDecoder<'a> {
-    pub input1: &'a Option<bool>,
-    pub input2: &'a Option<bool>,
-    pub input3: &'a Option<bool>,
-    pub switch: &'a Option<bool>,
+    pub input1: &'a Option<Signal>,
+    pub input2: &'a Option<Signal>,
+    pub input3: &'a Option<Signal>,
+    pub switch: &'a Option<Signal>,
 }
 
 impl<'a> ThreeDecoder<'a> {
-    pub fn get_result(&self) -> (Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>,Option<bool>) {
+    pub fn get_result(&self) -> (Option<Signal>,Option<Signal>,Option<Signal>,Option<Signal>,Option<Signal>,Option<Signal>,Option<Signal>,Option<Signal>) {
 	match self.switch {
-	    Some(true) => return (None,None,None,None,None,None,None,None),
+	    Some(Signal::One) => return (None,None,None,None,None,None,None,None),
 	    _ => {
-		let a = NOR{input1: self.input1,input2: self.input2}.get_result(); //input1,input2全为false
-		let b = NOR{input1: self.input2,input2: self.input3}.get_result(); //input2,input3全为false
+		let a = NOR{input1: self.input1,input2: self.input2}.get_result(); //input1,input2全为Signal::Zero
+		let b = NOR{input1: self.input2,input2: self.input3}.get_result(); //input2,input3全为Signal::Zero
 		let f = AND{input1: &a, input2: &b}.get_result(); //1
-		//input1,2,3->false时激活1
+		//input1,2,3->Signal::Zero时激活1
 		let c = AND{input1: self.input1, input2: &b}.get_result(); //2
-		//input2,3->false激活2
-		let d = NOR{input1: self.input1,input2:self.input3}.get_result(); //input1,input3全为false
+		//input2,3->Signal::Zero激活2
+		let d = NOR{input1: self.input1,input2:self.input3}.get_result(); //input1,input3全为Signal::Zero
 		let e = AND{input1: &d,input2: self.input2}.get_result(); //3
-		//input2->true,input1,3->false激活3
+		//input2->Signal::One,input1,3->Signal::Zero激活3
 		let g = NAND{input1: self.input1,input2: self.input2}.get_result();
 		let h = NOR{input1: &g,input2: self.input3}.get_result(); //4
-		//input1,2->false激活5
+		//input1,2->Signal::Zero激活5
 		let i = AND{input1: &a,input2: self.input3}.get_result(); //5
-		//input1,3->true激活6
+		//input1,3->Signal::One激活6
 		let j = NOT{input: self.input2 }.get_result();
 		let k = ThreeAND{input1: self.input1, input2: &j, input3: self.input3}.get_result(); //6
-		//input2,3->true激活7
+		//input2,3->Signal::One激活7
 		let l = NOT{input:self.input1}.get_result();
 		let m = ThreeAND{input1: &l,input2: self.input2, input3: self.input3}.get_result();
-		//input1,2,3->true激活8
+		//input1,2,3->Signal::One激活8
 		let n = ThreeAND{input1: self.input1,input2: self.input2,input3: self.input3}.get_result();
 		(f,c,e,h,i,k,m,n)
 
@@ -841,11 +872,11 @@ pub struct EightBitALU {
  	let splitter = EightBitSplitter{input: self.operation}.get_result();
 	let decoder = ThreeDecoder{switch:&None,input1: &splitter.0,input2:&splitter.1,input3:&splitter.2}.get_result();
 	match decoder {
-	    (Some(true),Some(false),Some(false), ..) => return EightBitOR{input1: self.input1,input2:self.input2}.get_result(),
-	    (Some(false),Some(true),Some(false),..) => return EightBitNAND{input1: self.input1,input2:self.input2}.get_result(),
-	    (Some(false),Some(false),Some(true),..) => return EightBitNOR{input1: self.input1,input2: self.input2}.get_result(),
-	    (Some(true),Some(true),Some(false),..) => return EightBitAND{input1: self.input1,input2: self.input2}.get_result(),
-	    (Some(false),Some(false),Some(true),..) => return EightBitAdder{input1: &None,input2 :self.input1,input3:self.input2}.get_result().0,
+	    (Some(Signal::One),Some(Signal::Zero),Some(Signal::Zero), ..) => return EightBitOR{input1: self.input1,input2:self.input2}.get_result(),
+	    (Some(Signal::Zero),Some(Signal::One),Some(Signal::Zero),..) => return EightBitNAND{input1: self.input1,input2:self.input2}.get_result(),
+	    (Some(Signal::Zero),Some(Signal::Zero),Some(Signal::One),..) => return EightBitNOR{input1: self.input1,input2: self.input2}.get_result(),
+	    (Some(Signal::One),Some(Signal::One),Some(Signal::Zero),..) => return EightBitAND{input1: self.input1,input2: self.input2}.get_result(),
+	    (Some(Signal::Zero),Some(Signal::Zero),Some(Signal::One),..) => return EightBitAdder{input1: &None,input2 :self.input1,input3:self.input2}.get_result().0,
 	    _ => return EightBitSubber{input1 :self.input1,input2:self.input2}.get_result(),
 	}
     }
