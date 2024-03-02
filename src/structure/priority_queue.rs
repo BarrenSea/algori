@@ -87,7 +87,7 @@ impl<T: PartialOrd> MinPriQueue<T> {
 	//弹出第一个元素
 	let min = Ok(self.heap.swap_remove(0));
 	if !self.heap.is_empty() {
-	    build_min(&mut self.heap);
+	    crate::sort::build_min(&mut self.heap);
 	}
 	min
     }
