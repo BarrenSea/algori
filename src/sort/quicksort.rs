@@ -9,30 +9,26 @@
 /// quicksort(&mut a);
 /// assert_eq!(a, [1, 3, 4, 5, 6, 7, 9, 65, 65]);
 /// ```
- 
-pub fn quicksort<T: PartialOrd +Clone>(arr: &mut [T]) {
-    if arr.len() <= 1 {
-        return;
+pub fn quicksort<T: PartialOrd>(array: &mut [T]) -> () {
+    let len = array.len();
+    if len > 1 {
+	let pivot = partition(array);
+	quicksort(&mut array[0..pivot]);
+	quicksort(&mut array[pivot + 1 ..len]);
     }
-
-    let pivot_index = partition(arr);
-
-    let (left, right) = arr.split_at_mut(pivot_index);
-    quicksort(left);
-    quicksort(&mut right[1..]);
 }
 
-fn partition<T: PartialOrd + Clone>(arr: &mut [T]) -> usize {
-    let pivot = &arr[arr.len() - 1].clone();
-    let mut i = 0;
+fn partition<T: PartialOrd>(array: &mut[T]) -> usize {
+    let mut less_index = 0;
 
-    for j in 0..arr.len() - 1 {
-        if arr[j] < *pivot {
-            arr.swap(i, j);
-            i += 1;
-        }
+    let pivot_index = array.len() - 1;
+    for j in 0..=array.len() -2 {
+	if array[j] <= array[pivot_index] {
+	    array.swap(less_index,j);
+	    less_index += 1;
+	}
     }
 
-    arr.swap(i, arr.len() - 1);
-    i
+    array.swap(less_index,array.len() - 1);
+    less_index
 }
