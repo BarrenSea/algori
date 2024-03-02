@@ -31,3 +31,4 @@ pub use self::quicksort::quicksort as quicksort;
 pub use self::count::count_sort as count_sort;
 pub use self::radix::radix_sort as radix_sort;
 pub use self::pattern::pattern_defeating_quicksort as pdqsort;
+pub use self::heap::build_min as build_min;

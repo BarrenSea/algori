@@ -58,3 +58,44 @@ pub fn heap_sort<T: PartialOrd>(arr: &mut [T]) {
         max(&mut arr[..i], 0);
     }
 }
+
+
+///小根堆维持
+fn min<T: PartialOrd>(arr: &mut [T], i: usize) {
+    let mut n: usize = i ;
+    //循还下滤
+    loop {
+        let mut min:usize = n;
+	//左子结点
+        let left:usize = 2 * n + 1;
+	//右子结点
+        let right:usize = 2 * n + 2;
+	//左子结点大于目前结点则交换下标
+        if left < arr.len() && arr[left] < arr[min] {
+            min = left;
+        }
+	//右子结点大于目前结点则交换下标
+        if right < arr.len() && arr[right] < arr[min] {
+            min = right;
+        }
+	//到这里则对一个结点及其子结点的下标排好了序
+	//若下标发生了变换 则交换父结点与最大的子结点
+        if min != n {
+            arr.swap(n, min);
+            n = min;
+        } else {
+	    //下滤完成
+            break;
+        }
+    }
+}
+
+///建小根堆
+pub fn build_min<T: PartialOrd>(arr: &mut [T]) {
+
+    let n = arr.len();
+    // n/2为拥有子结点的下标最大的
+    for i in (0..n / 2).rev() {
+        min(arr, i);
+    }
+}
