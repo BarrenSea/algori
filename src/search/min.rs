@@ -8,7 +8,7 @@
 ///let c = min_search(&a);
 ///assert_eq!(c,3);
 ///```
-pub fn min<T: Ord>(array: &[T]) ->usize {
+pub fn min<T: PartialOrd>(array: &[T]) ->usize {
     let mut min: &T = &array[0];
     let mut min_index: usize = 0;
     for i in 1..(*array).len() {
