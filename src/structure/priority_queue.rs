@@ -10,7 +10,7 @@
 /// queue.insert(8);
 /// assert_eq!(*queue.max().unwrap(), 9);
 /// queue.increase_key(10,4);
-/// assert_eq!(*queue.max(),unwrap,10);
+/// assert_eq!(*queue.max().unwrap(),10);
 ///```
 ///最大优先队列
 pub struct MaxPriQueue<T: PartialOrd>{

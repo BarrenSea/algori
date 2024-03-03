@@ -2,7 +2,7 @@
 mod logicgate;
 
 
-pub use self::logicgate::Signal as Signal;
+//pub use self::logicgate::Signal as Signal;
 pub use self::logicgate::NAND as NAND;
 pub use self::logicgate::LogicGate as LogicGate;
 pub use self::logicgate::NOT as NOT;
