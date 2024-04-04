@@ -1,5 +1,4 @@
 
-/// # Examples
 /// ```
 ///use algori::structure::BinaryTree;
 ///fn test_add_method_1() {

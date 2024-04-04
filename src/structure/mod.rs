@@ -18,3 +18,4 @@ pub use self::complex::Complex as Complex;
 pub use self::binarytree::BinaryTree as BinaryTree;
 pub use self::pointer::Pointer as Pointer;
 pub use self::linkedlist::List as List;
+pub use self::linkedlist::LinkedList as LinkedList;

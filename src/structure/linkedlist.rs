@@ -45,3 +45,68 @@ impl<T: std::fmt::Display> List<T> {
     }
 }
 
+
+use std::rc::Rc;
+use std::cell::RefCell;
+
+
+#[derive(Clone)]
+struct Node<T> {
+    value: Box<T>,
+    prev: Option<Rc<RefCell<Node<T>>>>,
+    next: Option<Rc<RefCell<Node<T>>>>,
+}
+
+impl<T> Node<T> {
+    fn new(value: T) -> Rc<RefCell<Node<T>>> {
+        Rc::new(RefCell::new(Node {
+            value: Box::new(value),
+            prev: None,
+            next: None,
+        }))
+    }
+}
+
+pub struct LinkedList<T> {
+    head: Option<Rc<RefCell<Node<T>>>>,
+    tail: Option<Rc<RefCell<Node<T>>>>,
+    pub length: u64,
+}
+
+impl<T> LinkedList<T> {
+    pub fn new() -> LinkedList<T> {
+        LinkedList {
+            head: None,
+            tail: None,
+            length: 0,
+        }
+    }
+
+    pub fn append(&mut self, value: T) {
+        let new_node = Node::new(value);
+        match self.tail.take() {
+            Some(old_tail) => {
+                old_tail.borrow_mut().next = Some(new_node.clone());
+                new_node.borrow_mut().prev = Some(old_tail);
+            }
+            None => {
+                self.head = Some(new_node.clone());
+            }
+        };
+        self.length += 1;
+        self.tail = Some(new_node);
+    }
+
+    pub fn pop_head(&mut self) -> Option<Box<T>> {
+        self.head.take().map(|head| {
+            if let Some(next) = head.borrow_mut().next.take() {
+                next.borrow_mut().prev.take();
+                self.head = Some(next);
+            } else {
+                self.tail.take();
+            }
+            self.length -= 1;
+            Rc::try_unwrap(head).ok().expect("Something went wrong").into_inner().value
+        })
+    }
+}

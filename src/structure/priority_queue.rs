@@ -1,4 +1,3 @@
-///# Examples
 ///```
 /// use algori::structure::MaxPriQueue;
 /// let a = MaxPriQueue::<i32>::new();
