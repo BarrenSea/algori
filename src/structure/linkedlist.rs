@@ -46,67 +46,171 @@ impl<T: std::fmt::Display> List<T> {
 }
 
 
-use std::rc::Rc;
-use std::cell::RefCell;
 
-
-#[derive(Clone)]
+use std::ptr::NonNull;
+use std::marker::PhantomData;
+///双向链表
+///来自于TheAlgorithms/Rust
+pub struct LinkedList<T>{
+    head: Option<NonNull<Node<T>>>,
+    tail: Option<NonNull<Node<T>>>,
+    len: usize,
+}
 struct Node<T> {
-    value: Box<T>,
-    prev: Option<Rc<RefCell<Node<T>>>>,
-    next: Option<Rc<RefCell<Node<T>>>>,
+    element: T,
+    prev: Option<NonNull<Node<T>>>,
+    next: Option<NonNull<Node<T>>>,
+    marker: PhantomData<T>,
 }
 
 impl<T> Node<T> {
-    fn new(value: T) -> Rc<RefCell<Node<T>>> {
-        Rc::new(RefCell::new(Node {
-            value: Box::new(value),
-            prev: None,
-            next: None,
-        }))
+    fn new(element: T) -> Self {
+	Node{ next: None, prev: None, element, marker: PhantomData}
     }
-}
-
-pub struct LinkedList<T> {
-    head: Option<Rc<RefCell<Node<T>>>>,
-    tail: Option<Rc<RefCell<Node<T>>>>,
-    pub length: u64,
 }
 
 impl<T> LinkedList<T> {
-    pub fn new() -> LinkedList<T> {
-        LinkedList {
-            head: None,
-            tail: None,
-            length: 0,
+    pub fn new() -> Self{
+	Self {
+	    len: 0,
+	    head: None,
+	    tail: None,
+	}
+    }
+    pub fn push_head(&mut self,element: T) {
+	let mut node = Box::new(Node::new(element));
+	node.prev = None;
+	let ptr = NonNull::new(Box::into_raw(node));
+	match self.head {
+	    None => self.tail = ptr,
+	    Some(head_ptr) => unsafe {(*head_ptr.as_ptr()).prev = ptr},
+	}
+    }
+    pub fn push_tail(&mut self,element: T) {
+	let mut node = Box::new(Node::new(element));
+	node.next = None;
+	node.prev = self.tail;
+	let ptr = NonNull::new(Box::into_raw(node));
+	match self.tail{
+	    None => self.head = ptr,
+	    Some(tail_ptr) => unsafe {(*tail_ptr.as_ptr()).next = ptr},
+	}
+    }
+    pub fn insert(&mut self,index: usize, element:T ) -> Result<(),&str>{
+	if self.len < index {
+	    return Err("Index Out Of Bounds!");
+	}
+	if index == 0 || self.head.is_none() {
+	    self.push_head(element);
+	    return Ok(());
+	}
+	if self.len == index {
+	    self.push_tail(element);
+	    return Ok(());
+	}
+	if let Some(mut node) = self.head {
+	    for _ in 0..index {
+		match unsafe{(*node.as_ptr()).next} {
+		    None => return Err("index ot of bounds"),
+		    Some(next_ptr) => unsafe {node = next_ptr},
+		}
+	    }
+	    let mut new_node = Box::new(Node::new(element));
+	    unsafe {new_node.prev = (*node.as_ptr()).prev};
+	    new_node.next = Some(node);
+	    unsafe {if let Some(p) = (*node.as_ptr()).prev {
+		let node_ptr = NonNull::new(Box::into_raw(new_node));
+		(*p.as_ptr()).next = node_ptr;
+		(*node.as_ptr()).prev = node_ptr;
+		self.len += 1;
+	    }}
+	}
+	Ok(())
+    }
+
+    pub fn delete_head(&mut self) -> Option<T> {
+        if self.len == 0 {
+            return None;
+        }
+
+        self.head.map(|head_ptr| unsafe {
+            let old_head = Box::from_raw(head_ptr.as_ptr());
+            match old_head.next {
+                Some(mut next_ptr) => next_ptr.as_mut().prev = None,
+                None => self.tail = None,
+            }
+            self.head = old_head.next;
+            self.len = self.len.checked_add_signed(-1).unwrap_or(0);
+            old_head.element
+        })
+        // None
+    }
+    pub fn delete_tail(&mut self) -> Option<T> {
+        self.tail.map(|tail_ptr| unsafe {
+            let old_tail = Box::from_raw(tail_ptr.as_ptr());
+            match old_tail.prev {
+                Some(mut prev) => prev.as_mut().next = None,
+                None => self.head = None,
+            }
+            self.tail = old_tail.prev;
+            self.len -= 1;
+            old_tail.element
+        })
+    }
+
+    pub fn delete(&mut self, index: usize) -> Option<T> {
+        if self.len < index {
+            panic!("Index out of bounds");
+        }
+
+        if index == 0 || self.head.is_none() {
+            return self.delete_head();
+        }
+
+        if self.len == index {
+            return self.delete_tail();
+        }
+
+        if let Some(mut ith_node) = self.head {
+            for _ in 0..index {
+                unsafe {
+                    match (*ith_node.as_ptr()).next {
+                        None => panic!("Index out of bounds"),
+                        Some(next_ptr) => ith_node = next_ptr,
+                    }
+                }
+            }
+
+            unsafe {
+                let old_ith = Box::from_raw(ith_node.as_ptr());
+                if let Some(mut prev) = old_ith.prev {
+                    prev.as_mut().next = old_ith.next;
+                }
+                if let Some(mut next) = old_ith.next {
+                    next.as_mut().prev = old_ith.prev;
+                }
+
+                self.len -= 1;
+                Some(old_ith.element)
+            }
+        } else {
+            None
         }
     }
 
-    pub fn append(&mut self, value: T) {
-        let new_node = Node::new(value);
-        match self.tail.take() {
-            Some(old_tail) => {
-                old_tail.borrow_mut().next = Some(new_node.clone());
-                new_node.borrow_mut().prev = Some(old_tail);
-            }
-            None => {
-                self.head = Some(new_node.clone());
-            }
-        };
-        self.length += 1;
-        self.tail = Some(new_node);
+    pub fn get(&self, index: i32) -> Option<&T> {
+        Self::get_node(self.head, index).map(|ptr| unsafe { &(*ptr.as_ptr()).element })
     }
 
-    pub fn pop_head(&mut self) -> Option<Box<T>> {
-        self.head.take().map(|head| {
-            if let Some(next) = head.borrow_mut().next.take() {
-                next.borrow_mut().prev.take();
-                self.head = Some(next);
-            } else {
-                self.tail.take();
-            }
-            self.length -= 1;
-            Rc::try_unwrap(head).ok().expect("Something went wrong").into_inner().value
-        })
+    fn get_node(node: Option<NonNull<Node<T>>>, index: i32) -> Option<NonNull<Node<T>>> {
+        match node {
+            None => None,
+            Some(next_ptr) => match index {
+                0 => Some(next_ptr),
+                _ => Self::get_node(unsafe { (*next_ptr.as_ptr()).next }, index - 1),
+            },
+        }
     }
 }
+
+
