@@ -8,10 +8,10 @@
 ///let c = binary_sort(&mut a);
 ///assert_eq!(a,[1,3,4,5,6,6,7,9,65,65]);
 ///```
-pub fn sort<T>(array: &mut[T]) ->() where
+pub async fn sort<T>(array: &mut[T]) ->() where
     T: Ord, {
     for i in 1..(*array).len() {
-	match crate::search::binary_search(&(*array)[0..i], &array[i]) {
+	match crate::search::binary_search(&(*array)[0..i], &array[i]).await {
 	    Ok(_) => continue,
 	    Err(point) => {
 		for j in 0..(i - point) {

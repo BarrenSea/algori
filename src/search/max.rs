@@ -8,7 +8,7 @@
 ///let c = max_search(&a);
 ///assert_eq!(c,5);
 ///```
-pub fn max<T: PartialOrd>(array: &[T]) ->usize {
+pub async fn max<T: PartialOrd>(array: &[T]) ->usize {
     let mut max: &T = &array[0];
     let mut max_index: usize = 0;
     for i in 1..(*array).len() {

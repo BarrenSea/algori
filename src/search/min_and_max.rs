@@ -8,7 +8,7 @@
 ///let c = min_and_max(&a);
 ///assert_eq!(c,Some((3,5)));
 ///```
-pub fn find_min_max<T: PartialOrd + Copy>(arr: &[T]) -> Option<(usize, usize)> {
+pub async fn find_min_max<T: PartialOrd + Copy>(arr: &[T]) -> Option<(usize, usize)> {
     if arr.is_empty() {
         return None;
     }

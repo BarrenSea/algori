@@ -10,7 +10,7 @@
 ///assert_eq!(a,[1,3,4,5,6,6,7,9,65,65]);
 ///```
 
-pub fn count_sort(arr: &mut [i32]) {
+pub async fn count_sort(arr: &mut [i32]) {
     // 寻找数组中的最大值
     let max = *arr.iter().max().unwrap_or(&0);
 

@@ -9,7 +9,7 @@
 ///let c = heap_sort(&mut a);
 ///assert_eq!(a,[1,3,4,5,6,6,7,9,65,65]);
 ///```
-fn max<T: PartialOrd>(arr: &mut [T], i: usize) {
+async fn  max<T: PartialOrd>(arr: &mut [T], i: usize) {
     let mut n: usize = i ;
     //循还下滤
     loop {
@@ -39,29 +39,29 @@ fn max<T: PartialOrd>(arr: &mut [T], i: usize) {
 }
 
 //建堆
-pub fn build_max<T: PartialOrd>(arr: &mut [T]) {
+pub async fn build_max<T: PartialOrd>(arr: &mut [T]) {
 
     let n = arr.len();
     // n/2为拥有子结点的下标最大的
     for i in (0..n / 2).rev() {
-        max(arr, i);
+        max(arr, i).await;
     }
 }
 ///大根堆排序
 ///
 ///获取一个可变引用并排序
-pub fn heap_sort<T: PartialOrd>(arr: &mut [T]) {
+pub async fn heap_sort<T: PartialOrd>(arr: &mut [T]) {
     let n = arr.len();
-    build_max(arr);
+    build_max(arr).await;
     for i in (0..n).rev() {
         arr.swap(0, i);
-        max(&mut arr[..i], 0);
+        max(&mut arr[..i], 0).await;
     }
 }
 
 
 ///小根堆维持
-fn min<T: PartialOrd>(arr: &mut [T], i: usize) {
+async fn  min<T: PartialOrd>(arr: &mut [T], i: usize) {
     let mut n: usize = i ;
     //循还下滤
     loop {
@@ -91,11 +91,11 @@ fn min<T: PartialOrd>(arr: &mut [T], i: usize) {
 }
 
 ///建小根堆
-pub fn build_min<T: PartialOrd>(arr: &mut [T]) {
+pub async fn build_min<T: PartialOrd>(arr: &mut [T]) {
 
     let n = arr.len();
     // n/2为拥有子结点的下标最大的
     for i in (0..n / 2).rev() {
-        min(arr, i);
+        min(arr, i).await;
     }
 }

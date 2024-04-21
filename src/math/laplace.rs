@@ -10,7 +10,7 @@ use crate::structure::Complex;
 /// let r = laplace_transform(&s);
 /// assert_eq!(r,[[0.0,0.0,0.0],[0.0,-8.0,0.0],[0.0,0.0,0.0]]);
 /// ```
-pub fn laplace_transform(input: &Vec<Vec<f64>>) -> Vec<Vec<f64>> {
+pub async fn laplace_transform(input: &Vec<Vec<f64>>) -> Vec<Vec<f64>> {
     let mut laplace_output = vec![vec![0.0; input[0].len()]; input.len()];
     for i in 1..input.len()-1 {
         for j in 1..input[i].len()-1 {

@@ -9,7 +9,7 @@
 ///let c = insertion_sort(&mut a);
 ///assert_eq!(a,[1,3,4,5,6,6,7,9,65,65]);
 ///```
-pub fn sort<T: std::cmp::PartialOrd>(arr: &mut[T]) {
+pub async fn sort<T: std::cmp::PartialOrd>(arr: &mut[T]) {
     
     let len = (*arr).len();
     for index in 1..len {

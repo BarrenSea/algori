@@ -10,7 +10,7 @@
 ///let c = binary_search(&a,&7);
 ///assert_eq!(c,Ok(5));
 ///```
-pub fn search<T>(array: &[T], key: &T) -> Result<usize,usize> where
+pub async fn search<T>(array: &[T], key: &T) -> Result<usize,usize> where
     T: Ord,
 {
 

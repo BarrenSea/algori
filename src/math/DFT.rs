@@ -1,16 +1,6 @@
 use std::ops::{Add, Sub, Mul};
 
 ///离散傅立叶变换
-/// # Examples
-/// ```
-///  let signal = vec![0.0, 1.0, 0.0, 1.0]; // Input signal
-///	let spectrum = algori::math::dft(&signal);
-///
-///	for (k, value) in spectrum.iter().enumerate() {
-///            println!("Frequency {}: {:?}", k, value);
-///	}
-///
-/// ```
 
 use crate::structure::Complex;
 pub async fn dft(signal: &[f64]) -> Vec<Complex<f64>>

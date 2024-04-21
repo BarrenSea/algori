@@ -7,7 +7,7 @@
 ///let c = linearity_search::<i32>(&a,&65); 
 ///assert_eq!(c,Some(5));
 ///```
-pub fn search<T: std::cmp::PartialEq>(a: &[T], v: &T) -> Option<usize> {
+pub async fn search<T: std::cmp::PartialEq>(a: &[T], v: &T) -> Option<usize> {
     let len = (*a).len();
     let mut i =  0;
     while i < len {
