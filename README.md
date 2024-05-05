@@ -40,6 +40,7 @@ The project is continuously developing.
 3. max_search 最大查找
 4. min_search 最小查找
 5. min_and_max 最大最小同时查找
+6. sum 和查找
 ### Structure
 1. MaxPrityQueue 最大优先队列
 2. Stack 栈
