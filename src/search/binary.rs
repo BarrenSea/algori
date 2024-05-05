@@ -11,7 +11,7 @@
 ///assert_eq!(c,Ok(5));
 ///```
 pub async fn search<T>(array: &[T], key: &T) -> Result<usize,usize> where
-    T: Ord,
+    T: PartialOrd,
 {
 
     let mut left = 0;
