@@ -55,17 +55,17 @@ pub struct LinkedList<T>{
     head: Option<NonNull<Node<T>>>,
     tail: Option<NonNull<Node<T>>>,
     len: usize,
+    marker: PhantomData<Node<T>>,
 }
 struct Node<T> {
     element: T,
     prev: Option<NonNull<Node<T>>>,
     next: Option<NonNull<Node<T>>>,
-    marker: PhantomData<T>,
 }
 
 impl<T> Node<T> {
     fn new(element: T) -> Self {
-	Node{ next: None, prev: None, element, marker: PhantomData}
+	Node{ next: None, prev: None, element}
     }
 }
 
@@ -75,6 +75,7 @@ impl<T> LinkedList<T> {
 	    len: 0,
 	    head: None,
 	    tail: None,
+	    marker: PhantomData,
 	}
     }
     pub fn push_head(&mut self,element: T) {
