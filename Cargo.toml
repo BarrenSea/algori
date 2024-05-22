@@ -1,0 +1,15 @@
+[package]
+name = "algori"
+version = "0.11.5"
+edition = "2021"
+authors = ["Donjuan Platinum <donjuan@lecturify.net>"]
+license = "MIT"
+description = "some common rust_algorithms, Everyone can participate, and the project will continue to be updated, all the algorithms comes from <Introduction to Algorithms III>"
+repository = "https://github.com/donjuanplatinum/Algori"
+readme = "README.md"
+documentation = "https://docs.rs/algori"
+keywords = ["matrix","math","algorithm","sort","search"]
+categories = ["algorithms"]
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
