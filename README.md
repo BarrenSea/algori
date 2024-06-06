@@ -24,3 +24,7 @@
 </p>
 
 ## Algorithms
+### Sorting
+- [Insertionsort](./doc/sorting/README.md)
+### Structures
+- [Heap](./doc/structure/README.md)
