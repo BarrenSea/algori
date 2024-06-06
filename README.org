@@ -1,0 +1,16 @@
+* Algorithms_Rust
+[[file:algori.png][algori.png]]
+[[https://crates.io/crates/algori][file:https://img.shields.io/crates/dr/algori.svg]]
+[[file:https:/img.shields.io/crates/v/algori.svg]]
+
+Algorithm_rust是一个rust的算法库
+
+** 算法
+*** 排序
+*** 矩阵操作
+*** 查找
+*** 数据结构
+*** 子数组
+*** 数学算法与变换
+** 欢迎拉取请求
+
