@@ -9,7 +9,7 @@
 /// let mut a = [1,3,2,0,123,1,1,4634,341,2312452,351];
 /// assert_eq!(is_sorted(&mut a, |a,b|a <=b),false);
 ///
-/// insertion_sort(&mut a);
+/// insertion_sort(&mut a,|a,b| a <=b);
 /// assert_eq!(is_sorted(&mut a,|a,b|a<=b),true);
 /// ```
 pub fn is_sorted<'a, T>(array: &'a [T], compare: fn(&T, &T) -> bool) -> bool

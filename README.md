@@ -25,6 +25,7 @@
 
 ## Algorithms
 ### Sorting 排序
-- [Insertionsort 插入排序](./doc/sorting/README.md)
+- [InsertionSort 插入排序](./doc/sorting/README.md)
+- [SelectionSort 选择排序](./doc/sorting/README.md)
 ### Structures 数据结构
 - [Heap 堆排序](./doc/structure/README.md)
