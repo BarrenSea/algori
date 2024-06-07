@@ -17,61 +17,7 @@ labels:
   regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)ambiguous(?:`|)'
 # `feature`
 
-# 排序
-- name: sort
-  content: sort
-  regexes: '[Ss]ort(?:\([a-zA-Z]*/?[a-zA-Z]*\))?[\:\.\,]'
-  skip-if:
-  - skip all
-  remove-if:
-  - remove all
 
-# 结构
-- name: structures
-  content: structures
-  regexes: '[Ss]tructures?(?:\([a-zA-Z]*/?[a-zA-Z]*\))?[\:\.\,]'
-  skip-if:
-  - skip all
-  remove-if:
-  - remove all
-# 数学
-- name: math
-  content: math
-  regexes: '[mM]aths?(?:\([a-zA-Z]*/?[a-zA-Z]*\))?[\:\.\,]'
-  skip-if:
-  - skip all
-  remove-if:
-  - remove all
-
- # 搜索
-- name: search
-  content: search
-  regexes: '[Ss]earch(?:\([a-zA-Z]*/?[a-zA-Z]*\))?[\:\.\,]'
-  skip-if:
-  - skip all
-  remove-if:
-  - remove all
-  
-# 子数组
-- name: subarray
-  content: subarray
-  regexes: '[Ss]ubarray(?:\([a-zA-Z]*/?[a-zA-Z]*\))?[\:\.\,]'
-  skip-if:
-  - skip all
-  remove-if:
-  - remove all  
-
-# 字符串
-- name: string
-  content: string
-  regexes: '[Ss]tring(?:\([a-zA-Z]*/?[a-zA-Z]*\))?[\:\.\,]'
-  skip-if:
-  - skip all
-  remove-if:
-  - remove all  
-
-
-  
 - name: enhance
   content: enhancement
   regexes: '[Ff]eat(?:\([a-zA-Z]*/?[a-zA-Z]*\))?[\:\.\,]'
@@ -103,11 +49,62 @@ labels:
   - skip all
   remove-if:
   - remove all
+# 工具链等修改
+- name: build
+  content: build
+  regexes: '[Bb]uild(?:\([a-zA-Z]*/?[a-zA-Z]*\))?[\:\.\,]'
+  skip-if:
+  - skip all
+  remove-if:
+  - remove all  
+
+# ci持续集成修改
+- name: ci
+  content: ci
+  regexes: '[Cc]i(?:\([a-zA-Z]*/?[a-zA-Z]*\))?[\:\.\,]'
+  skip-if:
+  - skip all
+  remove-if:
+  - remove all  
+
+  
+# 代码样式缩进等
+- name: style
+  content: style
+  regexes: '[Ss]tyle(?:\([a-zA-Z]*/?[a-zA-Z]*\))?[\:\.\,]'
+  skip-if:
+  - skip all
+  remove-if:
+  - remove all  
+
+# 重构代码结构
+- name: refactor
+  content: refactor
+  regexes: '[rR]factor(?:\([a-zA-Z]*/?[a-zA-Z]*\))?[\:\.\,]'
+  skip-if:
+  - skip all
+  remove-if:
+  - remove all  
+  
+# 性能优化
+- name: perf
+  content: perf
+  regexes: '[pP]erf(?:\([a-zA-Z]*/?[a-zA-Z]*\))?[\:\.\,]'
+  skip-if:
+  - skip all
+  remove-if:
+  - remove all  
+
+  
 # `ambiguous`
 - name: pr-ambiguous
   # 不符合 commitizen 的 PR
   content: ambiguous
   regexes: '^(?!(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)(?:\([a-zA-Z]*\))?[\:\.\(\,]|[Rr]evert|[Rr]elease)'
+
+
+
+  
   mode:
     pull_request_target:
   skip-if:

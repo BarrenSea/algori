@@ -5,6 +5,8 @@
 [![](https://img.shields.io/github/repo-size/barrensea/algori.svg)](https://github.com/BarrenSea/algori)
 [![](https://img.shields.io/github/stars/barrensea/algori.svg)](https://github.com/BarrenSea/algori)
 [![](https://img.shields.io/github/commit-activity/t/barrensea/algori.svg)](https://github.com/BarrenSea/algori)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+
 
 </div>
 
