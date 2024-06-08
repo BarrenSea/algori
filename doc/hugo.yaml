@@ -1,0 +1,16 @@
+baseURL: https://algori.github.io
+languageCode: en-us
+title: Algori
+theme: hextra
+
+menu:
+  main:
+    - identifier: github
+      name: Github
+      url: "https://github.com/barrensea/algori"
+      weight: 6
+    - identifier: docs
+      name: Docs
+      pageRef: /docs
+      weight: 6
+

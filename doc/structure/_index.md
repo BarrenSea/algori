@@ -1,4 +1,7 @@
-# Structure 数据结构
+---
+title: Structure 数据结构
+math: true
+---
 
 + Heap/Priority Queue 堆/优先队列
 

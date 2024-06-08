@@ -1,4 +1,7 @@
-# Sorting 排序
+---
+title: Sorting 排序
+math: true
+---
 
 + 插入排序
 + 选择排序
