@@ -17,3 +17,5 @@ use [x] to point the change
 
 - [ ] cargo Fmt
 - [ ] cargo check
+- [ ] if i add a algori, i change the README.md
+- [ ] if i add a algori, i change the doc
