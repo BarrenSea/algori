@@ -1,4 +1,4 @@
-/// # Insertion Sort
+/// Insertion Sort
 /// # Example
 /// ```
 /// use algori::sorting::{insertion_sort,is_sorted};
