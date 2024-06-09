@@ -1,4 +1,4 @@
-/// # Selection Sort
+/// Selection Sort
 /// # Example
 /// ```
 /// use algori::sorting::{selection_sort,is_sorted};
@@ -39,7 +39,7 @@ mod selection_sort_tests {
     #[test]
     fn positive() -> () {
         let mut a = [1, 123, 123, 12, 4234, 42, 1123, 123, 15112, 312];
-        selection_sort(&mut a, |a, b| a <= b);
-        assert_eq!(is_sorted(&mut a, |a, b| a <= b), true);
+        selection_sort(&mut a, |a, b| a >= b);
+        assert_eq!(is_sorted(&mut a, |a, b| a >= b), true);
     }
 }
