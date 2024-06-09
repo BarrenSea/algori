@@ -8,11 +8,11 @@
 /// ```
 pub fn bubble_sort<T>(array: &mut [T], comparator: fn(&T, &T) -> bool) -> () {
     for point in (0..array.len()).rev() {
-	for current_point in 0..point {
-	    if !comparator(&array[current_point],&array[current_point+1]) {
-		array.swap(current_point,current_point + 1);
-	    }
-	}
+        for current_point in 0..point {
+            if !comparator(&array[current_point], &array[current_point + 1]) {
+                array.swap(current_point, current_point + 1);
+            }
+        }
     }
 }
 
