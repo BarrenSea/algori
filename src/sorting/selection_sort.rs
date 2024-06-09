@@ -6,10 +6,7 @@
 /// selection_sort(&mut a,|a,b| a <= b);
 /// is_sorted(&mut a,|a,b| a<=b);
 /// ```
-pub fn selection_sort<T>(array: &mut [T], comparator: fn(&T, &T) -> bool) -> ()
-where
-    T: PartialOrd,
-{
+pub fn selection_sort<T>(array: &mut [T], comparator: fn(&T, &T) -> bool) -> () {
     for point in 0..array.len() {
         let mut better: usize = point;
         for index in point..array.len() {

@@ -12,10 +12,7 @@
 /// insertion_sort(&mut a,|a,b| a <=b);
 /// assert_eq!(is_sorted(&mut a,|a,b|a<=b),true);
 /// ```
-pub fn is_sorted<'a, T>(array: &'a [T], compare: fn(&T, &T) -> bool) -> bool
-where
-    T: PartialOrd + 'a,
-{
+pub fn is_sorted<'a, T>(array: &'a [T], compare: fn(&T, &T) -> bool) -> bool {
     if array.len() == 0 {
         return true;
     }
