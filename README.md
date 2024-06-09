@@ -30,4 +30,6 @@
 - [InsertionSort 插入排序](./doc/sorting/_index.md)
 - [SelectionSort 选择排序](./doc/sorting/_index.md)
 ### Structures 数据结构
-- [Heap 堆排序](./doc/structure/_index.md)
+- [Heap 堆/优先队列](./doc/structure/_index.md)
+
+
