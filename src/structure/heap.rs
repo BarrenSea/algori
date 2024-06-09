@@ -240,8 +240,8 @@ impl<T: PartialOrd> Heap<T> {
 
 #[cfg(test)]
 mod heap_tests {
-    use super::Heap;
     use super::super::super::sorting::is_sorted;
+    use super::Heap;
     #[test]
     fn comparator_test() -> () {
         let a: Heap<i32> = Heap::new(|a, b| a > b);
@@ -300,10 +300,12 @@ mod heap_tests {
         a.push(40);
         a.push(2000);
         assert_eq!(a.pop().unwrap(), 2000);
-	let mut b  = a.clone(); b.sort();
+        let mut b = a.clone();
+        b.sort();
         assert!(is_sorted(&b, |a, b| a <= b));
-	assert_eq!(a.pop().unwrap(),199);
-	let mut b  = a.clone(); b.sort();
+        assert_eq!(a.pop().unwrap(), 199);
+        let mut b = a.clone();
+        b.sort();
         assert!(is_sorted(&b, |a, b| a <= b));
     }
 
