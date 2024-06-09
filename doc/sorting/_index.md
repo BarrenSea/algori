@@ -18,14 +18,14 @@ math: true
 ## 插入排序
 从第 **0** 个元素作为有序序列开始, 插入排序将元素 **插入** 到 **已排序序列** 的正确位置 并扩展已排序序列的边界
 
-- 顺序由传入闭包决定
+> 顺序由传入闭包决定
 
 [![Insertion_sort](./insertion_sort.svg)](./insertion_sort.svg)
 
 ## 选择排序
 选择排序按照指定的 **闭包** 每次找到第i最符合闭包条件的元素 并放到 **i** 上
 
-- 顺序由传入闭包决定
+> 顺序由传入闭包决定
 
 [![Selection_Sort](./selection_sort.svg)](./selection_sort.svg)
 
@@ -35,7 +35,7 @@ math: true
 
 当第 **1** 次循环结束后 ,最后的元素将成为 **最大或最小** 的元素, 并收缩右边界
 
-- 顺序由传入闭包决定
+> 顺序由传入闭包决定
 
 [![Bubble_Sort](./bubble_sort.gif)](./bubble_sort.gif)
 
