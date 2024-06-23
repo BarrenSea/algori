@@ -30,6 +30,7 @@
 - [InsertionSort 插入排序](./doc/sorting/_index.md)
 - [SelectionSort 选择排序](./doc/sorting/_index.md)
 - [BubbleSort 冒泡排序](./doc/sorting/_index.md)
+- [BinarySort 二分排序](./doc/sorting/_index.md)
 ### Structures 数据结构
 - [Heap 堆/优先队列](./doc/structure/_index.md)
 ### Searching 搜索
