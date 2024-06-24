@@ -5,3 +5,6 @@ pub mod sorting;
 
 /// Structures
 pub mod structure;
+
+/// Searching
+pub mod searching;
