@@ -12,6 +12,7 @@ math: true
 | 插入排序 | 稳定     | $ \Theta( n ^ 2) $ | $ \Theta( n ^ 2) $ | O(1)       |
 | 选择排序 | 不稳定   | $ \Theta( n ^ 2) $ | $ \Theta( n ^ 2) $ | O(1)       |
 | 冒泡排序 | 稳定     | $ O( n ^ 2 ) $     | $ O( n ^ 2 ) $     | O(1)       |
+| 二分排序 | 稳定     | $ \Theta( n ^ 2) $ | $ \Theta( n ^ 2) $ | O(1)       |
 
 
 
@@ -39,3 +40,7 @@ math: true
 
 [![Bubble_Sort](./bubble_sort.gif)](./bubble_sort.gif)
 
+## 二分排序
+对插入排序的二分优化
+
+将插入点的寻找替换为二分查找 从0开始到的point的序列是有序的

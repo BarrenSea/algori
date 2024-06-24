@@ -16,6 +16,35 @@ pub fn insertion_sort<T>(array: &mut [T], comparator: fn(&T, &T) -> bool) -> () 
     }
 }
 
+use crate::searching::binary_search;
+/// Binary Sort
+/// # Example
+/// ```
+/// use algori::sorting::{binary_sort,is_sorted};
+/// let mut a = [2,3,1,34,15,8,0,7,4,3,21,4,6,7,4,2341,321,41231,312,62];
+/// binary_sort(&mut a);
+/// is_sorted(&mut a,|a,b| a<=b);
+/// ```
+pub fn binary_sort<T: PartialOrd>(array: &mut [T]) -> () {
+    for point in 1..array.len() {
+        let mut current_point: usize = point;
+        match binary_search(&array[0..point], &array[point]) {
+            Ok(index) => {
+                while current_point > index {
+                    array.swap(current_point, current_point - 1);
+                    current_point -= 1;
+                }
+            }
+            Err(index) => {
+                while current_point > index {
+                    array.swap(current_point, current_point - 1);
+                    current_point -= 1;
+                }
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod insertion_sort_tests {
     use super::super::is_sorted;
@@ -45,5 +74,30 @@ mod insertion_sort_tests {
         let mut a = [1, 123, 123, 12, 4234, 42, 1123, 123, 15112, 312];
         insertion_sort(&mut a, |a, b| a >= b);
         assert_eq!(is_sorted(&mut a, |a, b| a >= b), true);
+    }
+}
+
+mod binary_sort_tests {
+    use super::super::is_sorted;
+    use super::binary_sort;
+    #[test]
+    fn empty() -> () {
+        let mut a: [i32; 0] = [];
+        binary_sort(&mut a);
+
+        assert_eq!(is_sorted(&mut a, |a, b| a <= b), true);
+    }
+
+    #[test]
+    fn one_element() -> () {
+        let mut a: [i32; 1] = [1];
+        binary_sort(&mut a);
+        assert_eq!(is_sorted(&mut a, |a, b| a <= b), true);
+    }
+    #[test]
+    fn positive() -> () {
+        let mut a = [1, 123, 123, 12, 4234, 42, 1123, 123, 15112, 312];
+        binary_sort(&mut a);
+        assert_eq!(is_sorted(&mut a, |a, b| a <= b), true);
     }
 }
