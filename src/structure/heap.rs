@@ -1,4 +1,5 @@
 use core::ops::{Deref, DerefMut};
+use std::fmt::Display;
 
 macro_rules! left_child {
     ($parent:ident) => {
@@ -72,6 +73,14 @@ where
             items: Vec::default(),
             comparator: |a, b| a >= b,
         };
+    }
+}
+impl<T> Display for Heap<T>
+where
+    T: core::fmt::Debug,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        return write!(f, "{:?}", self.items);
     }
 }
 
