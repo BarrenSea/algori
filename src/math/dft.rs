@@ -2,7 +2,7 @@ use super::Complex;
 /// Discrete Fourier Transform (DFT)
 /// # Examples
 /// ```
-/// use crate::math::{dft,Complex};
+/// use algori::math::{dft,Complex};
 /// let input: Vec<f64> = vec!(0.0,1.0,2.0,3.0);
 /// let result = dft(&input);
 /// println!("{:?}",result);
