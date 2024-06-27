@@ -8,3 +8,6 @@ pub mod structure;
 
 /// Searching
 pub mod searching;
+
+/// Math
+pub mod math;
