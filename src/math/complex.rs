@@ -1,6 +1,5 @@
 use super::NumOps;
-use core::ops::{Add, Mul, Sub,Div};
-
+use core::ops::{Add, Div, Mul, Sub};
 
 /// impl<'a,'b,T: Clone + NumOps> Method<&'a Complex<T>> for &'b Complex<T>
 macro_rules! impl_ref_ref {
@@ -88,7 +87,7 @@ impl_all!(impl Add, add);
 impl<T: NumOps> Sub<Complex<T>> for Complex<T> {
     type Output = Complex<T>;
     #[inline]
-    fn sub(self,rhs:Complex<T>) -> Self::Output {
+    fn sub(self, rhs: Complex<T>) -> Self::Output {
         return Complex {
             re: self.re - rhs.re,
             im: self.im - rhs.im,
@@ -96,12 +95,10 @@ impl<T: NumOps> Sub<Complex<T>> for Complex<T> {
     }
 }
 
-impl_all!(impl Sub,sub);
+impl_all!(impl Sub, sub);
 
 /// (a+bi) * (c+di) = (a*c - b*d)+(a*d + b*c)i
-impl<T: NumOps + Clone> Mul<Complex<T>>
-    for Complex<T>
-{
+impl<T: NumOps + Clone> Mul<Complex<T>> for Complex<T> {
     type Output = Complex<T>;
     #[inline]
     fn mul(self, rhs: Complex<T>) -> Self::Output {
@@ -112,27 +109,18 @@ impl<T: NumOps + Clone> Mul<Complex<T>>
     }
 }
 
-
-
-
-
 impl_all!(impl Mul, mul);
 
-
 /// a+bi / c+di = (a * c + b * d)/ (c*c + d*d) + ((b*c - a*d)/(c*c + d*d))i
-impl<T: NumOps + Clone> Div<Complex<T>>
-    for Complex<T>
-{
+impl<T: NumOps + Clone> Div<Complex<T>> for Complex<T> {
     type Output = Complex<T>;
     #[inline]
     fn div(self, rhs: Complex<T>) -> Self::Output {
-	let tmp = rhs.re.clone() * rhs.re.clone() + rhs.im.clone() * rhs.im.clone();
-	let re = (self.re.clone() * rhs.re.clone() + self.im.clone() * rhs.im.clone()) / tmp.clone();
-	let im =  (self.im.clone() * rhs.re.clone() - self.re.clone() * rhs.im.clone()) / tmp;
-        return Complex {
-	    re,
-	    im,
-        };
+        let tmp = rhs.re.clone() * rhs.re.clone() + rhs.im.clone() * rhs.im.clone();
+        let re =
+            (self.re.clone() * rhs.re.clone() + self.im.clone() * rhs.im.clone()) / tmp.clone();
+        let im = (self.im.clone() * rhs.re.clone() - self.re.clone() * rhs.im.clone()) / tmp;
+        return Complex { re, im };
     }
 }
 
@@ -140,10 +128,10 @@ impl_all!(impl Div, div);
 
 /// a+bi -> (a,b)
 impl<T> core::fmt::Display for Complex<T>
-    where T: core::fmt::Display,
+where
+    T: core::fmt::Display,
 {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-	return write!(f,"({},{})",self.re,self.im);
+        return write!(f, "({},{})", self.re, self.im);
     }
 }
-
