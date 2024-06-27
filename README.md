@@ -37,3 +37,5 @@
 - [BinarySearch 二分搜索](./doc/searching/_index.md)
 ### Math 数学
 - [Complex 复数](./doc/math/_index.md)
+- [DFT 离散傅立叶变换](./doc/math/_index.md)
+
