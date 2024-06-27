@@ -35,4 +35,5 @@
 - [Heap 堆/优先队列](./doc/structure/_index.md)
 ### Searching 搜索
 - [BinarySearch 二分搜索](./doc/searching/_index.md)
-
+### Math 数学
+- [Complex 复数](./doc/math/_index.md)
