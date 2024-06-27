@@ -1,5 +1,7 @@
 mod complex;
+mod dft;
 pub use complex::*;
+pub use dft::*;
 
 use core::ops::{Add, Div, Mul, Rem, Sub};
 pub trait NumOps<Rhs = Self, Output = Self>:
