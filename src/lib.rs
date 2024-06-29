@@ -11,3 +11,6 @@ pub mod searching;
 
 /// Math
 pub mod math;
+
+/// Tools
+pub mod tools;
