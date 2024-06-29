@@ -83,7 +83,28 @@ where
         return write!(f, "{:?}", self.items);
     }
 }
-
+/// from a [T;N]
+impl<T: PartialOrd, const N: usize> From<[T; N]> for Heap<T> {
+    fn from(array: [T; N]) -> Self {
+        let mut heap = Heap {
+            items: array.into(),
+            comparator: |a, b| a >= b,
+        };
+        heap.rebuild();
+        return heap;
+    }
+}
+/// from Vec<T>
+impl<T: PartialOrd> From<Vec<T>> for Heap<T> {
+    fn from(array: Vec<T>) -> Self {
+        let mut heap = Heap {
+            items: array,
+            comparator: |a, b| a >= b,
+        };
+        heap.rebuild();
+        return heap;
+    }
+}
 #[allow(dead_code)]
 impl<T: PartialOrd> Heap<T> {
     /// # Create a Heap With a Comparator
