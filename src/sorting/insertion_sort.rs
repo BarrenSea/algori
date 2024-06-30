@@ -4,7 +4,7 @@
 /// use algori::sorting::{insertion_sort,is_sorted};
 /// let mut a = [2,3,1,34,15,8,0,7,4,3,21,4,6,7,4,2341,321,41231,312,62];
 /// insertion_sort(&mut a,|a,b| a <= b);
-/// is_sorted(&mut a,|a,b| a<=b);
+/// assert_eq!(is_sorted(&mut a,|a,b| a<=b),true);
 /// ```
 pub fn insertion_sort<T>(array: &mut [T], comparator: fn(&T, &T) -> bool) -> () {
     for point in 1..array.len() {
@@ -23,7 +23,7 @@ use crate::searching::binary_search;
 /// use algori::sorting::{binary_sort,is_sorted};
 /// let mut a = [2,3,1,34,15,8,0,7,4,3,21,4,6,7,4,2341,321,41231,312,62];
 /// binary_sort(&mut a);
-/// is_sorted(&mut a,|a,b| a<=b);
+/// assert_eq!(is_sorted(&mut a,|a,b| a<=b),true);
 /// ```
 pub fn binary_sort<T: PartialOrd>(array: &mut [T]) -> () {
     for point in 1..array.len() {

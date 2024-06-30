@@ -4,7 +4,7 @@
 /// use algori::sorting::{bubble_sort,is_sorted};
 /// let mut a = [2,3,1,34,15,8,0,7,4,3,21,4,6,7,4,2341,321,41231,312,62];
 /// bubble_sort(&mut a,|a,b| a <= b);
-/// is_sorted(&mut a,|a,b| a<=b);
+/// assert_eq!(is_sorted(&mut a,|a,b| a<=b),true);
 /// ```
 pub fn bubble_sort<T>(array: &mut [T], comparator: fn(&T, &T) -> bool) -> () {
     for point in (0..array.len()).rev() {
