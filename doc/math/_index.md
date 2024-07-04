@@ -5,7 +5,7 @@ math: true
 
 + 复数
 + 离散傅立叶变换DFT
-
++ $ \pi $
 ## 复数
 形如`a+bi`的数为复数 a为`实部` b为`虚部` i为`虚数单位`
 
@@ -26,3 +26,10 @@ math: true
 $ X[k] = \sum_{0}^{N-1} x[n] \cdot e^{-i \frac{2\pi}{N} nk}  $
  
  对 $ e^{-i \frac{2\pi}{N} nk} $ 进行欧拉变换为 $ cos (\frac{2\pi}{N} nk) + sin (\frac{2\pi}{N} nk) i $ 
+
+## $ \pi $
+使用莱布尼兹级数逼近pi
+
+$ \frac{\pi}{4} =  1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \frac{1}{9} - \ldots $
+
+
