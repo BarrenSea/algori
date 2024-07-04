@@ -1,9 +1,10 @@
 mod complex;
 mod dft;
+mod pi;
 pub use complex::*;
-pub use dft::*;
-
 use core::ops::{Add, Div, Mul, Rem, Sub};
+pub use dft::*;
+pub use pi::*;
 pub trait NumOps<Rhs = Self, Output = Self>:
     Add<Rhs, Output = Output>
     + Sub<Rhs, Output = Output>

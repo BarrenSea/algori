@@ -31,6 +31,7 @@
 - [SelectionSort 选择排序](./doc/sorting/_index.md)
 - [BubbleSort 冒泡排序](./doc/sorting/_index.md)
 - [BinarySort 二分排序](./doc/sorting/_index.md)
+- [MergeSort 归并排序](./doc/sorting/_index.md)
 ### Structures 数据结构
 - [Heap 堆/优先队列](./doc/structure/_index.md)
 ### Searching 搜索
@@ -38,4 +39,5 @@
 ### Math 数学
 - [Complex 复数](./doc/math/_index.md)
 - [DFT 离散傅立叶变换](./doc/math/_index.md)
+- [pi 圆周率](./doc/math/_index.md)
 
