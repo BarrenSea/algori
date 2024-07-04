@@ -36,6 +36,7 @@
 - [Heap 堆/优先队列](./doc/structure/_index.md)
 ### Searching 搜索
 - [BinarySearch 二分搜索](./doc/searching/_index.md)
+- [two_sum 两数之和](./doc/searching/_index.md)
 ### Math 数学
 - [Complex 复数](./doc/math/_index.md)
 - [DFT 离散傅立叶变换](./doc/math/_index.md)
