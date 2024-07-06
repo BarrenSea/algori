@@ -34,6 +34,7 @@
 - [MergeSort 归并排序](./doc/sorting/_index.md)
 ### Structures 数据结构
 - [Heap 堆/优先队列](./doc/structure/_index.md)
+- [LinedList 双向链表](./doc/structure/_index.md)
 ### Searching 搜索
 - [BinarySearch 二分搜索](./doc/searching/_index.md)
 - [two_sum 两数之和](./doc/searching/_index.md)

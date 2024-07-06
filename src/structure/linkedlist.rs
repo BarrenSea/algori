@@ -48,6 +48,28 @@ impl<T> LinkedList<T> {
             marker: core::marker::PhantomData,
         };
     }
+    /// 返回尾的引用
+    pub fn back(&self) -> Option<&T> {
+        if let Some(tail) = self.tail {
+            unsafe {
+                return Some(&(*tail.as_ptr()).element);
+            }
+        } else {
+            // 尾为空
+            return None;
+        }
+    }
+    /// 返回头的引用
+    pub fn front(&self) -> Option<&T> {
+        if let Some(head) = self.head {
+            unsafe {
+                return Some(&(*head.as_ptr()).element);
+            }
+        } else {
+            // 头为空
+            return None;
+        }
+    }
 
     /// 在链表尾部追加节点
     pub fn push_back(&mut self, element: T) {
@@ -190,6 +212,14 @@ impl<T> LinkedList<T> {
                     self.head = Some(new_head);
                     // 返回旧头的元素
                     return Some(node.into_element());
+                } else {
+                    // 当头的next为None时
+                    // 将头也设置为None
+                    if let Some(head) = self.head {
+                        self.head = None;
+                        let node = Box::from_raw(head.as_ptr());
+                        return Some(node.into_element());
+                    }
                 }
             }
             // 头部为空 返回None
@@ -223,6 +253,14 @@ impl<T> LinkedList<T> {
                     self.tail = Some(new_tail);
                     // 返回旧尾的元素
                     return Some(node.into_element());
+                } else {
+                    // 当尾的next为None时
+                    // 将尾也设置为None
+                    if let Some(tail) = self.tail {
+                        self.tail = None;
+                        let node = Box::from_raw(tail.as_ptr());
+                        return Some(node.into_element());
+                    }
                 }
             }
             // 尾部为空 返回None
@@ -334,6 +372,15 @@ impl<T> LinkedList<T> {
         }
         None
     }
+    pub fn to_vec(mut self) -> Vec<T> {
+        let mut vec = vec![];
+        while self.head.is_some() {
+            if let Some(value) = self.pop_front() {
+                vec.push(value);
+            }
+        }
+        return vec;
+    }
 }
 
 impl<T> Display for LinkedList<T>
@@ -370,5 +417,15 @@ impl<T> Drop for LinkedList<T> {
     fn drop(&mut self) {
         // Pop items until there are none left
         while self.pop_front().is_some() {}
+    }
+}
+
+impl<T, const N: usize> From<[T; N]> for LinkedList<T> {
+    fn from(array: [T; N]) -> Self {
+        let mut new_linkedlist = LinkedList::new();
+        for value in array {
+            new_linkedlist.push_back(value);
+        }
+        return new_linkedlist;
     }
 }
