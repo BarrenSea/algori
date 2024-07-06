@@ -365,3 +365,10 @@ where
         return Ok(());
     }
 }
+
+impl<T> Drop for LinkedList<T> {
+    fn drop(&mut self) {
+        // Pop items until there are none left
+        while self.pop_front().is_some() {}
+    }
+}
