@@ -372,6 +372,7 @@ impl<T> LinkedList<T> {
         }
         None
     }
+    /// 消耗linkedlist变成vec
     pub fn to_vec(mut self) -> Vec<T> {
         let mut vec = vec![];
         while self.head.is_some() {
@@ -428,4 +429,30 @@ impl<T, const N: usize> From<[T; N]> for LinkedList<T> {
         }
         return new_linkedlist;
     }
+}
+
+/// 将两个链表相加 每个节点为0-9
+/// ```
+/// use algori::structure::LinkedList;
+/// use algori::structure::linkedlist::add_two_linkedlist;
+/// let a: LinkedList<i32> = [1,3,2,5,5,2].into();
+/// let b: LinkedList<i32> = [2,3,1,9,1,4,6,8].into();
+/// assert_eq!(&add_two_linkedlist(a,b).to_vec(),&[3,6,3,4,7,6,6,8]);
+/// ```
+pub fn add_two_linkedlist(a: LinkedList<i32>, b: LinkedList<i32>) -> LinkedList<i32> {
+    let mut result = LinkedList::new();
+    let mut current = &mut result;
+    let (mut p1, mut p2) = (a, b);
+    let mut sum = 0i32;
+    while p1.front().is_some() || p2.front().is_some() || sum != 0 {
+        if let Some(value) = p1.pop_front() {
+            sum += value;
+        }
+        if let Some(value) = p2.pop_front() {
+            sum += value;
+        }
+        current.push_back(sum % 10);
+        sum = sum / 10;
+    }
+    return result;
 }
