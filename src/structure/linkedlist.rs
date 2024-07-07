@@ -456,3 +456,38 @@ pub fn add_two_linkedlist(a: LinkedList<i32>, b: LinkedList<i32>) -> LinkedList<
     }
     return result;
 }
+
+/// 将两个链表相加 每个节点为二进制
+/// ```
+/// use algori::structure::LinkedList;
+/// use algori::structure::linkedlist::add_two_binary_linkedlist;
+/// let a: LinkedList<bool> = [true,false,true,false,false,false].into();
+/// let b: LinkedList<bool> = [true,false,false,false,true].into();
+/// assert_eq!(&add_two_binary_linkedlist(a,b).to_vec(),&[false,true,true,false,true,false]);
+/// ```
+pub fn add_two_binary_linkedlist(a: LinkedList<bool>, b: LinkedList<bool>) -> LinkedList<bool> {
+    let mut result = LinkedList::new();
+    let (mut p1, mut p2) = (a, b);
+    let mut carry = false;
+    while p1.front().is_some() || p2.front().is_some() || carry {
+        let (value1, value2) = match (p1.pop_front(), p2.pop_front()) {
+            (Some(v1), Some(v2)) => (v1, v2),
+            (Some(v1), None) => (v1, false),
+            (None, Some(v2)) => (false, v2),
+            (None, None) => {
+                // 当两个链表都为空，只有进位时
+                if carry {
+                    (true, false)
+                } else {
+                    break;
+                }
+            }
+        };
+
+        let sum = value1 ^ value2 ^ carry; // 三路异或 判断奇数
+        carry = (value1 & value2) | (value1 & carry) | (value2 & carry); // 计算进位
+        result.push_back(sum);
+    }
+
+    return result;
+}
