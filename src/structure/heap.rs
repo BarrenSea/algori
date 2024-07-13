@@ -270,8 +270,8 @@ impl<T> Heap<T> {
 }
 
 impl<T> Heap<T> {
-    pub fn from_array<const N: usize>(array: [T;N],comparator: fn(&T, &T) -> bool) -> Self {
-	let mut heap = Heap {
+    pub fn from_array<const N: usize>(array: [T; N], comparator: fn(&T, &T) -> bool) -> Self {
+        let mut heap = Heap {
             items: array.into(),
             comparator,
         };
@@ -279,8 +279,6 @@ impl<T> Heap<T> {
         return heap;
     }
 }
-
-
 
 #[cfg(test)]
 mod heap_tests {
@@ -364,4 +362,3 @@ mod heap_tests {
         assert_eq!(a.items, [0, 20, 40, 199]);
     }
 }
-
