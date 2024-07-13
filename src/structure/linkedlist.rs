@@ -493,3 +493,106 @@ pub fn add_two_binary_linkedlist(a: LinkedList<bool>, b: LinkedList<bool>) -> Li
 
     return result;
 }
+
+#[cfg(test)]
+mod add_two_binary_test {
+    use super::add_two_binary_linkedlist;
+    use super::LinkedList;
+    #[test]
+    fn empty() -> () {
+        let a: LinkedList<bool> = [].into();
+        let b: LinkedList<bool> = [].into();
+        let result = add_two_binary_linkedlist(a, b);
+        assert_eq!(&result.to_vec(), &[]);
+    }
+    #[test]
+    fn carry() -> () {
+        let a: LinkedList<bool> = [true].into();
+        let b: LinkedList<bool> = [true].into();
+        let result = add_two_binary_linkedlist(a, b);
+        assert_eq!(&result.to_vec(), &[false, true]);
+    }
+    #[test]
+    fn one() -> () {
+        let a: LinkedList<bool> = [false].into();
+        let b: LinkedList<bool> = [true].into();
+        let result = add_two_binary_linkedlist(a, b);
+        assert_eq!(&result.to_vec(), &[true]);
+    }
+    #[test]
+    fn two() -> () {
+        let a: LinkedList<bool> = [true, false].into();
+        let b: LinkedList<bool> = [true].into();
+        let result = add_two_binary_linkedlist(a, b);
+        assert_eq!(&result.to_vec(), &[false, true]);
+    }
+    #[test]
+    fn more() -> () {
+        let a: LinkedList<bool> = [false, false].into();
+        let b: LinkedList<bool> = [true].into();
+        let result = add_two_binary_linkedlist(a, b);
+        assert_eq!(&result.to_vec(), &[true, false]);
+    }
+    #[test]
+    fn common() -> () {
+        let a: LinkedList<bool> = [false, false, true, true, false, true].into();
+        let b: LinkedList<bool> = [true, false, true, false, true, false, true, true].into();
+        let result = add_two_binary_linkedlist(a, b);
+        assert_eq!(
+            &result.to_vec(),
+            &[true, false, false, false, false, false, false, false, true]
+        );
+    }
+}
+
+mod add_two_linkedlist {
+    use super::add_two_linkedlist;
+    use super::LinkedList;
+    #[test]
+    fn empty() -> () {
+        let a: LinkedList<i32> = [].into();
+        let b: LinkedList<i32> = [].into();
+        let result = add_two_linkedlist(a, b);
+        assert_eq!(&result.to_vec(), &[]);
+    }
+    #[test]
+    fn carry() -> () {
+        let a: LinkedList<i32> = [9].into();
+        let b: LinkedList<i32> = [8].into();
+        let result = add_two_linkedlist(a, b);
+        assert_eq!(&result.to_vec(), &[7, 1]);
+    }
+    #[test]
+    fn one() -> () {
+        let a: LinkedList<i32> = [2].into();
+        let b: LinkedList<i32> = [3].into();
+        let result = add_two_linkedlist(a, b);
+        assert_eq!(&result.to_vec(), &[5]);
+    }
+    #[test]
+    fn two() -> () {
+        let a: LinkedList<i32> = [9, 2].into();
+        let b: LinkedList<i32> = [3, 9].into();
+        let result = add_two_linkedlist(a, b);
+        assert_eq!(&result.to_vec(), &[2, 2, 1]);
+    }
+    #[test]
+    fn more() -> () {
+        let a: LinkedList<i32> = [9, 2, 9, 2].into();
+        let b: LinkedList<i32> = [3, 9].into();
+        let result = add_two_linkedlist(a, b);
+        assert_eq!(&result.to_vec(), &[2, 2, 0, 3]);
+    }
+    #[test]
+    fn common() -> () {
+        let a: LinkedList<i32> =
+            [0, 2, 3, 1, 5, 3, 6, 2, 5, 8, 1, 8, 9, 2, 9, 5, 3, 5, 9, 0].into();
+        let b: LinkedList<i32> =
+            [8, 2, 3, 6, 2, 1, 6, 2, 9, 1, 5, 1, 6, 5, 8, 2, 3, 1, 5, 2].into();
+        let result = add_two_linkedlist(a, b);
+        assert_eq!(
+            &result.to_vec(),
+            &[8, 4, 6, 7, 7, 4, 2, 5, 4, 0, 7, 9, 5, 8, 7, 8, 6, 6, 4, 3]
+        );
+    }
+}
