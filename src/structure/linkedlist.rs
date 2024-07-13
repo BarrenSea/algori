@@ -477,15 +477,17 @@ pub fn add_two_binary_linkedlist(a: LinkedList<bool>, b: LinkedList<bool>) -> Li
             (None, None) => {
                 // 当两个链表都为空，只有进位时
                 if carry {
+                    carry = false;
                     (true, false)
                 } else {
                     break;
                 }
             }
         };
-
-        let sum = value1 ^ value2 ^ carry; // 三路异或 判断奇数
-        carry = (value1 & value2) | (value1 & carry) | (value2 & carry); // 计算进位
+        let xor1 = value1 ^ value2;
+        // 利用全加器
+        let sum = xor1 ^ carry; // 三路异或 判断奇数
+        carry = (xor1 & carry) | (value1 & value2); // 三路与 计算偶数进位
         result.push_back(sum);
     }
 
