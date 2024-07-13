@@ -94,6 +94,7 @@ impl<T: PartialOrd, const N: usize> From<[T; N]> for Heap<T> {
         return heap;
     }
 }
+
 /// from Vec<T>
 impl<T: PartialOrd> From<Vec<T>> for Heap<T> {
     fn from(array: Vec<T>) -> Self {
@@ -106,7 +107,7 @@ impl<T: PartialOrd> From<Vec<T>> for Heap<T> {
     }
 }
 #[allow(dead_code)]
-impl<T: PartialOrd> Heap<T> {
+impl<T> Heap<T> {
     /// # Create a Heap With a Comparator
     /// ```
     /// use algori::structure::Heap;
@@ -265,6 +266,17 @@ impl<T: PartialOrd> Heap<T> {
     /// ```
     pub fn as_slice(&self) -> &[T] {
         return &self.items;
+    }
+}
+
+impl<T> Heap<T> {
+    pub fn from_array<const N: usize>(array: [T; N], comparator: fn(&T, &T) -> bool) -> Self {
+        let mut heap = Heap {
+            items: array.into(),
+            comparator,
+        };
+        heap.rebuild();
+        return heap;
     }
 }
 
