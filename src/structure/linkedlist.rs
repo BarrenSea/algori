@@ -478,7 +478,7 @@ pub fn add_two_binary_linkedlist(a: LinkedList<bool>, b: LinkedList<bool>) -> Li
         if let Some(value) = p2.pop_front() {
             sum[1] = value;
         }
-	// 第一个链表和第二个链表的奇数判断[异或门]
+        // 第一个链表和第二个链表的奇数判断[异或门]
         let xor1 = sum[0] ^ sum[1];
 
         // 全加器
