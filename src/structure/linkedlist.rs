@@ -469,26 +469,23 @@ pub fn add_two_binary_linkedlist(a: LinkedList<bool>, b: LinkedList<bool>) -> Li
     let mut result = LinkedList::new();
     let (mut p1, mut p2) = (a, b);
     let mut carry = false;
-    while p1.front().is_some() || p2.front().is_some() || carry {
-        let (value1, value2) = match (p1.pop_front(), p2.pop_front()) {
-            (Some(v1), Some(v2)) => (v1, v2),
-            (Some(v1), None) => (v1, false),
-            (None, Some(v2)) => (false, v2),
-            (None, None) => {
-                // 当两个链表都为空，只有进位时
-                if carry {
-                    carry = false;
-                    (true, false)
-                } else {
-                    break;
-                }
-            }
-        };
-        let xor1 = value1 ^ value2;
-        // 利用全加器
-        let sum = xor1 ^ carry; // 三路异或 判断奇数
-        carry = (xor1 & carry) | (value1 & value2); // 三路与 计算偶数进位
-        result.push_back(sum);
+    // sum[0]为第一个链表的值 sum[1]为第二个链表的值 sum[2]为上次进位
+    let mut sum = [false; 3];
+    while p1.front().is_some() || p2.front().is_some() || sum[2] == true {
+        if let Some(value) = p1.pop_front() {
+            sum[0] = value;
+        }
+        if let Some(value) = p2.pop_front() {
+            sum[1] = value;
+        }
+        // 第一个链表和第二个链表的奇数判断[异或门]
+        let xor1 = sum[0] ^ sum[1];
+
+        // 全加器
+        let add_result = xor1 ^ sum[2]; // sum的奇数判断[三路异或门]
+        sum[2] = (xor1 & sum[2]) | (sum[0] & sum[1]); // 计算偶数进位[两个与门和一个或门]
+        (sum[0], sum[1]) = (false, false); // 清零
+        result.push_back(add_result);
     }
 
     return result;
