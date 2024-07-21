@@ -14,3 +14,6 @@ pub mod math;
 
 /// Tools
 pub mod tools;
+
+/// String
+pub mod string;
