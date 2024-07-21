@@ -1,5 +1,5 @@
 /// 最大子串
-/// 
+///
 /// 返回(起始位置,结束位置,长度)
 /// ```
 /// use algori::string::max_substring;
