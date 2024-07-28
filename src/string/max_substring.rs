@@ -11,29 +11,28 @@ pub fn max_substring(s: &str) -> (usize, usize, usize) {
     let bytes = s.as_bytes();
     let mut char_set = [false; 128]; // 一个简单的Table
 
-    let (mut start, mut end, mut max_length) = (0, 0, 0); // 结果
-    let mut current_start = 0; // 当前不重复子串的开始位置
+    let (mut max_left, mut max_right, mut max_length) = (0, 0, 0); // 结果
+    let mut left = 0; // 当前不重复子串的开始位置
 
-    for i in 0..bytes.len() {
-        // 如果字符已经出现过，则移动起始位置
-        while char_set[bytes[i] as usize] == true {
-            char_set[bytes[current_start] as usize] = false; // 弹出
-            current_start += 1; // 移动起始位置
+    for right in 0..bytes.len() {
+        while char_set[bytes[right] as usize] == true { // 拓展后右端字符已经存在
+            char_set[bytes[left] as usize] = false; // 弹出左端
+            left += 1; // 右移左端
         }
 
-        // 标记当前字符为已出现
-        char_set[bytes[i] as usize] = true;
+        // 标记右端字符为已出现
+        char_set[bytes[right] as usize] = true;
 
         // 更新最大长度和结束位置
-        if i - current_start + 1 > max_length {
-            max_length = i - current_start + 1;
-            start = current_start; // 更新起始位置
-            end = i; // 更新结束位置
+        if right - left + 1 > max_length {
+            max_length = right - left + 1;
+            max_left = left; // 更新起始位置
+            max_right = right; // 更新结束位置
         }
     }
 
     // 返回起始位置、结束位置和最大长度
-    return (start, end, max_length);
+    return (max_left, max_right, max_length);
 }
 
 #[cfg(test)]
@@ -49,7 +48,10 @@ mod max_substring {
     fn test_single_character_string() {
         assert_eq!(max_substring("a"), (0, 0, 1));
     }
-
+    #[test]
+    fn two_same_characters() {
+        assert_eq!(max_substring("aa"), (0, 0, 1));
+    }
     #[test]
     fn test_all_same_characters() {
         assert_eq!(max_substring("aaaaa"), (0, 0, 1));
