@@ -7,7 +7,7 @@
 
 
 
-[[][file:imgs/algori.png]]
+[[algori][file:imgs/algori.png]]
 
 ** Algorithms
 *** Sorting 排序
