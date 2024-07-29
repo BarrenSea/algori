@@ -6,9 +6,9 @@
 [[https://conventionalcommits.org][https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white.svg]]
 
 
-
+#+begin_center
 [[algori][file:imgs/algori.png]]
-
+#+end_center
 ** Algorithms
 *** Sorting 排序
 - [[./doc/sorting/_index.md][InsertionSort 插入排序]]
