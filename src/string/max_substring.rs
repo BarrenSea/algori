@@ -15,7 +15,8 @@ pub fn max_substring(s: &str) -> (usize, usize, usize) {
     let mut left = 0; // 当前不重复子串的开始位置
 
     for right in 0..bytes.len() {
-        while char_set[bytes[right] as usize] == true { // 拓展后右端字符已经存在
+        while char_set[bytes[right] as usize] == true {
+            // 拓展后右端字符已经存在
             char_set[bytes[left] as usize] = false; // 弹出左端
             left += 1; // 右移左端
         }
