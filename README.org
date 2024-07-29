@@ -5,10 +5,6 @@
 [[https://github.com/BarrenSea/algori][https://img.shields.io/github/commit-activity/t/barrensea/algori.svg]]
 [[https://conventionalcommits.org][https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white.svg]]
 
-
-#+begin_center
-[[algori][file:imgs/algori.png]]
-#+end_center
 ** Algorithms
 *** Sorting 排序
 - [[./doc/sorting/_index.md][InsertionSort 插入排序]]
