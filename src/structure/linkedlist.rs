@@ -441,7 +441,7 @@ impl<T, const N: usize> From<[T; N]> for LinkedList<T> {
 /// ```
 pub fn add_two_linkedlist(a: LinkedList<i32>, b: LinkedList<i32>) -> LinkedList<i32> {
     let mut result = LinkedList::new();
-    let mut current = &mut result;
+    let current = &mut result;
     let (mut p1, mut p2) = (a, b);
     let mut sum = 0i32;
     while p1.front().is_some() || p2.front().is_some() || sum != 0 {
@@ -468,7 +468,6 @@ pub fn add_two_linkedlist(a: LinkedList<i32>, b: LinkedList<i32>) -> LinkedList<
 pub fn add_two_binary_linkedlist(a: LinkedList<bool>, b: LinkedList<bool>) -> LinkedList<bool> {
     let mut result = LinkedList::new();
     let (mut p1, mut p2) = (a, b);
-    let mut carry = false;
     // sum[0]为第一个链表的值 sum[1]为第二个链表的值 sum[2]为上次进位
     let mut sum = [false; 3];
     while p1.front().is_some() || p2.front().is_some() || sum[2] == true {
