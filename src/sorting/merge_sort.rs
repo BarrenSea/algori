@@ -46,3 +46,44 @@ pub fn merge_sort<T: Clone>(array: &mut [T], comparator: fn(&T, &T) -> bool) {
         }
     }
 }
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use super::super::is_sorted;
+    #[test]
+    fn test_merge_sort() {
+        let mut a = [2, 3, 1, 34, 15, 8, 0, 7, 4, 3, 21, 4, 6, 7, 4, 2341, 321, 41231, 312, 62];
+        merge_sort(&mut a, |a, b| a <= b);
+        assert!(is_sorted(&a, |a, b| a <= b));
+    }
+
+    #[test]
+    fn test_merge_sort_empty() {
+        let mut a: [i32; 0] = [];
+        merge_sort(&mut a, |a, b| a <= b);
+        assert!(is_sorted(&a, |a, b| a <= b));
+    }
+
+    #[test]
+    fn test_merge_sort_single_element() {
+        let mut a = [1];
+        merge_sort(&mut a, |a, b| a <= b);
+        assert!(is_sorted(&a, |a, b| a <= b));
+    }
+
+    #[test]
+    fn test_merge_sort_already_sorted() {
+        let mut a = [1, 2, 3, 4, 5];
+        merge_sort(&mut a, |a, b| a <= b);
+        assert!(is_sorted(&a, |a, b| a <= b));
+    }
+
+    #[test]
+    fn test_merge_sort_reverse_sorted() {
+        let mut a = [5, 4, 3, 2, 1];
+        merge_sort(&mut a, |a, b| a <= b);
+        assert!(is_sorted(&a, |a, b| a <= b));
+    }
+}
