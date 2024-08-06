@@ -47,14 +47,15 @@ pub fn merge_sort<T: Clone>(array: &mut [T], comparator: fn(&T, &T) -> bool) {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
-    use super::*;
     use super::super::is_sorted;
+    use super::*;
     #[test]
     fn test_merge_sort() {
-        let mut a = [2, 3, 1, 34, 15, 8, 0, 7, 4, 3, 21, 4, 6, 7, 4, 2341, 321, 41231, 312, 62];
+        let mut a = [
+            2, 3, 1, 34, 15, 8, 0, 7, 4, 3, 21, 4, 6, 7, 4, 2341, 321, 41231, 312, 62,
+        ];
         merge_sort(&mut a, |a, b| a <= b);
         assert!(is_sorted(&a, |a, b| a <= b));
     }
