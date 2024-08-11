@@ -51,7 +51,7 @@ macro_rules! impl_all {
     };
 }
 
-#[derive(Clone, Debug, PartialEq , Eq,Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[repr(C)]
 /// Complex
 pub struct Complex<T> {
@@ -136,12 +136,14 @@ where
     }
 }
 
-impl<T> From<(T,T)> for Complex<T> {
-    fn from(value: (T,T)) -> Self {
-	return Self{re:value.0,im:value.1};
+impl<T> From<(T, T)> for Complex<T> {
+    fn from(value: (T, T)) -> Self {
+        return Self {
+            re: value.0,
+            im: value.1,
+        };
     }
 }
-
 
 #[cfg(test)]
 mod max_substring {
@@ -150,46 +152,52 @@ mod max_substring {
     use super::*;
     #[test]
     fn create_new_complex() {
-	let a = Complex::new(1,1);
-	assert_eq!(Complex{re:1,im:1},a);
+        let a = Complex::new(1, 1);
+        assert_eq!(Complex { re: 1, im: 1 }, a);
     }
     #[test]
     fn add() {
-	let a:Complex<i32> = (20,30).into();
-	let b:Complex<i32> = (992,8770).into();
-	assert_eq!(Complex{re:1012,im:8800},a+b);
+        let a: Complex<i32> = (20, 30).into();
+        let b: Complex<i32> = (992, 8770).into();
+        assert_eq!(Complex { re: 1012, im: 8800 }, a + b);
     }
     #[test]
     fn mul() {
-	let a:Complex<i32> = (20,30).into();
-	let b:Complex<i32> = (992,8770).into();
-	assert_eq!(Complex{re:-243260,im:205160},a*b);
+        let a: Complex<i32> = (20, 30).into();
+        let b: Complex<i32> = (992, 8770).into();
+        assert_eq!(
+            Complex {
+                re: -243260,
+                im: 205160
+            },
+            a * b
+        );
     }
     #[test]
     fn div() {
-	let a:Complex<i32> = (20,30).into();
-	let b:Complex<i32> = (992,8770).into();
-	assert_eq!(Complex{re:217,im:112},b/a);
+        let a: Complex<i32> = (20, 30).into();
+        let b: Complex<i32> = (992, 8770).into();
+        assert_eq!(Complex { re: 217, im: 112 }, b / a);
     }
     #[test]
     fn sub() {
-	let a:Complex<i32> = (20,30).into();
-	let b:Complex<i32> = (992,8770).into();
-	assert_eq!(Complex{re:972,im:8740},b-a);
+        let a: Complex<i32> = (20, 30).into();
+        let b: Complex<i32> = (992, 8770).into();
+        assert_eq!(Complex { re: 972, im: 8740 }, b - a);
     }
     #[test]
     fn hash() {
-	use std::collections::hash_map::DefaultHasher;
-	use std::hash::Hash;
-	fn calculate_hash<T: Hash>(t: &T) -> u64 {
-	    let mut s = DefaultHasher::new();
-	    t.hash(&mut s);
-	    s.finish()
-	}
-	let a:Complex<i32> = (20,30).into();
-	let b:Complex<i32> = (20,40).into();
-	let c:Complex<i32> = (20,30).into();
-	assert_eq!(calculate_hash(&a),calculate_hash(&c));
-	assert_eq!(calculate_hash(&a)==calculate_hash(&b),false);
+        use std::collections::hash_map::DefaultHasher;
+        use std::hash::Hash;
+        fn calculate_hash<T: Hash>(t: &T) -> u64 {
+            let mut s = DefaultHasher::new();
+            t.hash(&mut s);
+            s.finish()
+        }
+        let a: Complex<i32> = (20, 30).into();
+        let b: Complex<i32> = (20, 40).into();
+        let c: Complex<i32> = (20, 30).into();
+        assert_eq!(calculate_hash(&a), calculate_hash(&c));
+        assert_eq!(calculate_hash(&a) == calculate_hash(&b), false);
     }
 }
