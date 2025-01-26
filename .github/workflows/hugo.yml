@@ -1,40 +1,40 @@
-name: deploy
+# name: deploy
 
-on:
-  push:
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+# on:
+#   push:
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-          submodules: true
-          fetch-depth: 0
+#     steps:
+#     - name: Checkout repository
+#       uses: actions/checkout@v2
+#       with:
+#           submodules: true
+#           fetch-depth: 0
 
-    - name: Set up Hugo
-      uses: peaceiris/actions-hugo@v2
-      with:
-        hugo-version: "latest"
+#     - name: Set up Hugo
+#       uses: peaceiris/actions-hugo@v2
+#       with:
+#         hugo-version: "latest"
 
-    - name: Build and Deploy
-      run: |
-        hugo new site 'algori' --format=yaml
-        cp -r doc/hugo.yaml algori/hugo.yaml
-        cp doc/_index.md algori/content/
-        cp -r doc algori/content/docs
-        cd algori
-        git clone https://github.com/imfing/hextra.git themes/hextra
-        hugo -F --cleanDestinationDir  # 生成静态文件
-        mkdir -p public  # 确保public文件夹存在
-        cp -r public/* ./  # 复制生成的静态文件到仓库根目录        
+#     - name: Build and Deploy
+#       run: |
+#         hugo new site 'algori' --format=yaml
+#         cp -r doc/hugo.yaml algori/hugo.yaml
+#         cp doc/_index.md algori/content/
+#         cp -r doc algori/content/docs
+#         cd algori
+#         git clone https://github.com/imfing/hextra.git themes/hextra
+#         hugo -F --cleanDestinationDir  # 生成静态文件
+#         mkdir -p public  # 确保public文件夹存在
+#         cp -r public/* ./  # 复制生成的静态文件到仓库根目录        
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}  # 你的个人访问令牌
-        EXTERNAL_REPOSITORY: donjuanplatinum/donjuanplatinum.github.io  # 你的GitHub Pages仓库
-        PUBLISH_BRANCH: main  # 或者是你的GitHub Pages分支
-        PUBLISH_DIR: ./algori/public
-        commit_message: ${{ github.event.head_commit.message }}
+#     - name: Deploy to GitHub Pages
+#       uses: peaceiris/actions-gh-pages@v3
+#       with:
+#         PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}  # 你的个人访问令牌
+#         EXTERNAL_REPOSITORY: donjuanplatinum/donjuanplatinum.github.io  # 你的GitHub Pages仓库
+#         PUBLISH_BRANCH: main  # 或者是你的GitHub Pages分支
+#         PUBLISH_DIR: ./algori/public
+#         commit_message: ${{ github.event.head_commit.message }}
