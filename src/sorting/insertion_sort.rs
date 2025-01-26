@@ -77,9 +77,10 @@ mod insertion_sort_tests {
     }
 }
 
+#[cfg(test)]
 mod binary_sort_tests {
-    use super::super::is_sorted;
-    use super::binary_sort;
+    use crate::sorting::binary_sort;
+    use crate::sorting::is_sorted;
     #[test]
     fn empty() -> () {
         let mut a: [i32; 0] = [];

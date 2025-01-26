@@ -12,9 +12,8 @@
 pub fn binary_search<T: PartialOrd>(array: &[T], element: &T) -> Result<usize, usize> {
     let mut left_idx: usize = 0;
     let mut right_idx: usize = array.len();
-    let mut mid_idx: usize = 0;
     while left_idx < right_idx {
-        mid_idx = (left_idx + right_idx) / 2;
+        let mid_idx = (left_idx + right_idx) / 2;
         if &array[mid_idx] < element {
             left_idx = mid_idx + 1;
         } else if &array[mid_idx] > element {
