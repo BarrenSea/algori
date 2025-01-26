@@ -541,6 +541,7 @@ mod add_two_binary_test {
     }
 }
 
+#[cfg(test)]
 mod add_two_linkedlist {
     use super::add_two_linkedlist;
     use super::LinkedList;
