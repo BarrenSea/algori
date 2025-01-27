@@ -1,5 +1,8 @@
+#[cfg(not(feature = "no_std"))]
 use core::hash::Hash;
+#[cfg(not(feature = "no_std"))]
 use std::collections::HashMap;
+
 /// 两数之和
 /// 在给定序列中寻找和为目标值的两个数的下标
 /// ```
@@ -7,7 +10,8 @@ use std::collections::HashMap;
 /// let a = [2,7,11,15];
 /// assert_eq!(two_sum(&a,&9),Ok((0,1)));
 /// ```
-pub fn two_sum<T: Hash + Eq + Clone + std::ops::Sub<Output = T>>(
+#[cfg(not(feature = "no_std"))]
+pub fn two_sum<T: Hash + Eq + Clone + core::ops::Sub<Output = T>>(
     array: &[T],
     target: &T,
 ) -> Result<(usize, usize), ()> {

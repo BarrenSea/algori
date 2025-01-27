@@ -1,4 +1,6 @@
 mod heap;
 pub mod linkedlist;
+#[cfg(not(feature = "no_std"))]
 pub use self::heap::*;
-pub use self::linkedlist::LinkedList;
+#[cfg(not(feature = "no_std"))]
+pub use self::linkedlist::*;

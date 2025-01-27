@@ -1,6 +1,6 @@
 [package]
 name = "algori"
-version = "0.12.0"
+version = "0.13.0"
 edition = "2021"
 authors = ["Donjuan Platinum <donjuan@lecturify.net>"]
 license = "GPL-2.0-only"
@@ -13,3 +13,8 @@ categories = ["algorithms"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+[features]
+default = ["std"]
+std = []
+no_std = []

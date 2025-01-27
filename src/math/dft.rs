@@ -1,3 +1,4 @@
+#[cfg(not(feature = "no_std"))]
 use super::Complex;
 /// Discrete Fourier Transform (DFT)
 /// # Examples
@@ -8,6 +9,7 @@ use super::Complex;
 /// println!("{:?}",result);
 ///
 /// ```
+#[cfg(not(feature = "no_std"))]
 pub fn dft<T: Clone>(input: &[T]) -> Vec<Complex<f64>>
 where
     f64: From<T>,
