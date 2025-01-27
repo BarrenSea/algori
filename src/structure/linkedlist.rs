@@ -1,6 +1,8 @@
-use std::{fmt::Display, ptr::NonNull};
+#[cfg(not(feature = "no_std"))]
+use core::{fmt::Display, ptr::NonNull};
 
 // 节点
+#[cfg(not(feature = "no_std"))]
 #[derive(Debug)]
 struct Node<T> {
     next: Option<NonNull<Node<T>>>,
@@ -8,6 +10,7 @@ struct Node<T> {
     element: T,
 }
 
+#[cfg(not(feature = "no_std"))]
 #[derive(Debug)]
 /// LinkedList(双向)
 pub struct LinkedList<T> {
@@ -18,7 +21,7 @@ pub struct LinkedList<T> {
     // 链表的节点申请和释放都是通过Box<T>完成 所以拥有所有权
     marker: core::marker::PhantomData<Box<Node<T>>>,
 }
-
+#[cfg(not(feature = "no_std"))]
 impl<T> Node<T> {
     fn new(element: T) -> Self {
         return Node {
@@ -31,13 +34,13 @@ impl<T> Node<T> {
         return self.element; // 消费Box后 堆内存释放 并复制element到栈
     }
 }
-
+#[cfg(not(feature = "no_std"))]
 impl<T> Default for LinkedList<T> {
     fn default() -> Self {
         return Self::new();
     }
 }
-
+#[cfg(not(feature = "no_std"))]
 impl<T> LinkedList<T> {
     /// 构造空的双向链表
     pub const fn new() -> Self {
@@ -383,12 +386,12 @@ impl<T> LinkedList<T> {
         return vec;
     }
 }
-
+#[cfg(not(feature = "no_std"))]
 impl<T> Display for LinkedList<T>
 where
     T: Display,
 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         if self.len == 0 {
             return Ok(());
         }
@@ -413,14 +416,14 @@ where
         return Ok(());
     }
 }
-
+#[cfg(not(feature = "no_std"))]
 impl<T> Drop for LinkedList<T> {
     fn drop(&mut self) {
         // Pop items until there are none left
         while self.pop_front().is_some() {}
     }
 }
-
+#[cfg(not(feature = "no_std"))]
 impl<T, const N: usize> From<[T; N]> for LinkedList<T> {
     fn from(array: [T; N]) -> Self {
         let mut new_linkedlist = LinkedList::new();
@@ -439,6 +442,7 @@ impl<T, const N: usize> From<[T; N]> for LinkedList<T> {
 /// let b: LinkedList<i32> = [2,3,1,9,1,4,6,8].into();
 /// assert_eq!(&add_two_linkedlist(a,b).to_vec(),&[3,6,3,4,7,6,6,8]);
 /// ```
+#[cfg(not(feature = "no_std"))]
 pub fn add_two_linkedlist(a: LinkedList<i32>, b: LinkedList<i32>) -> LinkedList<i32> {
     let mut result = LinkedList::new();
     let current = &mut result;
@@ -465,6 +469,7 @@ pub fn add_two_linkedlist(a: LinkedList<i32>, b: LinkedList<i32>) -> LinkedList<
 /// let b: LinkedList<bool> = [true,false,false,false,true].into();
 /// assert_eq!(&add_two_binary_linkedlist(a,b).to_vec(),&[false,true,true,false,true,false]);
 /// ```
+#[cfg(not(feature = "no_std"))]
 pub fn add_two_binary_linkedlist(a: LinkedList<bool>, b: LinkedList<bool>) -> LinkedList<bool> {
     let mut result = LinkedList::new();
     let (mut p1, mut p2) = (a, b);
@@ -489,7 +494,7 @@ pub fn add_two_binary_linkedlist(a: LinkedList<bool>, b: LinkedList<bool>) -> Li
 
     return result;
 }
-
+#[cfg(not(feature = "no_std"))]
 #[cfg(test)]
 mod add_two_binary_test {
     use super::add_two_binary_linkedlist;
@@ -540,7 +545,7 @@ mod add_two_binary_test {
         );
     }
 }
-
+#[cfg(not(feature = "no_std"))]
 #[cfg(test)]
 mod add_two_linkedlist {
     use super::add_two_linkedlist;

@@ -147,8 +147,6 @@ impl<T> From<(T, T)> for Complex<T> {
 
 #[cfg(test)]
 mod max_substring {
-    use std::hash::Hasher;
-
     use super::*;
     #[test]
     fn create_new_complex() {
@@ -185,10 +183,12 @@ mod max_substring {
         let b: Complex<i32> = (992, 8770).into();
         assert_eq!(Complex { re: 972, im: 8740 }, b - a);
     }
+    #[cfg(not(feature = "no_std"))]
     #[test]
     fn hash() {
         use std::collections::hash_map::DefaultHasher;
         use std::hash::Hash;
+        use std::hash::Hasher;
         fn calculate_hash<T: Hash>(t: &T) -> u64 {
             let mut s = DefaultHasher::new();
             t.hash(&mut s);

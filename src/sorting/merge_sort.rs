@@ -1,3 +1,4 @@
+#[cfg(not(feature = "no_std"))]
 fn merge<T: Clone>(array: &mut [T], mid: usize, comparator: fn(&T, &T) -> bool) {
     let left = array[..mid].to_vec();
     let right = array[mid..].to_vec();
@@ -36,6 +37,7 @@ fn merge<T: Clone>(array: &mut [T], mid: usize, comparator: fn(&T, &T) -> bool) 
 /// merge_sort(&mut a ,|a,b| a<=b);
 /// assert_eq!(is_sorted(&mut a ,|a,b| a<=b),true);
 /// ```
+#[cfg(not(feature = "no_std"))]
 pub fn merge_sort<T: Clone>(array: &mut [T], comparator: fn(&T, &T) -> bool) {
     if array.len() > 1 {
         if array.len() > 1 {
@@ -46,7 +48,7 @@ pub fn merge_sort<T: Clone>(array: &mut [T], comparator: fn(&T, &T) -> bool) {
         }
     }
 }
-
+#[cfg(not(feature = "no_std"))]
 #[cfg(test)]
 mod tests {
     use super::super::is_sorted;

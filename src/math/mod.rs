@@ -3,6 +3,7 @@ mod dft;
 mod pi;
 pub use complex::*;
 use core::ops::{Add, Div, Mul, Rem, Sub};
+#[cfg(not(feature = "no_std"))]
 pub use dft::*;
 pub use pi::*;
 pub trait NumOps<Rhs = Self, Output = Self>:

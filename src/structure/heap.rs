@@ -1,18 +1,19 @@
-use core::ops::{Deref, DerefMut};
-use std::fmt::Display;
+#[cfg(not(feature = "no_std"))]
+use std::ops::{Deref, DerefMut};
 
+#[cfg(not(feature = "no_std"))]
 macro_rules! left_child {
     ($parent:ident) => {
         ($parent << 1) + 1 as usize
     };
 }
-
+#[cfg(not(feature = "no_std"))]
 macro_rules! right_child {
     ($parent:ident) => {
         ($parent << 1) + 2 as usize
     };
 }
-
+#[cfg(not(feature = "no_std"))]
 macro_rules! parent {
     ($child:ident) => {
         ($child - 1) >> 1
@@ -33,6 +34,7 @@ macro_rules! parent {
 /// a.push(1); a.push(100); a.push(40); a.push(0);
 /// assert_eq!(a.pop().unwrap(),100); assert_eq!(a.pop().unwrap(),40);
 /// ```
+#[cfg(not(feature = "no_std"))]
 #[derive(Debug, Clone, PartialEq, PartialOrd, Ord, Eq)]
 pub struct Heap<T> {
     items: Vec<T>,
@@ -50,6 +52,7 @@ pub struct Heap<T> {
 /// fn ps(a: &[i32])->(){};
 /// ps(&a);
 /// ```
+#[cfg(not(feature = "no_std"))]
 impl<T> Deref for Heap<T> {
     type Target = [T];
 
@@ -57,13 +60,14 @@ impl<T> Deref for Heap<T> {
         return &self.items;
     }
 }
-
+#[cfg(not(feature = "no_std"))]
 impl<T> DerefMut for Heap<T> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         return &mut self.items;
     }
 }
 
+#[cfg(not(feature = "no_std"))]
 impl<T> Default for Heap<T>
 where
     T: PartialOrd,
@@ -75,15 +79,17 @@ where
         };
     }
 }
-impl<T> Display for Heap<T>
+#[cfg(not(feature = "no_std"))]
+impl<T> core::fmt::Display for Heap<T>
 where
     T: core::fmt::Debug,
 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         return write!(f, "{:?}", self.items);
     }
 }
 /// from a [T;N]
+#[cfg(not(feature = "no_std"))]
 impl<T: PartialOrd, const N: usize> From<[T; N]> for Heap<T> {
     fn from(array: [T; N]) -> Self {
         let mut heap = Heap {
@@ -96,6 +102,7 @@ impl<T: PartialOrd, const N: usize> From<[T; N]> for Heap<T> {
 }
 
 /// from Vec<T>
+#[cfg(not(feature = "no_std"))]
 impl<T: PartialOrd> From<Vec<T>> for Heap<T> {
     fn from(array: Vec<T>) -> Self {
         let mut heap = Heap {
@@ -106,7 +113,7 @@ impl<T: PartialOrd> From<Vec<T>> for Heap<T> {
         return heap;
     }
 }
-#[allow(dead_code)]
+#[cfg(not(feature = "no_std"))]
 impl<T> Heap<T> {
     /// # Create a Heap With a Comparator
     /// ```
@@ -268,7 +275,7 @@ impl<T> Heap<T> {
         return &self.items;
     }
 }
-
+#[cfg(not(feature = "no_std"))]
 impl<T> Heap<T> {
     pub fn from_array<const N: usize>(array: [T; N], comparator: fn(&T, &T) -> bool) -> Self {
         let mut heap = Heap {
@@ -279,7 +286,7 @@ impl<T> Heap<T> {
         return heap;
     }
 }
-
+#[cfg(not(feature = "no_std"))]
 #[cfg(test)]
 mod heap_tests {
     use super::super::super::sorting::is_sorted;

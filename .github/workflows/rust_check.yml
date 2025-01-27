@@ -10,24 +10,37 @@ on:
 
 
 jobs:
-  check:
-    name: Rust Check
+  std_check:
+    name: Rust std feature Check 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cargo check
-  test:
-    name: Rust Test
+      - run: cargo check -F std
+  std_test:
+    name: Rust std feature Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cargo test
+      - run: cargo test -F std
+  no_std_check:
+    name: Rust no_std feature Check 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cargo check -F no_std
+  no_std_test:
+    name: Rust no_std feature Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cargo test -F no_std        
   fmt:
     name: Rust fmt Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cargo-fmt --all --check       
+      - run: cargo-fmt --all --check
+        
   # clippy:
   #   name: Rust Clippy
   #   runs-on: ubuntu-latest
