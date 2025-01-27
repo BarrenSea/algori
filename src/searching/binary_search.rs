@@ -7,16 +7,20 @@
 /// ```
 /// use algori::searching::binary_search;
 /// let a = [0,1,3,4,9,20];
-/// assert_eq!(Err(5),binary_search(&a,&10));
+/// assert_eq!(Err(5),binary_search(&a,&10,|a,b| a < b));
 /// ```
-pub fn binary_search<T: PartialOrd>(array: &[T], element: &T) -> Result<usize, usize> {
+pub fn binary_search<T>(
+    array: &[T],
+    element: &T,
+    comparator: fn(&T, &T) -> bool,
+) -> Result<usize, usize> {
     let mut left_idx: usize = 0;
     let mut right_idx: usize = array.len();
     while left_idx < right_idx {
         let mid_idx = (left_idx + right_idx) / 2;
-        if &array[mid_idx] < element {
+        if comparator(&array[mid_idx], element) {
             left_idx = mid_idx + 1;
-        } else if &array[mid_idx] > element {
+        } else if comparator(element, &array[mid_idx]) {
             right_idx = mid_idx;
         } else {
             return Ok(mid_idx);
@@ -34,7 +38,7 @@ mod test {
                 #[test]
                 fn $name() {
                     let (arr, element, expected) = $test_case;
-                    assert_eq!(binary_search(arr, element), expected);
+                    assert_eq!(binary_search(arr, element,|a,b| a < b), expected);
                 }
             )*
         };

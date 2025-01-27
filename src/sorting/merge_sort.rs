@@ -1,3 +1,4 @@
+// ! maybe need fix
 #[cfg(not(feature = "no_std"))]
 fn merge<T: Clone>(array: &mut [T], mid: usize, comparator: fn(&T, &T) -> bool) {
     let left = array[..mid].to_vec();
@@ -53,6 +54,13 @@ pub fn merge_sort<T: Clone>(array: &mut [T], comparator: fn(&T, &T) -> bool) {
 mod tests {
     use super::super::is_sorted;
     use super::*;
+
+    #[test]
+    fn test_merge() {
+        let mut a = [0, 10, 20, 30, 40, 11, 12, 21, 22, 33, 34, 35, 39, 41];
+        merge(&mut a, 5, |a, b| a <= b);
+        assert_eq!(a, [0, 10, 11, 12, 20, 21, 22, 30, 33, 34, 35, 39, 40, 41]);
+    }
     #[test]
     fn test_merge_sort() {
         let mut a = [
