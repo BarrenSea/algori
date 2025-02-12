@@ -4,18 +4,54 @@
 /// use algori::test_time;
 /// use algori::sorting::insertion_sort;
 /// let mut a = [1,4,6,7,2,2,1,4,65,6];
-/// test_time!("Insertion Sort",insertion_sort(&mut a,|a,b|a<=b));
+/// test_time!("Insertion Sort",3,insertion_sort(&mut a,|a,b|a<=b));
 /// ```
 #[macro_export]
 macro_rules! test_time {
-    ($title:literal,$func:expr) => {
-        let now = std::time::Instant::now();
-        $func;
+    ($title:literal, $n:expr, $func:expr) => {
+        let mut total_duration = std::time::Duration::new(0, 0);
+
+        for i in 0..$n {
+            let now = std::time::Instant::now();
+            $func;
+            let elapsed = now.elapsed();
+            total_duration += elapsed;
+
+            // 格式化纳秒部分为 000_000_000 的形式
+            let nanos = elapsed.as_nanos();
+            let formatted_nanos = format!("{:09}", nanos)
+                .chars()
+                .collect::<Vec<_>>()
+                .chunks(3)
+                .map(|chunk| chunk.iter().collect::<String>())
+                .collect::<Vec<_>>()
+                .join("_");
+
+            println!(
+                "Job:\t{}\tIteration:\t{}\tUsing\t{}\tseconds\t{}\tnanos",
+                $title,
+                i + 1,
+                elapsed.as_secs(),
+                formatted_nanos
+            );
+        }
+
+        // 计算平均耗时
+        let avg_secs = total_duration.as_secs() / $n;
+        let avg_nanos = (total_duration.as_nanos() / ($n as u128));
+
+        // 格式化平均纳秒部分为 000_000_000 的形式
+        let formatted_avg_nanos = format!("{:09}", avg_nanos)
+            .chars()
+            .collect::<Vec<_>>()
+            .chunks(3)
+            .map(|chunk| chunk.iter().collect::<String>())
+            .collect::<Vec<_>>()
+            .join("_");
+
         println!(
-            "Job:\t{}\nUsing\t{}\tseconds\n\t{}\tnanos",
-            $title,
-            now.elapsed().as_secs(),
-            now.elapsed().as_nanos()
+            "Job:\t{}\tIterations:\t{}\tAverage Time:\t{}\tseconds\t{}\tnanos",
+            $title, $n, avg_secs, formatted_avg_nanos
         );
     };
 }
