@@ -18,8 +18,8 @@ pub mod searching;
 /// Math
 pub mod math;
 
-/// Tools
-pub mod tools;
+/// Utils
+pub mod utils;
 
 /// String
 pub mod string;

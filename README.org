@@ -6,6 +6,9 @@
 [[https://conventionalcommits.org][https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white.svg]]
 
 ** Algorithms
+- Features
+  - no_std
+  - std  
 *** Sorting 排序
 - [[./src/sorting/insertion_sort.rs::9][InsertionSort 插入排序]]
 - [[./src/sorting/selection_sort.rs::9][SelectionSort 选择排序]]
@@ -27,3 +30,6 @@
 - [[./src/math/pi.rs::6][pi 圆周率]]
 *** String 字符串
 - [[./src/string/max_substring.rs::10][MaxSubarray 最大子数组]]
+
+*** utils 工具
+- [[./src/utils.rs::41][rotate 旋转数组]]

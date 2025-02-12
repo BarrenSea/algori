@@ -1,0 +1,103 @@
+/// test the time of function
+/// # Examples
+/// ```
+/// use algori::test_time;
+/// use algori::sorting::insertion_sort;
+/// let mut a = [1,4,6,7,2,2,1,4,65,6];
+/// test_time!("Insertion Sort",insertion_sort(&mut a,|a,b|a<=b));
+/// ```
+#[macro_export]
+macro_rules! test_time {
+    ($title:literal,$func:expr) => {
+        let now = std::time::Instant::now();
+        $func;
+        println!(
+            "Job:\t{}\nUsing\t{}\tseconds\n\t{}\tnanos",
+            $title,
+            now.elapsed().as_secs(),
+            now.elapsed().as_nanos()
+        );
+    };
+}
+
+fn reverse<T>(array: &mut [T], mut start: usize, mut end: usize) {
+    while start < end {
+        array.swap(start, end);
+        start += 1;
+        end -= 1;
+    }
+}
+/// 手摇旋转
+/// 旋转以 `mid` 为分界的切片
+/// - 若mid超出边界或者位于边界 那么返回Err(())
+/// - 若成功返回Ok(())
+/// # Example
+/// ```
+/// use algori::utils::rotate;
+/// let mut a = ['a','b','c','d','e','f'];
+/// rotate(&mut a, 2);
+/// assert_eq!(a,['c','d','e','f','a','b']);
+/// ```
+pub fn rotate<T>(array: &mut [T], mid: usize) -> Result<(), ()> {
+    let len = array.len();
+    // 越界Err
+    if mid >= len {
+        return Err(());
+    }
+    if mid == 0 {
+        return Ok(());
+    }
+    reverse(array, 0, mid - 1);
+    reverse(array, mid, len - 1);
+    reverse(array, 0, len - 1);
+    return Ok(());
+}
+
+#[cfg(test)]
+mod rotate_test {
+    use crate::utils::rotate;
+    // 测试奇数的数组
+    #[test]
+    fn odd() {
+        let mut a = ['a', 'b', 'c', 'd', 'e'];
+        rotate(&mut a, 2).unwrap();
+        assert_eq!(a, ['c', 'd', 'e', 'a', 'b']);
+    }
+    // 偶数的数组
+    #[test]
+    fn even() {
+        let mut a = ['a', 'b', 'c', 'd', 'e', 'f'];
+        rotate(&mut a, 2).unwrap();
+        assert_eq!(a, ['c', 'd', 'e', 'f', 'a', 'b']);
+    }
+    // 下标越界
+    #[test]
+    fn over_index() {
+        let mut a = ['a', 'b', 'c', 'd', 'e', 'f'];
+        let result = rotate(&mut a, 6);
+        assert_eq!(a, ['a', 'b', 'c', 'd', 'e', 'f']);
+        assert_eq!(result, Err(()));
+    }
+    // 相等
+    #[test]
+    fn len() {
+        let mut a = ['a', 'b', 'c', 'd', 'e', 'f'];
+        let result = rotate(&mut a, 5);
+        assert_eq!(a, ['f', 'a', 'b', 'c', 'd', 'e']);
+        assert_eq!(result, Ok(()));
+    }
+    // 开始
+    #[test]
+    fn start() {
+        let mut a = ['a', 'b', 'c', 'd', 'e', 'f'];
+        let result = rotate(&mut a, 0);
+        assert_eq!(a, ['a', 'b', 'c', 'd', 'e', 'f']);
+        assert_eq!(result, Ok(()));
+    }
+    #[test]
+    fn rotate_test1() {
+        let mut a = [20, 30, 40, 50, 15];
+        rotate(&mut a, 4).unwrap();
+        assert_eq!([15, 20, 30, 40, 50], a);
+    }
+}
