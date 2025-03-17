@@ -1,3 +1,6 @@
+#[cfg(feature = "random")]
+use rand::{self,Rng};
+
 /// test the time of function
 /// # Examples
 /// ```

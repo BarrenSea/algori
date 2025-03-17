@@ -33,3 +33,5 @@
 
 *** utils 工具
 - [[./src/utils.rs::41][rotate 旋转数组]]
+- [[./src/utils.rs][rand_vec 随机向量生成]]   
+   
