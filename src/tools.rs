@@ -8,7 +8,6 @@ use image::{ImageBuffer, Rgb, RgbImage};
 /// ```
 /// use algori::tools::draw_bar_chart;
 /// use algori::sorting::merge_sort;
-/// use image::ImageResult;
 /// let mut a = [0,9,2,3,0,8,2,4,9,6];
 /// draw_bar_chart(&a,500,500,"排序前.png");
 /// merge_sort(&mut a,|a,b|a<b);
@@ -17,7 +16,7 @@ use image::{ImageBuffer, Rgb, RgbImage};
 #[cfg(feature = "img")]
 pub fn draw_bar_chart<T>(array: &[T], width: u32, height: u32, name: &str) -> ImageResult<()>
 where
-    T: Into<i32> + Clone + Ord,
+    T: Into<i32> + Copy + Ord,
 {
     let mut img: RgbImage = ImageBuffer::new(width, height);
 
@@ -27,14 +26,14 @@ where
         *pixel = background_color;
     }
 
-    let max_element = array[max(&array)].clone().into() as f32;
-    let y_scale = max_element * height as f32;
+    let max_element = array[max(&array)].into() as f32;
+
     let bar_color = Rgb([78, 232, 243]);
 
     let bar_width = width / array.len() as u32;
 
-    for (i, value) in array.iter().enumerate() {
-        let bar_height = (value.clone().into() as f32 / y_scale) as u32;
+    for (i, &value) in array.iter().enumerate() {
+        let bar_height = (value.into() as f32 / max_element * height as f32) as u32;
         let x_start = i as u32 * bar_width;
         let y_start = height - bar_height;
 
