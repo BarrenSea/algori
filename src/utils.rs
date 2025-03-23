@@ -1,5 +1,5 @@
-#[cfg(feature = "random")]
-use rand::{self, Rng};
+//#[cfg(feature = "random")]
+//use rand::{self, Rng};
 
 /// test the time of function
 /// # Examples
@@ -138,5 +138,45 @@ mod rotate_test {
         let mut a = [20, 30, 40, 50, 15];
         rotate(&mut a, 4).unwrap();
         assert_eq!([15, 20, 30, 40, 50], a);
+    }
+}
+
+/// 寻找最大元素
+/// - 返回最大元素的下标
+/// # Example
+/// ```
+/// use algori::utils::max;
+/// let a = [0,20,9,2,3,4,1,9,5,3,2];
+/// assert_eq!(max(&a),1);
+/// ```
+pub fn max<T>(array: &[T]) -> usize
+where
+    T: core::cmp::Ord,
+{
+    let mut max_index = 0;
+    for index in 0..array.len() {
+        if array[index] > array[max_index] {
+            max_index = index;
+        }
+    }
+    max_index
+}
+#[cfg(test)]
+mod max_test {
+    use crate::utils::max;
+    #[test]
+    fn one_element() {
+        let a = [0];
+        assert_eq!(max(&a), 0);
+    }
+    #[test]
+    fn two_element() {
+        let a = [0, 1];
+        assert_eq!(max(&a), 1);
+    }
+    #[test]
+    fn more_element() {
+        let a = [0, 1, 0, 2, 9, 9, 20, 0, 0];
+        assert_eq!(max(&a), 6);
     }
 }
