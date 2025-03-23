@@ -1,6 +1,6 @@
 [package]
 name = "algori"
-version = "0.13.0"
+version = "0.13.5"
 edition = "2021"
 authors = ["Donjuan Platinum <donjuan@lecturify.net>"]
 license = "GPL-2.0-only"
@@ -14,8 +14,10 @@ categories = ["algorithms"]
 
 [dependencies]
 rand = { version = "0.9.0" , optional = true}
+image = { version = "0.25.5", optional = true}
 [features]
-default = ["std","random"]
+default = ["std","random","img"]
 std = []
 no_std = []
 random = ["std","rand"]
+img = ["std","image"]

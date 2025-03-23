@@ -23,3 +23,6 @@ pub mod utils;
 
 /// String
 pub mod string;
+
+/// Tools
+pub mod tools;
